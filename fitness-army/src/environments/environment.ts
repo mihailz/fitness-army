@@ -12,8 +12,9 @@ export const environment = {
     storageBucket: "fitness-army.appspot.com",
     messagingSenderId: "232059287122",
     appId: "1:232059287122:web:b4714c2ac949e82e73118b",
-    measurementId: "G-0WSZXDX4GR"
-  }
+    measurementId: "G-0WSZXDX4GR",
+  },
+  itemsApi: "https://us-central1-fitness-army.cloudfunctions.net/app"
 };
 
 /*

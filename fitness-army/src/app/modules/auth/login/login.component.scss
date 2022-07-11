@@ -1,0 +1,69 @@
+@import "../fitness-army/src/assets/css/forms";
+
+.login-form {
+  @extend .form;
+
+  .header {
+    font-size: 40px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    color: #303030;
+  }
+
+  .remember-me-section {
+    padding-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .remember-me {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: normal;
+      font-size: 18px;
+      line-height: 26px;
+      color: #303030;
+    }
+
+    a {
+      margin-left: 180px;
+      text-align: right;
+      color: #303030;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: normal;
+      font-size: 16px;
+      text-decoration: underline;
+    }
+  }
+
+  .login-wrapper {
+    display: flex;
+    justify-content: center;
+    padding-top: 16px;
+
+    .login-button {
+      @extend .action-button;
+    }
+  }
+
+  .providers-wrapper {
+    .create-account-wrapper {
+      padding-top: 16px;
+
+      span {
+        text-align: center;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: normal;
+        font-size: 18px;
+        color: #303030;
+        margin: 20px;
+        a {
+          color: #50B6FF;
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

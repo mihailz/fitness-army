@@ -1,0 +1,72 @@
+<form class="signup-form" [formGroup]="signUpForm">
+    <div class="heading-section">
+      <h1 class="header">Create account</h1>
+      <p>Continue with</p>
+      <div class="providers-wrapper">
+        <div class="providers-list">
+          <button class="provider-button">
+            <img src="./assets/images/google.png" />
+          </button>
+          <button class="provider-button">
+            <img src="./assets/images/facebook.png" />
+          </button>
+          <button class="provider-button">
+            <img src="./assets/images/apple-logo.png" />
+          </button>
+        </div>
+      </div>
+      <p class="divider">Or</p>
+    </div>
+  <div class="form-group">
+    <label for="email">Username or email</label>
+    <input type="text" class="form-control" id="email" placeholder="Username or email" formControlName="email"/>
+    <ng-container *ngIf="signUpForm?.get('email')?.touched && signUpForm?.get('email')?.errors">
+      <div class="input-errors-container">
+        <span class="input-error-message" *ngIf="signUpForm?.get('email')?.hasError('email')">
+          This is not an valid email!
+        </span>
+        <span class="input-error-message" *ngIf="signUpForm?.get('email')?.hasError('required')">
+          Email field is required!
+        </span>
+      </div>
+    </ng-container>
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
+    <ng-container *ngIf="signUpForm?.get('password')?.touched && signUpForm?.get('password')?.invalid">
+      <div class="input-errors-container">
+        <span class="input-error-message" *ngIf="signUpForm?.get('password')?.hasError('required')">
+          Password field is required!
+        </span>
+
+        <span class="input-error-message" *ngIf="signUpForm?.get('password')?.hasError('passwordInvalid')">
+          Password is not valid!
+        </span>
+      </div>
+    </ng-container>
+    <div class="input-hint">
+      Minimum 8 characters (at least 1 number, 1 lowercase letter, 1 uppercase letter, 1special character)
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="confirmPassword">Confirm password</label>
+    <input type="password" class="form-control" id="confirmPassword" placeholder="Password" formControlName="confirmPassword">
+    <ng-container *ngIf="signUpForm?.get('confirmPassword')?.touched && signUpForm?.get('confirmPassword')?.invalid">
+      <div class="input-errors-container">
+        <span class="input-error-message" *ngIf="signUpForm?.get('confirmPassword')?.hasError('required')">
+          Confirm password field is required!
+        </span>
+      </div>
+    </ng-container>
+  </div>
+  <ng-container *ngIf="errorMessage">
+    <div class="input-errors-container">{{errorMessage}}</div>
+  </ng-container>
+  <div class="signup-wrapper">
+    <button (click)="signup()" type="submit" class="signup-button">Create account</button>
+  </div>
+  <div class="sign-in-section">
+    <span class="description">Already a member? <a routerLink="/auth/login">Sign in</a></span>
+  </div>
+</form>

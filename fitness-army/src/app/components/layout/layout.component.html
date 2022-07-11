@@ -1,0 +1,12 @@
+<div class="layout-container">
+  <div class="navigation-bar-wrapper">
+    <div *ngIf="showNavigationMenu">
+      <fitness-army-app-navbar></fitness-army-app-navbar>
+    </div>
+  </div>
+  <div class="content-container">
+    <div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

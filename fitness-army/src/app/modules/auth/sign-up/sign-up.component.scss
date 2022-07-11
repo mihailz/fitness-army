@@ -1,0 +1,66 @@
+@import "../fitness-army/src/assets/css/forms";
+@import "../fitness-army/src/assets/css/colors";
+
+.signup-form {
+  @extend .form;
+
+  .heading-section {
+    .header, p {
+      text-align: center;
+    }
+
+    .header {
+      font-size: 40px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: bold;
+      text-transform: uppercase;
+      text-align: center;
+      color: #303030;
+    }
+
+    p {
+      font-size: 18px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: normal;
+      text-align: center;
+      color: $darker-gray;
+    }
+
+    .divider {
+      font-size: 18px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: normal;
+      text-align: center;
+      color: $darker-gray;
+    }
+  }
+
+  .input-hint {
+    color: $color-red;
+    padding: 8px 3px;
+  }
+
+  .signup-wrapper {
+    display: flex;
+    justify-content: center;
+    padding-top: 26px;
+
+    .signup-button {
+      @extend .action-button;
+    }
+  }
+
+  .sign-in-section {
+    text-align: center;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: normal;
+    font-size: 18px;
+    color: #303030;
+    margin: 20px;
+
+    a {
+      color: $primary;
+      text-decoration: underline;
+    }
+  }
+}
