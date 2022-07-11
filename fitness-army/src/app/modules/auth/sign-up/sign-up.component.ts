@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
-import {AuthApiService} from "../../../service/auth-api.service";
-import {ToastrService} from "ngx-toastr";
+import {AuthApiService} from "../../../service/api/auth-api.service";
 import {finalize} from "rxjs";
+import {User} from "../../../model/user.model";
 
 @Component({
   selector: 'fitness-army-app-sign-up',
@@ -23,6 +23,7 @@ export class SignUpComponent implements OnInit {
 
   private initSignupForm(): void {
     this.signUpForm = new FormGroup({
+      userName: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, this.validatePassword]),
       confirmPassword: new FormControl('', Validators.required)
@@ -38,15 +39,17 @@ export class SignUpComponent implements OnInit {
       this.errorMessage = 'Passwords did not match please try again!';
       return;
     }
+    const userName = this.signUpForm.get('userName')?.value;
     const email = this.signUpForm.get('email')?.value;
     const password = this.signUpForm.get('password')?.value;
-    this.authApiService.signup(email, password)
+    this.authApiService.signup(userName, email, password)
       .pipe(
         finalize(() => this.errorMessage = '')
       )
       .subscribe({
         next: (response) => {
-          console.log('signUp response: ', response.user);
+          const user: User = new User(email, '', '', userName, 'user');
+          this.authApiService.saveUserInLocalStorage(user);
         },
         error: err => {
           this.errorMessage = 'An error has occurred please try again!';

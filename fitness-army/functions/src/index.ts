@@ -16,10 +16,8 @@ admin.initializeApp({
   databaseURL: "https://fitness-army-default-rtdb.europe-west1.firebasedatabase.app",
 });
 
-const itemsRoutes = require("./route/items");
 const userRoutes = require("./route/user-route");
 
-app.use(itemsRoutes);
 app.use(userRoutes);
 
 exports.app = functions.https.onRequest(app);

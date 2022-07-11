@@ -18,7 +18,18 @@
       <p class="divider">Or</p>
     </div>
   <div class="form-group">
-    <label for="email">Username or email</label>
+    <label for="email">Username</label>
+    <input type="text" class="form-control" id="username" placeholder="Username" formControlName="userName"/>
+    <ng-container *ngIf="signUpForm?.get('userName')?.touched && signUpForm?.get('userName')?.errors">
+      <div class="input-errors-container">
+        <span class="input-error-message" *ngIf="signUpForm?.get('userName')?.hasError('required')">
+          Username field is required!
+        </span>
+      </div>
+    </ng-container>
+  </div>
+  <div class="form-group">
+    <label for="email">Email</label>
     <input type="text" class="form-control" id="email" placeholder="Username or email" formControlName="email"/>
     <ng-container *ngIf="signUpForm?.get('email')?.touched && signUpForm?.get('email')?.errors">
       <div class="input-errors-container">

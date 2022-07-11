@@ -12,7 +12,7 @@ exports.postCreateUser = (req: Request, res: Response) => {
         password: req.body.password,
         role: req.body.role,
       });
-      await admin.auth.setCustomUserClaims(uid, {
+      await admin.auth().setCustomUserClaims(uid, {
         role: req.body.role,
       });
       const collection = db.collection("users").doc(uid);

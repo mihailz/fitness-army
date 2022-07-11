@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {AuthApiService} from "../../../service/auth-api.service";
-import {finalize} from "rxjs";
+import {AuthApiService} from "../../../service/api/auth-api.service";
 import {Router} from "@angular/router";
+import {User} from "../../../model/user.model";
 @Component({
   selector: 'fitness-army-app-login',
   templateUrl: './login.component.html',
@@ -29,25 +29,23 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
+    this.showError = false;
     if (!this.loginForm.valid) {
       return;
     }
     const email = this.loginForm.get('email')?.value;
     const password = this.loginForm.get('password')?.value;
     this.authApiService.login(email, password)
-      .pipe(
-        finalize(() => this.showError = false)
-      )
       .subscribe({
-        next: (user) => {
+        next: (user: User) => {
           if (this.isRememberMeChecked) {
-            console.log('Remember me is checked!');
             this.authApiService.saveUserInLocalStorage(user);
           }
-          console.log(user);
+          console.log('user: ', user);
           this.router.navigate(['/blog']);
         },
         error: err => {
+          console.log('error: ', err);
           this.showError = true;
           this.loginForm.reset();
         }

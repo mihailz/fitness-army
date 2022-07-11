@@ -9,8 +9,9 @@ import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 import {LayoutComponent} from "./components/layout/layout.component";
 import {NavbarComponent} from "./components/navbar/navbar.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AngularFireAuthModule} from "@angular/fire/compat/auth";
+import {TokenInterceptor} from "./interceptor/token.interceptor";
 
 @NgModule({
   declarations: [
@@ -28,6 +29,11 @@ import {AngularFireAuthModule} from "@angular/fire/compat/auth";
     HttpClientModule
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

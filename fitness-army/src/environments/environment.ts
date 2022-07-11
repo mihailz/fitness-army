@@ -14,7 +14,7 @@ export const environment = {
     appId: "1:232059287122:web:b4714c2ac949e82e73118b",
     measurementId: "G-0WSZXDX4GR",
   },
-  itemsApi: "https://us-central1-fitness-army.cloudfunctions.net/app"
+  applicationApi: "https://us-central1-fitness-army.cloudfunctions.net/app"
 };
 
 /*
