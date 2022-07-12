@@ -17,10 +17,10 @@ exports.postCreateUser = (req: Request, res: Response) => {
           role: req.body.role,
         });
         await addUserToCollection(uid, req.body.email,
-            req.body.password, req.body.role);
+            req.body.displayName, req.body.role);
       } else {
         await addUserToCollection(req.body.uid, req.body.email,
-            req.body.password, req.body.role);
+            req.body.displayName, req.body.role);
       }
 
       return res.status(201).send();
