@@ -3,6 +3,8 @@ import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} f
 import {AuthApiService} from "../../../service/api/auth-api.service";
 import {finalize} from "rxjs";
 import {User} from "../../../model/user.model";
+import {ToastrService} from "ngx-toastr";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'fitness-army-app-sign-up',
@@ -14,7 +16,10 @@ export class SignUpComponent implements OnInit {
   signUpForm!: FormGroup;
   errorMessage: string = '';
 
-  constructor(private authApiService: AuthApiService) {
+  constructor(
+    private router: Router,
+    private authApiService: AuthApiService,
+    private toastrService: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -43,13 +48,12 @@ export class SignUpComponent implements OnInit {
     const email = this.signUpForm.get('email')?.value;
     const password = this.signUpForm.get('password')?.value;
     this.authApiService.signup(userName, email, password)
-      .pipe(
-        finalize(() => this.errorMessage = '')
-      )
       .subscribe({
         next: (response) => {
-          const user: User = new User(email, '', '', userName, 'user');
+          const user: User = new User(email, '', userName, 'user');
           this.authApiService.saveUserInLocalStorage(user);
+          this.toastrService.success('The account was created successfully!', 'Account created!');
+          this.router.navigate(['/auth/login']);
         },
         error: err => {
           this.errorMessage = 'An error has occurred please try again!';

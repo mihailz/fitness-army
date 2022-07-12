@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthApiService} from "../../../service/api/auth-api.service";
 import {Router} from "@angular/router";
 import {User} from "../../../model/user.model";
+import {ToastrService} from "ngx-toastr";
 @Component({
   selector: 'fitness-army-app-login',
   templateUrl: './login.component.html',
@@ -14,8 +15,9 @@ export class LoginComponent implements OnInit {
   showError: boolean = false;
   isRememberMeChecked!: boolean;
 
-  constructor(private authApiService: AuthApiService,
-               private router: Router) { }
+  constructor(private router: Router,
+              private authApiService: AuthApiService,
+              private toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.initLoginForm();
@@ -54,5 +56,17 @@ export class LoginComponent implements OnInit {
 
   onCheckboxChecked($event: Event) {
     this.isRememberMeChecked = (<HTMLInputElement>$event.target).checked;
+  }
+
+  loginWIthGoogleProvider(): void {
+    this.authApiService.googleAuth()
+      .subscribe({
+        next: ((response) => {
+          console.log('response: ', response);
+          this.toastrService.success('User logged in successfully!', 'Login success');
+          this.router.navigate(['/home']);
+        }),
+        error: err => console.log(err)
+      });
   }
 }

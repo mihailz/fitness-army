@@ -7,22 +7,22 @@ const db = admin.firestore();
 exports.postCreateUser = (req: Request, res: Response) => {
   (async () => {
     try {
-      const {uid} = await admin.auth().createUser({
-        email: req.body.email,
-        password: req.body.password,
-        role: req.body.role,
-      });
-      await admin.auth().setCustomUserClaims(uid, {
-        role: req.body.role,
-      });
-      const collection = db.collection("users").doc(uid);
-      await collection.create({
-        uid: uid,
-        displayName: req.body.displayName,
-        email: req.body.email,
-        password: req.body.password,
-        role: req.body.role,
-      });
+      if (!req.body.uid) {
+        const {uid} = await admin.auth().createUser({
+          email: req.body.email,
+          password: req.body.password,
+          role: req.body.role,
+        });
+        await admin.auth().setCustomUserClaims(uid, {
+          role: req.body.role,
+        });
+        await addUserToCollection(uid, req.body.email,
+            req.body.password, req.body.role);
+      } else {
+        await addUserToCollection(req.body.uid, req.body.email,
+            req.body.password, req.body.role);
+      }
+
       return res.status(201).send();
     } catch (error) {
       console.log(error);
@@ -30,6 +30,17 @@ exports.postCreateUser = (req: Request, res: Response) => {
     }
   })();
 };
+
+async function addUserToCollection(uid: string, email: string,
+    displayName: string, role: string) {
+  const collection = db.collection("users").doc(uid);
+  await collection.create({
+    uid: uid,
+    email: email,
+    displayName: displayName,
+    role: role,
+  });
+}
 
 exports.getAllUsers = (req: Request, res: Response) => {
   (async () => {
