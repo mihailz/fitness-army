@@ -1,0 +1,29 @@
+<div class="users-container">
+  <h1>Registered users</h1>
+  <nz-table #usersTable
+            [nzData]="users"
+            [nzLoading]="isFetchingData"
+            [nzScroll]="{x: '800px'}"
+            [nzShowSizeChanger]="true"
+  >
+    <thead>
+      <tr>
+        <th *ngFor="let column of tableColumns" [nzSortFn]="column.compare">{{column.title}}</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of usersTable.data">
+        <td>{{user.uid}}</td>
+        <td>{{user.displayName}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.role}}</td>
+        <td class="actions">
+          <a class="edit-button" nz-button [nzType]="'primary'">Edit</a>
+          <a class="delete-button" nz-button [nzType]="'primary'" [nzDanger]="true">Delete</a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+

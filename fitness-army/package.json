@@ -23,6 +23,7 @@
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "firebase": "^9.8.3",
+    "ng-zorro-antd": "^13.3.2",
     "ngx-toastr": "^13.2.1",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",

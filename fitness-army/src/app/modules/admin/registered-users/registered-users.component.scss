@@ -1,0 +1,60 @@
+.users-container {
+  padding: 60px 5px;
+
+
+
+}
+
+:host ::ng-deep nz-table {
+  .ant-table-thead {
+    th {
+      background-color: #3CB8FF;
+      color: white;
+
+      &:hover {
+        color: #3CB8FF;
+      }
+    }
+  }
+
+  .ant-table-tbody {
+    tr {
+      &:nth-child(even) {
+        &:hover {
+          color: #3CB8FF;
+        }
+      }
+
+      &:nth-child(odd) {
+        background-color: #3CB8FF;
+        color: white;
+
+        &:hover {
+          color: #3CB8FF;
+        }
+
+        td.actions {
+          .edit-button {
+            background-color: white;
+            color: #3CB8FF;
+          }
+        }
+      }
+
+      td.actions {
+        .edit-button {
+          margin-right: 5px;
+          background-color: #3CB8FF;
+          border: 1px solid #3CB8FF;
+        }
+      }
+    }
+  }
+}
+
+@media(min-width: 768px) {
+  .users-container {
+    padding: 60px;
+  }
+}
+
