@@ -32,7 +32,7 @@ export async function isAuthenticated(req: Request, res: Response, next: NextFun
   }
 }
 
-export function isAuthorized(roles: Array<"admin" | "coach" | "user">) {
+export function isAuthorized(roles: Array<"admin-and-coach" | "coach" | "user">) {
   return (req: Request, res: Response, next: NextFunction) => {
     const {role} = res.locals;
 

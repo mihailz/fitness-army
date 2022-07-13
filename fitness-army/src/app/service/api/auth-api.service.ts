@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {from, map, Observable, Subject, switchMap, tap} from "rxjs";
+import {BehaviorSubject, from, map, Observable, Subject, switchMap, tap} from "rxjs";
 import {User} from "../../model/user.model";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
@@ -17,7 +17,7 @@ import {UserApiService} from "./user-api.service";
 export class AuthApiService {
 
   baseApiHref: string = '';
-  user$: Subject<User> = new Subject<User>();
+  user$ = new BehaviorSubject<User | null>(null);
 
   constructor(private angularFireAuth: AngularFireAuth,
               private http: HttpClient,
@@ -44,10 +44,8 @@ export class AuthApiService {
                       const user: User = new User(
                         response.user.email,
                         response.user.uid,
-                        response.user.password,
                         response.user.displayName,
-                        response.user.role,
-                        response.user.emailVerified);
+                        response.user.role);
                       this.user$.next(user);
                       return user;
                     })
@@ -101,6 +99,16 @@ export class AuthApiService {
 
   authLogin(provider: GoogleAuthProvider): Observable<UserCredential> {
     return from(this.angularFireAuth.signInWithPopup(provider));
+  }
+
+  signOut() {
+    return from(this.angularFireAuth.signOut())
+      .pipe(
+        tap(() => {
+          this.user$.next(null);
+          this.removeUserFromLocalStorage();
+        })
+      )
   }
 
   saveUserInLocalStorage(user: User | null): void {

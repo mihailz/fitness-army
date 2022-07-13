@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import {Observable} from "rxjs";
+import {map, Observable} from "rxjs";
 import {User} from "../../model/user.model";
 
 @Injectable({
@@ -28,6 +28,17 @@ export class UserApiService {
     });
   }
 
-
+  getAllUsers(): Observable<Array<User>> {
+    return this.http.get(`${this.baseApiHref}/api/users`)
+      .pipe(
+        map((response: any) =>
+          response.users.map((user: any) => new User(
+            user.email,
+            user.uid,
+            user.displayName,
+            user.role
+          )))
+      );
+  }
 
 }

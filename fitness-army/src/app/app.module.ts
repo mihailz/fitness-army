@@ -13,12 +13,13 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AngularFireAuthModule} from "@angular/fire/compat/auth";
 import {TokenInterceptor} from "./interceptor/token.interceptor";
 import {ToastrModule} from "ngx-toastr";
+import {AuthGuard} from "./guard/auth.guard";
 
 @NgModule({
   declarations: [
     AppComponent,
     LayoutComponent,
-    NavbarComponent
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +39,8 @@ import {ToastrModule} from "ngx-toastr";
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    }
+    },
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

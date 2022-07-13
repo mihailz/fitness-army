@@ -15,8 +15,18 @@
         </a>
       </li>
       <li class="menu-list-item">
+        <a class="menu-list-link" routerLink="/admin-and-coach" routerLinkActive="active">
+          Admin
+        </a>
+      </li>
+      <li class="menu-list-item" *ngIf="!isUserLoggedIn">
         <a class="menu-list-link" routerLink="auth/login" routerLinkActive="active">
           Login
+        </a>
+      </li>
+      <li class="menu-list-item" *ngIf="isUserLoggedIn">
+        <a class="menu-list-link" routerLinkActive="active" (click)="logout()">
+          Log out
         </a>
       </li>
     </ul>

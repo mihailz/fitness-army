@@ -51,7 +51,6 @@ export class SignUpComponent implements OnInit {
       .subscribe({
         next: (response) => {
           const user: User = new User(email, '', userName, 'user');
-          this.authApiService.saveUserInLocalStorage(user);
           this.toastrService.success('The account was created successfully!', 'Account created!');
           this.router.navigate(['/auth/login']);
         },
@@ -101,6 +100,17 @@ export class SignUpComponent implements OnInit {
     const confirmPassword = this.signUpForm.get('confirmPassword')?.value;
 
     return password === confirmPassword;
+  }
+
+  signUpWIthGoogleProvider(): void {
+    this.authApiService.googleAuth()
+      .subscribe({
+        next: ((response) => {
+          this.toastrService.success('User logged in successfully!', 'Login success');
+          this.router.navigate(['/home']);
+        }),
+        error: err => console.log(err)
+      });
   }
 
 }
