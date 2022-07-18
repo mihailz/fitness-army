@@ -68,4 +68,8 @@ export class LoginComponent implements OnInit {
         error: err => console.log(err)
       });
   }
+
+  navigateToResetPasswordPage(): void {
+    this.router.navigate(['/auth/password-reset']);
+  }
 }

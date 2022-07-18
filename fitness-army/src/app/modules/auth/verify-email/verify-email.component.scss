@@ -1,0 +1,43 @@
+@import "../fitness-army/src/assets/css/forms";
+
+.reset-password-form {
+  @extend .form;
+
+  .header {
+    font-size: 30px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    color: #303030;
+  }
+
+  .reset-password-wrapper {
+    display: flex;
+    justify-content: center;
+    padding-top: 16px;
+
+    .reset-button {
+      @extend .action-button;
+    }
+  }
+
+  .redirectToLogin {
+    padding-top: 16px;
+    text-align: center;
+
+    span {
+      text-align: center;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: normal;
+      font-size: 18px;
+      color: #303030;
+
+      a {
+        color: #50B6FF;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+  }
+}

@@ -16,9 +16,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.listenForCurrentRoute();
-    if (localStorage.getItem('user')) {
-      this.router.navigate(['/home']);
-    }
+    // if (localStorage.getItem('user')) {
+    //   this.router.navigate(['/home']);
+    // }
   }
 
   ngOnDestroy(): void {

@@ -97,7 +97,6 @@ exports.postUpdateUser = (req: Request, res: Response) => {
     try {
       const userId = req.params.user_id;
       const document = db.collection("users").doc(userId);
-      console.log(req.body);
       await admin.auth().updateUser(userId, {
         displayName: req.body.displayName,
         email: req.body.email,
@@ -106,10 +105,9 @@ exports.postUpdateUser = (req: Request, res: Response) => {
       await document.update({
         displayName: req.body.displayName,
         email: req.body.email,
-        password: req.body.password,
         role: req.body.role,
       });
-      return res.status(200).send({message: "updated"});
+      return res.status(200).send({message: "User successfully updated!"});
     } catch (error) {
       return res.status(500).send(error);
     }

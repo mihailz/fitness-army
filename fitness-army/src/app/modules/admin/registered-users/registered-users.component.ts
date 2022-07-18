@@ -3,6 +3,7 @@ import {UserApiService} from "../../../service/api/user-api.service";
 import {User} from "../../../model/user.model";
 import {finalize} from "rxjs";
 import {TableColumn} from "../../../model/table-column";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'fitness-army-app-registered-users',
@@ -13,9 +14,11 @@ export class RegisteredUsersComponent implements OnInit {
 
   users: User[] = [];
   tableColumns: TableColumn<User>[] = [];
+  editId!: string | null;
   isFetchingData: boolean = false;
+  roles = ['ADMIN', 'COACH', 'USER'];
 
-  constructor(private userApiService: UserApiService) { }
+  constructor(private router: Router, private userApiService: UserApiService) { }
 
   ngOnInit(): void {
     this.initTableColumns();
@@ -56,4 +59,23 @@ export class RegisteredUsersComponent implements OnInit {
     ];
   }
 
+
+  editUser(uid: string): void {
+    this.editId = uid;
+  }
+
+  stopEditing(): void {
+    this.editId = null;
+  }
+
+  onRoleChange(updatedRole: string, user: User): void {
+    const updatedUser = {...user, role: updatedRole};
+    this.userApiService.updateUser(updatedUser)
+      .subscribe({
+        next: (response) => {
+          console.log('response: ', response);
+        },
+        error: err => console.log(err)
+      });
+  }
 }

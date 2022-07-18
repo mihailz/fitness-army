@@ -32,7 +32,7 @@
   </ng-container>
   <div class="remember-me-section">
     <div><span class="remember-me">Remember me</span><input type="checkbox" (change)="onCheckboxChecked($event)"></div>
-    <a href="#">Forgot Password?</a>
+    <a (click)="navigateToResetPasswordPage()">Forgot Password?</a>
   </div>
   <div class="login-wrapper">
     <button (click)="login()" type="submit" class="login-button">Log in</button>

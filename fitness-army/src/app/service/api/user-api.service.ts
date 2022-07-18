@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import {map, Observable} from "rxjs";
+import {map, Observable, tap} from "rxjs";
 import {User} from "../../model/user.model";
 
 @Injectable({
@@ -15,8 +15,16 @@ export class UserApiService {
     this.baseApiHref = environment.applicationApi;
   }
 
-  getUserData(userId: string): Observable<any> {
+  getUserData(userId: string): Observable<User> {
     return this.http.get(`${this.baseApiHref}/api/users/${userId}`)
+      .pipe(
+        map((response: any) => new User(
+          response.user.email,
+          response.user.uid,
+          response.user.displayName,
+          response.user.role
+        ))
+      );
   };
 
   createUser(user: User) {
@@ -39,6 +47,17 @@ export class UserApiService {
             user.role
           )))
       );
+  }
+
+  updateUser(user: User, password?: string): Observable<any> {
+    return this.http.put(`${this.baseApiHref}/api/users/update-user/${user.uid}`, {
+      displayName: user.displayName,
+      email: user.email,
+      password: password,
+      role: user.role
+    }).pipe(
+      tap(response => console.log(response))
+    )
   }
 
 }

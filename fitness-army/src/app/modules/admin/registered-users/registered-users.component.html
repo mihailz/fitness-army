@@ -9,7 +9,6 @@
     <thead>
       <tr>
         <th *ngFor="let column of tableColumns" [nzSortFn]="column.compare">{{column.title}}</th>
-        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -17,13 +16,19 @@
         <td>{{user.uid}}</td>
         <td>{{user.displayName}}</td>
         <td>{{user.email}}</td>
-        <td>{{user.role}}</td>
-        <td class="actions">
-          <a class="edit-button" nz-button [nzType]="'primary'">Edit</a>
-          <a class="delete-button" nz-button [nzType]="'primary'" [nzDanger]="true">Delete</a>
+        <td>
+          <div class="editable-cell" [hidden]="editId === user.uid" (click)="editUser(user.uid)">
+            {{user.role}}
+          </div>
+          <nz-select [hidden]="editId !== user.uid" [(ngModel)]="user.role" (blur)="stopEditing()" (ngModelChange)="onRoleChange($event, user)">
+            <nz-option *ngFor="let role of roles" [nzLabel]="role" [nzValue]="role"></nz-option>
+          </nz-select>
         </td>
       </tr>
     </tbody>
   </nz-table>
+  <div>
+    <router-outlet></router-outlet>
+  </div>
 </div>
 

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {Route, RouterModule} from "@angular/router";
 import {RegisteredUsersComponent} from "./registered-users/registered-users.component";
+import {EditUserComponent} from "./registered-users/edit-user/edit-user.component";
 
 const routes: Route[] = [
   {
@@ -11,6 +12,10 @@ const routes: Route[] = [
   {
     path: 'users',
     component: RegisteredUsersComponent
+  },
+  {
+    path: 'users/edit/:uid',
+    component: EditUserComponent
   }
 ];
 

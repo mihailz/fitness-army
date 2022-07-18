@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, from, map, Observable, Subject, switchMap, tap} from "rxjs";
+import {BehaviorSubject, from, map, Observable, switchMap, tap} from "rxjs";
 import {User} from "../../model/user.model";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
@@ -40,12 +40,12 @@ export class AuthApiService {
                       const token: Token = new Token(idToken);
                       this.tokenService.userToken = token;
                     }),
-                    map((response: any) => {
+                    map((userData: any) => {
                       const user: User = new User(
-                        response.user.email,
-                        response.user.uid,
-                        response.user.displayName,
-                        response.user.role);
+                        userData.email,
+                        userData.uid,
+                        userData.displayName,
+                        userData.role);
                       this.user$.next(user);
                       return user;
                     })
@@ -110,6 +110,17 @@ export class AuthApiService {
         })
       )
   }
+
+  sendVerificationMail() {
+    return this.angularFireAuth.currentUser
+      .then((u: any) => u.sendEmailVerification())
+  }
+
+  forgotPassword(passwordResetEmail: string): Observable<any> {
+    return from(this.angularFireAuth
+      .sendPasswordResetEmail(passwordResetEmail))
+  }
+
 
   saveUserInLocalStorage(user: User | null): void {
     localStorage.setItem('user', JSON.stringify(user));

@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {AuthApiService} from "../../../service/api/auth-api.service";
-import {finalize} from "rxjs";
 import {User} from "../../../model/user.model";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";

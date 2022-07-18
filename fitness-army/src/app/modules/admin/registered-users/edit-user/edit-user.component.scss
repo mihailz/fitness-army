@@ -1,0 +1,23 @@
+@import "../fitness-army/src/assets/css/forms";
+
+.edit-user-form {
+  @extend .form;
+
+  .header {
+    font-size: 40px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    color: #303030;
+  }
+
+  .update-user-wrapper {
+    padding-top: 20px;
+  }
+
+  .input-hint {
+    color: $color-red;
+    padding: 8px 3px;
+  }
+}
