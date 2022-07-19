@@ -31,7 +31,8 @@
     <div class="input-errors-container">Email or password invalid, please try again!</div>
   </ng-container>
   <div class="remember-me-section">
-    <div><span class="remember-me">Remember me</span><input type="checkbox" (change)="onCheckboxChecked($event)"></div>
+    <div class="remember-me-wrapper"><span class="remember-me">Remember me</span>
+      <input type="checkbox" (change)="onCheckboxChecked($event)"></div>
     <a (click)="navigateToResetPasswordPage()">Forgot Password?</a>
   </div>
   <div class="login-wrapper">

@@ -107,13 +107,9 @@ export class AuthApiService {
         tap(() => {
           this.user$.next(null);
           this.removeUserFromLocalStorage();
+          localStorage.removeItem('resetEmail');
         })
       )
-  }
-
-  sendVerificationMail() {
-    return this.angularFireAuth.currentUser
-      .then((u: any) => u.sendEmailVerification())
   }
 
   forgotPassword(passwordResetEmail: string): Observable<any> {

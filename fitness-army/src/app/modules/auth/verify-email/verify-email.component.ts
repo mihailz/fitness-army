@@ -29,6 +29,7 @@ export class VerifyEmailComponent implements OnInit {
 
   resetPassword(): void {
     const email = this.passwordResetEmailForm.get('email')?.value;
+    localStorage.setItem('resetEmail', JSON.stringify(email));
     this.authApiService.forgotPassword(email)
       .subscribe({
         next: (response) => {

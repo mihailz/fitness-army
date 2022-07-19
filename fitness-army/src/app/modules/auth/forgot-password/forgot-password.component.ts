@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AuthApiService} from "../../../service/api/auth-api.service";
+import {UserApiService} from "../../../service/api/user-api.service";
+import {User} from "../../../model/user.model";
+import {tap} from "rxjs";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'fitness-army-app-forgot-password',
@@ -11,23 +15,54 @@ import {AuthApiService} from "../../../service/api/auth-api.service";
 export class ForgotPasswordComponent implements OnInit {
 
   resetPasswordForm!: FormGroup;
+  currentUser!: User | undefined;
 
   constructor(private router: Router,
-              private authApiService: AuthApiService) { }
+              private authApiService: AuthApiService,
+              private userApiService: UserApiService,
+              private toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.initForm();
+    this.getCurrentUser();
   }
 
   resetPassword(): void {
-    this.authApiService.sendVerificationMail()
-      .then(response => {
-        console.log('sendVerificationEmail: ', response);
+    if (!this.resetPasswordForm.valid) {
+      return;
+    }
+    if (!this.currentUser) {
+      return;
+    }
+    const updatedPassword = this.resetPasswordForm.get('password')?.value;
+    const user = {...this.currentUser};
+    const queryParam = {'update_password': true};
+    this.userApiService.updateUser(user, queryParam, updatedPassword)
+      .subscribe({
+        next: (response) => {
+          this.toastrService.success('The password has been updated!', 'Password updated');
+          this.router.navigate(['/auth/login']);
+        },
+        error: err => console.log(err)
       })
   }
 
   navigateToLogin(): void {
     this.router.navigate(['/auth/login']);
+  }
+
+  private getCurrentUser(): void {
+    this.userApiService.getAllUsers()
+      .pipe(
+        tap((users: User[]) => {
+          const email = localStorage.getItem('resetEmail');
+          if (email) {
+            const parsedEmail = JSON.parse(email);
+            const user = users.find((user: User) => user.email === parsedEmail);
+            this.currentUser = user;
+          }
+        })
+      ).subscribe();
   }
 
   private initForm(): void {

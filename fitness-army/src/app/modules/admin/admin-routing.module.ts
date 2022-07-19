@@ -12,10 +12,6 @@ const routes: Route[] = [
   {
     path: 'users',
     component: RegisteredUsersComponent
-  },
-  {
-    path: 'users/edit/:uid',
-    component: EditUserComponent
   }
 ];
 

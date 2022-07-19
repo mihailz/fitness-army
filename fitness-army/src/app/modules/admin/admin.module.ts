@@ -4,7 +4,6 @@ import {AdminRoutingModule} from "./admin-routing.module";
 import { RegisteredUsersComponent } from './registered-users/registered-users.component';
 import {NzTableModule} from "ng-zorro-antd/table";
 import {NzButtonModule} from "ng-zorro-antd/button";
-import { EditUserComponent } from './registered-users/edit-user/edit-user.component';
 import {NzFormModule} from "ng-zorro-antd/form";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NzInputModule} from "ng-zorro-antd/input";
@@ -12,8 +11,7 @@ import {NzSelectModule} from "ng-zorro-antd/select";
 
 @NgModule({
   declarations: [
-    RegisteredUsersComponent,
-    EditUserComponent
+    RegisteredUsersComponent
   ],
   imports: [
     CommonModule,

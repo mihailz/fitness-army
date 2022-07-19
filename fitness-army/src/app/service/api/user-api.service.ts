@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {map, Observable, tap} from "rxjs";
 import {User} from "../../model/user.model";
+import {Params} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -49,15 +50,18 @@ export class UserApiService {
       );
   }
 
-  updateUser(user: User, password?: string): Observable<any> {
+  updateUser(user: User, queryParam: {[param: string]: string | number | boolean}, password?: string): Observable<any> {
+    const params: Params = new HttpParams({
+      fromObject: queryParam
+    });
     return this.http.put(`${this.baseApiHref}/api/users/update-user/${user.uid}`, {
       displayName: user.displayName,
       email: user.email,
       password: password,
       role: user.role
-    }).pipe(
-      tap(response => console.log(response))
-    )
+    }, {
+      params
+    });
   }
 
 }

@@ -4,6 +4,7 @@ import {User} from "../../../model/user.model";
 import {finalize} from "rxjs";
 import {TableColumn} from "../../../model/table-column";
 import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'fitness-army-app-registered-users',
@@ -18,7 +19,9 @@ export class RegisteredUsersComponent implements OnInit {
   isFetchingData: boolean = false;
   roles = ['ADMIN', 'COACH', 'USER'];
 
-  constructor(private router: Router, private userApiService: UserApiService) { }
+  constructor(private router: Router,
+              private userApiService: UserApiService,
+              private toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.initTableColumns();
@@ -70,10 +73,12 @@ export class RegisteredUsersComponent implements OnInit {
 
   onRoleChange(updatedRole: string, user: User): void {
     const updatedUser = {...user, role: updatedRole};
-    this.userApiService.updateUser(updatedUser)
+    const queryParam = {'update_password': true};
+    this.userApiService.updateUser(updatedUser, queryParam)
       .subscribe({
         next: (response) => {
           console.log('response: ', response);
+          this.toastrService.success('User role has been updated!', 'Role updated!');
         },
         error: err => console.log(err)
       });

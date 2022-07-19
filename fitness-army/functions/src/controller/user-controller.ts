@@ -95,13 +95,16 @@ exports.getUserById = (req: Request, res: Response) => {
 exports.postUpdateUser = (req: Request, res: Response) => {
   (async () => {
     try {
+      const updateUserPassword = req.query.update_password;
       const userId = req.params.user_id;
       const document = db.collection("users").doc(userId);
-      await admin.auth().updateUser(userId, {
-        displayName: req.body.displayName,
-        email: req.body.email,
-        password: req.body.password,
-      });
+      if (updateUserPassword) {
+        await admin.auth().updateUser(userId, {
+          displayName: req.body.displayName,
+          email: req.body.email,
+          password: req.body.password,
+        });
+      }
       await document.update({
         displayName: req.body.displayName,
         email: req.body.email,

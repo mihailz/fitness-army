@@ -70,6 +70,6 @@ export class LoginComponent implements OnInit {
   }
 
   navigateToResetPasswordPage(): void {
-    this.router.navigate(['/auth/password-reset']);
+    this.router.navigate(['/auth/verify-email']);
   }
 }

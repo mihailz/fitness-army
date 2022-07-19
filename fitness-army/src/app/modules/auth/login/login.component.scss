@@ -15,26 +15,35 @@
   .remember-me-section {
     padding-top: 16px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
 
-    .remember-me {
-      font-family: 'DM Sans', sans-serif;
-      font-weight: normal;
-      font-size: 18px;
-      line-height: 26px;
-      color: #303030;
+    .remember-me-wrapper {
+      display: flex;
+      align-items: center;
+      .remember-me {
+        font-family: 'DM Sans', sans-serif;
+        font-weight: normal;
+        font-size: 18px;
+        line-height: 26px;
+        color: #303030;
+        flex: 1;
+        display: inline-block;
+        margin-left: 6px;
+      }
+
+      input {
+        margin-left: 6px;
+      }
     }
 
-    a {
-      margin-left: 180px;
-      text-align: right;
-      color: #303030;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: normal;
-      font-size: 16px;
-      text-decoration: underline;
-    }
+      a {
+        flex: 1;
+        text-align: right;
+        color: #303030;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: normal;
+        font-size: 16px;
+        text-decoration: underline;
+      }
   }
 
   .login-wrapper {
