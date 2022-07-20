@@ -45,7 +45,8 @@ export class AuthApiService {
                         userData.email,
                         userData.uid,
                         userData.displayName,
-                        userData.role);
+                        userData.role,
+                        userData.profileImage);
                       this.user$.next(user);
                       return user;
                     })
@@ -60,7 +61,7 @@ export class AuthApiService {
     return this.userApiService.getUserData(userId);
   };
 
-  signup(displayName: string, email: string, password: string, role: string = 'user') {
+  signup(displayName: string, email: string, password: string, role: string = 'USER', profileImageFile: File): Observable<any> {
     return this.http.post(`${this.baseApiHref}/api/users/create`, {
       displayName,
       email,

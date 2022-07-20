@@ -71,6 +71,9 @@
       </div>
     </ng-container>
   </div>
+  <div class="image-uploader-wrapper">
+    <fitness-army-app-image-uploader [fileName]="'profileImage'" (selectedImage)="uploadImage($event)"></fitness-army-app-image-uploader>
+  </div>
   <ng-container *ngIf="errorMessage">
     <div class="input-errors-container">{{errorMessage}}</div>
   </ng-container>

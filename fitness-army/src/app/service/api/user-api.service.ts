@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import {map, Observable, tap} from "rxjs";
+import {from, map, Observable, switchMap} from "rxjs";
 import {User} from "../../model/user.model";
 import {Params} from "@angular/router";
+import {AngularFireStorage} from "@angular/fire/compat/storage";
+import {AngularFirestore} from "@angular/fire/compat/firestore";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,9 @@ export class UserApiService {
 
   baseApiHref: string = '';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private storage: AngularFireStorage,
+              private db: AngularFirestore) {
     this.baseApiHref = environment.applicationApi;
   }
 
@@ -23,18 +27,36 @@ export class UserApiService {
           response.user.email,
           response.user.uid,
           response.user.displayName,
-          response.user.role
+          response.user.role,
+          response.user.profileImage
         ))
       );
   };
 
-  createUser(user: User) {
+  createUser(user: User): Observable<any> {
     return this.http.post(`${this.baseApiHref}/api/users/create`, {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
       role: user.role
     });
+  }
+
+  uploadUserImage(file: File, uid: string): Observable<any> {
+    const path = `${uid}`;
+    const ref = this.storage.ref(path);
+    let imageUrl = "";
+    return from(this.storage.upload(path, file))
+      .pipe(
+        switchMap(() => {
+          return ref.getDownloadURL();
+        }),
+        switchMap((downloadUrl: any) => {
+          imageUrl = downloadUrl;
+          return from(this.db.collection('images').add( { downloadURL: downloadUrl, path }));
+        }),
+        map(() => imageUrl)
+      )
   }
 
   getAllUsers(): Observable<Array<User>> {
@@ -58,7 +80,8 @@ export class UserApiService {
       displayName: user.displayName,
       email: user.email,
       password: password,
-      role: user.role
+      role: user.role,
+      profileImage: user.profileImage
     }, {
       params
     });

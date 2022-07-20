@@ -7,23 +7,28 @@ const db = admin.firestore();
 exports.postCreateUser = (req: Request, res: Response) => {
   (async () => {
     try {
+      let UID = "";
       if (!req.body.uid) {
         const {uid} = await admin.auth().createUser({
           email: req.body.email,
           password: req.body.password,
           role: req.body.role,
         });
+        UID = uid;
         await admin.auth().setCustomUserClaims(uid, {
           role: req.body.role,
         });
         await addUserToCollection(uid, req.body.email,
             req.body.displayName, req.body.role);
       } else {
+        UID = req.body.uid;
         await addUserToCollection(req.body.uid, req.body.email,
             req.body.displayName, req.body.role);
       }
 
-      return res.status(201).send();
+      return res.status(201).send({
+        uid: UID,
+      });
     } catch (error) {
       console.log(error);
       return res.status(500).send(error);
@@ -56,7 +61,8 @@ exports.getAllUsers = (req: Request, res: Response) => {
                   document.data().email,
                   document.data().password,
                   document.data().displayName,
-                  document.data().role
+                  document.data().role,
+                  document.data().profileImage
               ));
             }
           });
@@ -81,7 +87,8 @@ exports.getUserById = (req: Request, res: Response) => {
           userData.email,
           userData.password,
           userData.displayName,
-          userData.role
+          userData.role,
+          userData.profileImage
       );
       return res.status(200).send({
         user: user,
@@ -109,6 +116,7 @@ exports.postUpdateUser = (req: Request, res: Response) => {
         displayName: req.body.displayName,
         email: req.body.email,
         role: req.body.role,
+        profileImage: req.body.profileImage,
       });
       return res.status(200).send({message: "User successfully updated!"});
     } catch (error) {

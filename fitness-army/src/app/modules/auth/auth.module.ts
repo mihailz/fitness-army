@@ -6,6 +6,7 @@ import {AuthRoutingModule} from "./auth-routing.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ForgotPasswordComponent} from "./forgot-password/forgot-password.component";
 import {VerifyEmailComponent} from "./verify-email/verify-email.component";
+import {ImageUploaderModule} from "../../shared/image-uploader/image-uploader.module";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {VerifyEmailComponent} from "./verify-email/verify-email.component";
     CommonModule,
     AuthRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    ImageUploaderModule
   ]
 })
 export class AuthModule {

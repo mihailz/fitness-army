@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {AuthApiService} from "../../../service/api/auth-api.service";
-import {User} from "../../../model/user.model";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
+import {UserApiService} from "../../../service/api/user-api.service";
+import {map, switchMap, tap} from "rxjs";
+import {User} from "../../../model/user.model";
 
 @Component({
   selector: 'fitness-army-app-sign-up',
@@ -14,24 +16,17 @@ export class SignUpComponent implements OnInit {
 
   signUpForm!: FormGroup;
   errorMessage: string = '';
+  profileImage!: File;
 
   constructor(
     private router: Router,
     private authApiService: AuthApiService,
+    private userApiService: UserApiService,
     private toastrService: ToastrService) {
   }
 
   ngOnInit(): void {
     this.initSignupForm();
-  }
-
-  private initSignupForm(): void {
-    this.signUpForm = new FormGroup({
-      userName: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, this.validatePassword]),
-      confirmPassword: new FormControl('', Validators.required)
-    });
   }
 
   signup(): void {
@@ -46,18 +41,64 @@ export class SignUpComponent implements OnInit {
     const userName = this.signUpForm.get('userName')?.value;
     const email = this.signUpForm.get('email')?.value;
     const password = this.signUpForm.get('password')?.value;
-    this.authApiService.signup(userName, email, password)
-      .subscribe({
-        next: (response) => {
-          const user: User = new User(email, '', userName, 'user');
+    this.authApiService.signup(userName, email, password, "USER", this.profileImage)
+      .pipe(
+        map((response: any) => response['uid']),
+        switchMap((uid: string) => {
+          return this.userApiService.getUserData(uid)
+        }),
+        switchMap((user: User) => {
+          return this.userApiService.uploadUserImage(this.profileImage, user.uid)
+            .pipe(
+              map((imageUrl: string) => new User(
+                user.email,
+                user.uid,
+                user.displayName,
+                user.role,
+                imageUrl
+              ))
+            )
+        }),
+        switchMap((user: User) => {
+          const queryParam = {'update_password': true};
+          return this.userApiService.updateUser(user, queryParam);
+        })
+      ).subscribe({
+        next: (response: Object) => {
+          console.log('signUp: ', response);
           this.toastrService.success('The account was created successfully!', 'Account created!');
           this.router.navigate(['/auth/login']);
         },
         error: err => {
+          console.log(err);
           this.errorMessage = 'An error has occurred please try again!';
           this.signUpForm.reset();
         }
       });
+  }
+
+  signUpWIthGoogleProvider(): void {
+    this.authApiService.googleAuth()
+      .subscribe({
+        next: ((response) => {
+          this.toastrService.success('User logged in successfully!', 'Login success');
+          this.router.navigate(['/home']);
+        }),
+        error: err => console.log(err)
+      });
+  }
+
+  uploadImage(file: File): void {
+    this.profileImage = file;
+  }
+
+  private initSignupForm(): void {
+    this.signUpForm = new FormGroup({
+      userName: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, this.validatePassword]),
+      confirmPassword: new FormControl('', Validators.required)
+    });
   }
 
   private validatePassword(control: AbstractControl): ValidationErrors | null {
@@ -99,17 +140,6 @@ export class SignUpComponent implements OnInit {
     const confirmPassword = this.signUpForm.get('confirmPassword')?.value;
 
     return password === confirmPassword;
-  }
-
-  signUpWIthGoogleProvider(): void {
-    this.authApiService.googleAuth()
-      .subscribe({
-        next: ((response) => {
-          this.toastrService.success('User logged in successfully!', 'Login success');
-          this.router.navigate(['/home']);
-        }),
-        error: err => console.log(err)
-      });
   }
 
 }

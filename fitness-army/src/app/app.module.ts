@@ -26,7 +26,7 @@ registerLocaleData(en);
   declarations: [
     AppComponent,
     LayoutComponent,
-    NavbarComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +49,7 @@ registerLocaleData(en);
       multi: true
     },
     AuthGuard,
-    { provide: NZ_I18N, useValue: en_US }
+    {provide: NZ_I18N, useValue: en_US}
   ],
   bootstrap: [AppComponent]
 })
