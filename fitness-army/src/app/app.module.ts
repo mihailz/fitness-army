@@ -19,6 +19,8 @@ import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
+import { UserSettingsComponent } from './components/navbar/user-settings/user-settings.component';
+import {NzDropDownModule} from "ng-zorro-antd/dropdown";
 
 registerLocaleData(en);
 
@@ -26,22 +28,24 @@ registerLocaleData(en);
   declarations: [
     AppComponent,
     LayoutComponent,
-    NavbarComponent
+    NavbarComponent,
+    UserSettingsComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    ToastrModule.forRoot({
-      timeOut: 3000,
-      progressBar: true,
-    }),
-    AngularFirestoreModule,
-    AngularFireAuthModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    FormsModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+        ToastrModule.forRoot({
+            timeOut: 3000,
+            progressBar: true,
+        }),
+        AngularFirestoreModule,
+        AngularFireAuthModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        FormsModule,
+        NzDropDownModule,
+    ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

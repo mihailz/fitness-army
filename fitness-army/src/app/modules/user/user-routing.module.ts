@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {Route, RouterModule} from "@angular/router";
-import {RegisteredUsersComponent} from "./registered-users/registered-users.component";
+import {UserProfileComponent} from "./user-profile/user-profile.component";
+import {UpdateUserComponent} from "./update-user/update-user.component";
 
 const routes: Route[] = [
   {
-    path: '',
-    redirectTo: 'users'
+    path: 'profile',
+    component: UserProfileComponent
   },
   {
-    path: 'users',
-    component: RegisteredUsersComponent
+    path: 'update',
+    component: UpdateUserComponent
   }
 ];
 
@@ -24,4 +25,4 @@ const routes: Route[] = [
     RouterModule
   ]
 })
-export class AdminRoutingModule { }
+export class UserRoutingModule { }

@@ -1,0 +1,17 @@
+<div nz-dropdown [nzDropdownMenu]="menu" [nzTrigger]="'click'" class="user-image-wrapper">
+  <img [src]="user?.profileImage" alt="User profile" />
+</div>
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul class="menu" nz-menu>
+    <li class="menu-item" nz-menu-item>
+      <a class="menu-item-link" (click)="navigateToUserProfile()">
+        View profile
+      </a>
+    </li>
+    <li class="menu-item" nz-menu-item>
+      <a class="menu-item-link" (click)="logout()">
+        Log out
+      </a>
+    </li>
+  </ul>
+</nz-dropdown-menu>

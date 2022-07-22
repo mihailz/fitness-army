@@ -17,7 +17,9 @@ admin.initializeApp({
 });
 
 const userRoutes = require("./route/user-route");
+const userMeasurementsRoutes = require("./route/user-body-measurements-route");
 
 app.use(userRoutes);
+app.use(userMeasurementsRoutes);
 
 exports.app = functions.https.onRequest(app);

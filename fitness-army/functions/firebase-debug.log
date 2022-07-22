@@ -1,0 +1,83 @@
+[debug] [2022-07-22T09:46:24.071Z] ----------------------------------------------------------------------
+[debug] [2022-07-22T09:46:24.073Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\mzafirovski\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start --only functions
+[debug] [2022-07-22T09:46:24.073Z] CLI Version:   11.2.1
+[debug] [2022-07-22T09:46:24.073Z] Platform:      win32
+[debug] [2022-07-22T09:46:24.073Z] Node Version:  v16.15.1
+[debug] [2022-07-22T09:46:24.074Z] Time:          Fri Jul 22 2022 11:46:24 GMT+0200 (Central European Summer Time)
+[debug] [2022-07-22T09:46:24.074Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-07-22T09:46:24.143Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-07-22T09:46:24.143Z] > authorizing via signed-in user (mihailzafirovski@gmail.com)
+[info] i  emulators: Starting emulators: functions {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: functions"}}
+[debug] [2022-07-22T09:46:24.182Z] [hub] writing locator at C:\Users\MZAFIR~1\AppData\Local\Temp\hub-fitness-army.json
+[warn] !  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: auth, firestore, database, hosting, pubsub, storage {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mauth, firestore, database, hosting, pubsub, storage\u001b[22m"}}
+[info] +  functions: Using node@16 from host. {"metadata":{"emulator":{"name":"functions"},"message":"Using node@16 from host."}}
+[debug] [2022-07-22T09:46:24.221Z] defaultcredentials: writing to file C:\Users\mzafirovski\AppData\Roaming\firebase\mihailzafirovski_gmail_com_application_default_credentials.json
+[debug] [2022-07-22T09:46:24.223Z] Setting GAC to C:\Users\mzafirovski\AppData\Roaming\firebase\mihailzafirovski_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\mzafirovski\\AppData\\Roaming\\firebase\\mihailzafirovski_gmail_com_application_default_credentials.json"}}
+[debug] [2022-07-22T09:46:24.226Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army/adminSdkConfig [none]
+[debug] [2022-07-22T09:46:24.712Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army/adminSdkConfig 200
+[debug] [2022-07-22T09:46:24.712Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army/adminSdkConfig {"projectId":"fitness-army","databaseURL":"https://fitness-army-default-rtdb.europe-west1.firebasedatabase.app","storageBucket":"fitness-army.appspot.com","locationId":"europe-west"}
+[debug] [2022-07-22T09:46:24.734Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2022-07-22T09:46:24.734Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2022-07-22T09:46:24.734Z] Starting Emulator UI with command {"binary":"node","args":["--dns-result-order=ipv4first","C:\\Users\\mzafirovski\\.cache\\firebase\\emulators\\ui-v1.7.0\\server.bundle.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"--dns-result-order=ipv4first\",\"C:\\\\Users\\\\mzafirovski\\\\.cache\\\\firebase\\\\emulators\\\\ui-v1.7.0\\\\server.bundle.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
+[info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
+[debug] [2022-07-22T09:46:24.840Z] Web / API server started at localhost:4000
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at localhost:4000\n"}}
+[info] i  functions: Watching "C:\Users\mzafirovski\WebstormProjects\fitness-army\fitness-army\functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"C:\\Users\\mzafirovski\\WebstormProjects\\fitness-army\\fitness-army\\functions\" for Cloud Functions..."}}
+[debug] [2022-07-22T09:46:25.012Z] Validating nodejs source
+[debug] [2022-07-22T09:46:27.267Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^10.0.2",
+    "firebase-functions": "^3.18.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^0.2.0",
+    "typescript": "^4.5.4"
+  },
+  "private": true
+}
+[debug] [2022-07-22T09:46:27.267Z] Building nodejs source
+[debug] [2022-07-22T09:46:27.267Z] Analyzing nodejs backend spec
+[debug] [2022-07-22T09:46:27.268Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-07-22T09:46:27.489Z] Serving at port 9005
+
+[debug] [2022-07-22T09:46:27.593Z] Got response from /__/functions.yaml {"endpoints":{"app":{"platform":"gcfv1","httpsTrigger":{},"entryPoint":"app"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-07-22T09:46:27.597Z] shutdown requested via /__/quitquitquit
+
+[info] +  functions[us-central1-app]: http function initialized (http://localhost:5001/fitness-army/us-central1/app). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://localhost:5001/fitness-army/us-central1/app)."}}
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://localhost:4000                │
+└─────────────────────────────────────────────────────────────┘
+
+┌───────────┬────────────────┬─────────────────────────────────┐
+│ Emulator  │ Host:Port      │ View in Emulator UI             │
+├───────────┼────────────────┼─────────────────────────────────┤
+│ Functions │ localhost:5001 │ http://localhost:4000/functions │
+└───────────┴────────────────┴─────────────────────────────────┘
+  Emulator Hub running at localhost:4400
+  Other reserved ports: 4500
+
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 

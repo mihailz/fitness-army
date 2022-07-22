@@ -11,10 +11,11 @@ import {Router} from "@angular/router";
 })
 export class NavbarComponent implements OnInit, OnDestroy {
 
-  isUserLoggedIn!: boolean;
+  user!: User | null;
   private subscription: Subscription = new Subscription();
 
-  constructor(private router: Router, private authApiService: AuthApiService) {
+  constructor(private router: Router,
+              private authApiService: AuthApiService) {
   }
 
   ngOnInit(): void {
@@ -29,21 +30,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
     const subscription = this.authApiService.user$
       .subscribe({
         next: (user: User | null) => {
-          this.isUserLoggedIn = !!user;
+          this.user = user;
+          console.log(user);
         },
         error: err => {
-          this.isUserLoggedIn = false;
+          console.log(err);
         }
       })
     this.subscription.add(subscription);
-  }
-
-  logout(): void {
-    this.authApiService.signOut()
-      .subscribe({
-        next: () => {
-          this.router.navigate(['/home']);
-        }
-      });
   }
 }

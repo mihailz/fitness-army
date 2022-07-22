@@ -19,15 +19,13 @@
           Admin
         </a>
       </li>
-      <li class="menu-list-item" *ngIf="!isUserLoggedIn">
-        <a class="menu-list-link" routerLink="auth/login" routerLinkActive="active">
+      <li class="menu-list-item">
+        <a *ngIf="!user" class="menu-list-link" routerLink="auth/login" routerLinkActive="active">
           Login
         </a>
-      </li>
-      <li class="menu-list-item" *ngIf="isUserLoggedIn">
-        <a class="menu-list-link" routerLinkActive="active" (click)="logout()">
-          Log out
-        </a>
+        <div *ngIf="user">
+          <fitness-army-app-user-settings [user]="user"></fitness-army-app-user-settings>
+        </div>
       </li>
     </ul>
   </div>

@@ -24,6 +24,10 @@
       font-weight: bolder;
       text-transform: uppercase;
       color: white;
+
+      .heading {
+        margin: 0;
+      }
     }
   }
 
@@ -31,6 +35,7 @@
     .menu-list {
       display: flex;
       list-style-type: none;
+      align-items: center;
 
       .menu-list-item {
         margin-right: 14px;

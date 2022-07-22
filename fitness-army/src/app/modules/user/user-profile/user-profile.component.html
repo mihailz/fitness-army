@@ -1,0 +1,13 @@
+<div class="wrapper">
+  <nz-tabset
+    [nzTabPosition]="'left'"
+    [(nzSelectedIndex)]="selectedIndex"
+    (nzSelectChange)="onTabIndexChange($event)"
+  >
+    <nz-tab nzTitle="Profile">
+      <fitness-army-app-user-info [user]="user"></fitness-army-app-user-info>
+    </nz-tab>
+    <nz-tab nzTitle="BMI Calculator">Tab 2</nz-tab>
+  </nz-tabset>
+</div>
+
