@@ -13,6 +13,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzInputModule} from "ng-zorro-antd/input";
 import {NzRadioModule} from "ng-zorro-antd/radio";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {BmiApiInterceptor} from "./user-profile/interceptor/bmi-api.interceptor";
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import {NzRadioModule} from "ng-zorro-antd/radio";
     NzButtonModule,
     NzInputModule,
     NzRadioModule
+  ],
+  providers: [
   ]
 })
 export class UserModule { }

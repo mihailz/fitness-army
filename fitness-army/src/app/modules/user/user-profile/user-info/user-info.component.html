@@ -11,7 +11,8 @@
       <span class="user-email">{{user?.email}}</span>
     </div>
     <div class="right">
-      <form nz-form [formGroup]="userStatsForm" class="user-stats-form">
+      <ng-container *ngIf="!displayBodyStats else bodyStats">
+      <form nz-form [formGroup]="userBodyStatsForm" class="user-stats-form">
         <nz-form-item>
           <nz-form-label nzFor="birthDate">Date of birth</nz-form-label>
           <nz-form-control nzHasFeedback nzErrorTip="Please select a date!">
@@ -44,6 +45,12 @@
           <button nz-button nzType="primary" (click)="onUserProfileSave()">Save</button>
         </div>
       </form>
+      </ng-container>
     </div>
   </div>
 </div>
+
+
+<ng-template #bodyStats>
+  <p>Use stats here</p>
+</ng-template>

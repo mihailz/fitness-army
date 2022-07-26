@@ -21,6 +21,7 @@ import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
 import { UserSettingsComponent } from './components/navbar/user-settings/user-settings.component';
 import {NzDropDownModule} from "ng-zorro-antd/dropdown";
+import {BmiApiInterceptor} from "./modules/user/user-profile/interceptor/bmi-api.interceptor";
 
 registerLocaleData(en);
 
@@ -50,6 +51,11 @@ registerLocaleData(en);
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: BmiApiInterceptor,
       multi: true
     },
     AuthGuard,

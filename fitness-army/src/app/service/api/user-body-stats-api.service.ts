@@ -1,0 +1,102 @@
+import {Injectable} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import {forkJoin, map, Observable, switchMap, tap} from "rxjs";
+import {environment} from "../../../environments/environment";
+import {UserBodyStats} from "../../model/user-body-stats.model";
+import {BodyMassIndexStats} from "../../model/body-mass-index-stats";
+import {BodyFatPercentage} from "../../model/body-fat-percentage";
+import {calculateUserAge} from "../../../../functions/src/functions/calculate-user-age";
+import {BodyStatsInfo} from "../../model/body-stats-info";
+import {response} from "express";
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserBodyStatsApiService {
+
+  baseApiHref: string = '';
+  bmiApiBaseHref: string = '';
+
+  constructor(private http: HttpClient) {
+    this.baseApiHref = environment.applicationApi;
+    this.bmiApiBaseHref = environment.bmiRapidApiDomain;
+  }
+
+  createUserBodyStats(data: { birthDate: string, weight: number, height: number, gender: string },
+                      uid: string): Observable<any> {
+    const userAge = calculateUserAge(data.birthDate);
+    const bodyMassStats$ = this.getBodyMassIndex(data.weight, data.height);
+    const bodyFatPercentage$ = this.getBodyFatPercentage(data.weight, data.height, userAge, data.gender);
+    return forkJoin([bodyMassStats$, bodyFatPercentage$])
+      .pipe(
+        map((response: any[]) => {
+          const bodyMassIndex: BodyMassIndexStats = response[0];
+          const bodyFatPercentage: BodyFatPercentage = response[1];
+          const userBodyStats: UserBodyStats = new UserBodyStats(
+            new BodyStatsInfo(calculateUserAge(data.birthDate), data.weight, data.height, data.gender),
+            bodyMassIndex,
+            bodyFatPercentage
+          );
+          return userBodyStats;
+        }),
+        switchMap((data: UserBodyStats) => {
+          return this.http.post(`${this.baseApiHref}/api/body-stats/create/${uid}`, {
+            bodyStatsInfo: data.bodyStats,
+            bodyMassIndexInfo: data.bodyMassIndex,
+            bodyFatPercentageInfo: data.bodyFatPercentage
+          })
+        })
+      )
+  }
+
+  getBodyMassIndex(weight: number, height: number): Observable<BodyMassIndexStats> {
+    const url = `${this.bmiApiBaseHref}/bmi?weight=${weight}&height=${height}`;
+    return this.http.get(url).pipe(
+      tap(response => {
+        console.log('getBodyMassIndex: BodyMassIndexStats (before mapping): ', response)
+      }),
+      map((response: any) => response.info),
+      map((data: any) => new BodyMassIndexStats(
+        data.bmi,
+        data.health,
+        data.healthy_bmi_range
+      )),
+      tap(response => {
+        console.log('getBodyMassIndex: BodyMassIndexStats (after mapping): ', response)
+      })
+    )
+  }
+
+  getBodyFatPercentage(weight: number, height: number, age?: number, gender?: string): Observable<BodyFatPercentage> {
+    const url = `${this.bmiApiBaseHref}/bfp?weight=${weight}&height=${height}&age=${age}&gender=${gender}`;
+    return this.http.get(url).pipe(
+      tap(response => console.log('getBodyFatPercentage - BodyFatPercentage(before mapping): ', response)),
+      map((response: any) => response.info),
+      map((data: any) => new BodyFatPercentage(
+        data.bfp,
+        data.fat_mass,
+        data.lean_mass
+      )),
+      tap(response => console.log('getBodyFatPercentage - BodyFatPercentage(after mapping): ', response)),
+    );
+  }
+
+  getUserBodyStats(uid: string, ): Observable<any> {
+      return this.http.get(`${this.baseApiHref}/api/body-stats/${uid}`)
+        .pipe(
+          map((response: any) => response.measurements)
+          // map((response: any) => {
+          //   if (response.measurements) {
+          //     return new UserBodyStats(
+          //       response.measurements.age,
+          //       response.measurements.weight,
+          //       response.measurements.height,
+          //       response.measurements.gender
+          //     )
+          //   } else {
+          //     return null;
+          //   }
+          // }),
+        );
+  }
+}

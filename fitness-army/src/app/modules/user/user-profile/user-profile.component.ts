@@ -20,14 +20,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
               private authApiService: AuthApiService) { }
 
   ngOnInit(): void {
-    // this.getUser();
-    this.user = new User(
-      'mihailzafirovski@gmail.com',
-      '123',
-      'MihailZ',
-      'ADMIN',
-      'https://firebasestorage.googleapis.com/v0/b/fitness-army.appspot.com/o/zGdOiauUIEZmAUXqLz9hfCKLzE82?alt=media&token=3933cd9b-fc31-46c4-9841-b013ad52506b'
-    )
+    this.getUser();
   }
 
   ngOnDestroy(): void {
