@@ -37,7 +37,7 @@ export class ForgotPasswordComponent implements OnInit {
     const updatedPassword = this.resetPasswordForm.get('password')?.value;
     const user = {...this.currentUser};
     const queryParam = {'update_password': true};
-    this.userApiService.updateUser(user, queryParam, updatedPassword)
+    this.userApiService.updateUser(this.currentUser, queryParam, updatedPassword)
       .subscribe({
         next: (response) => {
           this.toastrService.success('The password has been updated!', 'Password updated');

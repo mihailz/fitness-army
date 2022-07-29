@@ -1,32 +1,22 @@
-<div class="navbar-wrapper">
-  <div class="logo-container">
-    <div class="logo-wrapper">
-      <img src="/assets/images/fitness-army-logo.svg">
+<section class="top-nav">
+  <input id="menu-toggle" type="checkbox"/>
+  <label class='menu-button-container' for="menu-toggle">
+    <div class='menu-button'></div>
+  </label>
+  <ul class="menu">
+    <li class="menu-item">
+      <a class="menu-item-link" routerLink="blog" routerLinkActive="active">Blog</a>
+    </li>
+    <li class="menu-item" *ngIf="user?.role === 'ADMIN'">
+      <a class="menu-item-link" routerLink="/admin" routerLinkActive="active">Admin</a>
+    </li>
+    <li class="menu-item" *ngIf="!user">
+      <a class="menu-item-link" routerLink="/auth/login" routerLinkActive="active">Login</a>
+    </li>
+  </ul>
+  <ng-container *ngIf="user">
+    <div class="user-dropdown">
+      <fitness-army-app-user-settings [user]="user"></fitness-army-app-user-settings>
     </div>
-    <div class="logo-text">
-      <p class="heading">Fitness army</p>
-    </div>
-  </div>
-  <div class="menu">
-    <ul class="menu-list">
-      <li class="menu-list-item">
-        <a class="menu-list-link" routerLink="blog" routerLinkActive="active">
-          Blog
-        </a>
-      </li>
-      <li class="menu-list-item">
-        <a class="menu-list-link" routerLink="/admin" routerLinkActive="active">
-          Admin
-        </a>
-      </li>
-      <li class="menu-list-item">
-        <a *ngIf="!user" class="menu-list-link" routerLink="auth/login" routerLinkActive="active">
-          Login
-        </a>
-        <div *ngIf="user">
-          <fitness-army-app-user-settings [user]="user"></fitness-army-app-user-settings>
-        </div>
-      </li>
-    </ul>
-  </div>
-</div>
+  </ng-container>
+</section>

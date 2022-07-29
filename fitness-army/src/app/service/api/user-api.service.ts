@@ -67,7 +67,8 @@ export class UserApiService {
             user.email,
             user.uid,
             user.displayName,
-            user.role
+            user.role,
+            user.profileImage
           )))
       );
   }
@@ -76,6 +77,7 @@ export class UserApiService {
     const params: Params = new HttpParams({
       fromObject: queryParam
     });
+    console.log('updateUser: ', user);
     return this.http.put(`${this.baseApiHref}/api/users/update-user/${user.uid}`, {
       displayName: user.displayName,
       email: user.email,

@@ -44,10 +44,6 @@ export class RegisteredUsersComponent implements OnInit {
   private initTableColumns(): void {
     this.tableColumns = [
       {
-        title: 'UID',
-        compare: (userA: User, userB: User) => userA.uid.localeCompare(userB.uid)
-      },
-      {
         title: 'Username',
         compare: (userA: User, userB: User) => userA.displayName.localeCompare(userB.displayName)
       },
@@ -73,14 +69,13 @@ export class RegisteredUsersComponent implements OnInit {
 
   onRoleChange(updatedRole: string, user: User): void {
     const updatedUser = {...user, role: updatedRole};
-    const queryParam = {'update_password': true};
+    const queryParam = {'update_password': false};
     this.userApiService.updateUser(updatedUser, queryParam)
       .subscribe({
         next: (response) => {
-          console.log('response: ', response);
           this.toastrService.success('User role has been updated!', 'Role updated!');
         },
-        error: err => console.log(err)
+        error: err => console.log("Error: ", err)
       });
   }
 }

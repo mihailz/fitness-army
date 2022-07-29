@@ -1,6 +1,7 @@
 .wrapper {
   font-family: 'Montserrat', sans-serif;
   padding: 20px 20px 20px 0;
+
   .header {
     border-bottom: 1px solid gray;
   }
@@ -8,23 +9,29 @@
   .container {
     display: flex;
     flex-direction: column;
+    padding-top: 20px;
+
     .left {
       padding-top: 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
-        .profile-image-wrapper {
-          width: 90px;
-          height: 90px;
-          display: block;
-          margin-left: auto;
-          margin-right: auto;
-          img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-          }
+      border-bottom: 1px solid gray;
+      padding-bottom: 40px;
+
+      .profile-image-wrapper {
+        width: 90px;
+        height: 90px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
         }
+      }
 
       .user-name {
         text-align: center;
@@ -32,8 +39,10 @@
         font-size: 20px;
       }
     }
+
     .right {
       padding-top: 30px;
+
       .user-stats-form {
         .action-button {
           display: flex;
@@ -44,20 +53,88 @@
   }
 }
 
-@media(min-width: 767.8px) {
+.user-stats-wrapper {
+  display: flex;
+  flex-direction: column;
+
+  .left-section {
+    flex: 1;
+
+    .chart-wrapper {
+      position: relative;
+    }
+
+    .user-bfp {
+      font-weight: bolder;
+      text-align: center;
+      position: relative;
+      top: -30px;
+    }
+  }
+
+  .right-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+
+    .user-gender-image-wrapper {
+      position: relative;
+
+      .user-height {
+        position: absolute;
+        top: 45%;
+        right: 10px;
+      }
+    }
+
+    .user-stats-data-wrapper {
+      .user-stats-data {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: space-around;
+        padding-left: 20px;
+
+        .user-stats-data-item {
+          display: flex;
+          flex-direction: column;
+          padding-top: 5px;
+
+          .user-stats-data-item-label {
+            color: #999
+          }
+
+          .user-stats-data-item-value {
+            font-size: 16px;
+            font-weight: bold;
+            border-bottom: 1px dashed #CCC;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media(min-width: 992px) {
   .wrapper {
     .container {
       flex-direction: row;
       padding-top: 20px;
+
       .left {
-        padding-top: 12px;
         flex: 1;
+        display: flex;
+        justify-content: center;
+        border-right: 1px solid gray;
+        border-bottom: none;
+
         .profile-image-wrapper {
-          width: 200px;
-          height: 200px;
+          width: 50%;
+          height: auto;
           display: block;
           margin-left: auto;
           margin-right: auto;
+
           img {
             width: 100%;
             height: 100%;
@@ -65,9 +142,11 @@
           }
         }
       }
+
       .right {
         flex: 3;
         padding-top: 12px;
+        display: flex;
 
         .user-stats-form {
           .action-button {
@@ -78,5 +157,75 @@
       }
     }
   }
+
+  .user-stats-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+
+    .left-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .body-fat-info-section {
+        text-align: center;
+
+        .user-bfp {
+        }
+      }
+    }
+
+    .right-section {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .user-gender-image-wrapper {
+        position: relative;
+        display: flex;
+        height: 80%;
+
+        .user-height {
+          position: absolute;
+          top: 45%;
+          right: 10px;
+        }
+      }
+
+      .user-stats-data-wrapper {
+        height: 80%;
+        .user-stats-data {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          justify-content: space-around;
+          padding-left: 20px;
+
+          .user-stats-data-item {
+            display: flex;
+            flex-direction: column;
+            padding-top: 5px;
+
+            .user-stats-data-item-label {
+              color: #999
+            }
+
+            .user-stats-data-item-value {
+              font-size: 16px;
+              font-weight: bold;
+              border-bottom: 1px dashed #CCC;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+:host ::ng-deep nz-spin {
+  left: 50%;
 }
 

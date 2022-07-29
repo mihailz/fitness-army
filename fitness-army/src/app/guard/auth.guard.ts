@@ -33,16 +33,20 @@ export class AuthGuard implements CanLoad, CanActivate, CanActivateChild {
   }
 
   private canLoadOrActivate(): Observable<boolean | UrlTree> {
-    return this.authApiService.user$
-      .pipe(
-        map((user: User | null) => {
-          if (user) {
-            return true;
-          } else {
-            return this.router.createUrlTree(['/home']);
-          }
-        })
-      )
+    if (localStorage.getItem('user')) {
+      return of(true);
+    } else {
+      return this.authApiService.user$
+        .pipe(
+          map((user: User | null) => {
+            if (user) {
+              return true;
+            } else {
+              return this.router.createUrlTree(['/home']);
+            }
+          })
+        )
+    }
   }
 
 }

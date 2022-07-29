@@ -12,6 +12,7 @@ import {Router} from "@angular/router";
 export class NavbarComponent implements OnInit, OnDestroy {
 
   user!: User | null;
+  expandMenu: boolean = false;
   private subscription: Subscription = new Subscription();
 
   constructor(private router: Router,
@@ -24,6 +25,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+  }
+
+  toggleMenu(): void {
+    this.expandMenu = !this.expandMenu;
   }
 
   private getUser(): void {

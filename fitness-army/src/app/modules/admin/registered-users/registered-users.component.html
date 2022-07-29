@@ -8,12 +8,11 @@
   >
     <thead>
       <tr>
-        <th *ngFor="let column of tableColumns" [nzSortFn]="column.compare">{{column.title}}</th>
+        <th *ngFor="let column of tableColumns" [nzSortFn]="column.compare ? column.compare : false">{{column.title}}</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let user of usersTable.data">
-        <td>{{user.uid}}</td>
         <td>{{user.displayName}}</td>
         <td>{{user.email}}</td>
         <td>

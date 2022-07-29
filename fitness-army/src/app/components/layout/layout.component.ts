@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
 import {filter, map, Subscription} from "rxjs";
+import {AuthApiService} from "../../service/api/auth-api.service";
 
 @Component({
   selector: 'fitness-army-app-layout',
@@ -12,13 +13,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   showNavigationMenu: boolean = true;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authApiService: AuthApiService) { }
 
   ngOnInit(): void {
     this.listenForCurrentRoute();
-    // if (localStorage.getItem('user')) {
-    //   this.router.navigate(['/home']);
-    // }
   }
 
   ngOnDestroy(): void {

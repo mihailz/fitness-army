@@ -24,6 +24,13 @@ export class AuthApiService {
               private tokenService: TokenService,
               private userApiService: UserApiService) {
     this.baseApiHref = environment.applicationApi;
+    if (localStorage.getItem('user')) {
+      const user = localStorage.getItem('user');
+      if (user) {
+        const parsedUser = JSON.parse(user);
+        this.user$.next(parsedUser);
+      }
+    }
   }
 
   login(email: string, password: string): Observable<User> {

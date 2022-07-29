@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
 import {AngularFireModule} from "@angular/fire/compat";
 import {environment} from "../environments/environment";
 import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
@@ -14,12 +14,12 @@ import {AngularFireAuthModule} from "@angular/fire/compat/auth";
 import {TokenInterceptor} from "./interceptor/token.interceptor";
 import {ToastrModule} from "ngx-toastr";
 import {AuthGuard} from "./guard/auth.guard";
-import { NZ_I18N } from 'ng-zorro-antd/i18n';
-import { en_US } from 'ng-zorro-antd/i18n';
-import { registerLocaleData } from '@angular/common';
+import {NZ_I18N} from 'ng-zorro-antd/i18n';
+import {en_US} from 'ng-zorro-antd/i18n';
+import {registerLocaleData} from '@angular/common';
 import en from '@angular/common/locales/en';
-import { FormsModule } from '@angular/forms';
-import { UserSettingsComponent } from './components/navbar/user-settings/user-settings.component';
+import {FormsModule} from '@angular/forms';
+import {UserSettingsComponent} from './components/navbar/user-settings/user-settings.component';
 import {NzDropDownModule} from "ng-zorro-antd/dropdown";
 import {BmiApiInterceptor} from "./modules/user/user-profile/interceptor/bmi-api.interceptor";
 
@@ -32,21 +32,21 @@ registerLocaleData(en);
     NavbarComponent,
     UserSettingsComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        AngularFireModule.initializeApp(environment.firebaseConfig),
-        ToastrModule.forRoot({
-            timeOut: 3000,
-            progressBar: true,
-        }),
-        AngularFirestoreModule,
-        AngularFireAuthModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        FormsModule,
-        NzDropDownModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      progressBar: true,
+    }),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    FormsModule,
+    NzDropDownModule
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
@@ -63,4 +63,5 @@ registerLocaleData(en);
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

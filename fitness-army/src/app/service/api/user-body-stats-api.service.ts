@@ -52,51 +52,36 @@ export class UserBodyStatsApiService {
   getBodyMassIndex(weight: number, height: number): Observable<BodyMassIndexStats> {
     const url = `${this.bmiApiBaseHref}/bmi?weight=${weight}&height=${height}`;
     return this.http.get(url).pipe(
-      tap(response => {
-        console.log('getBodyMassIndex: BodyMassIndexStats (before mapping): ', response)
-      }),
       map((response: any) => response.info),
       map((data: any) => new BodyMassIndexStats(
         data.bmi,
         data.health,
         data.healthy_bmi_range
-      )),
-      tap(response => {
-        console.log('getBodyMassIndex: BodyMassIndexStats (after mapping): ', response)
-      })
+      ))
     )
   }
 
   getBodyFatPercentage(weight: number, height: number, age?: number, gender?: string): Observable<BodyFatPercentage> {
     const url = `${this.bmiApiBaseHref}/bfp?weight=${weight}&height=${height}&age=${age}&gender=${gender}`;
     return this.http.get(url).pipe(
-      tap(response => console.log('getBodyFatPercentage - BodyFatPercentage(before mapping): ', response)),
       map((response: any) => response.info),
       map((data: any) => new BodyFatPercentage(
         data.bfp,
         data.fat_mass,
         data.lean_mass
-      )),
-      tap(response => console.log('getBodyFatPercentage - BodyFatPercentage(after mapping): ', response)),
+      ))
     );
   }
 
   getUserBodyStats(uid: string, ): Observable<any> {
       return this.http.get(`${this.baseApiHref}/api/body-stats/${uid}`)
         .pipe(
-          map((response: any) => response.measurements)
-          // map((response: any) => {
-          //   if (response.measurements) {
-          //     return new UserBodyStats(
-          //       response.measurements.age,
-          //       response.measurements.weight,
-          //       response.measurements.height,
-          //       response.measurements.gender
-          //     )
-          //   } else {
-          //     return null;
-          //   }
-          // }),
+          map((response: any) => response.userBodyStats),
+          map((data: any) => new UserBodyStats(
+            data.bodyStats,
+            data.bodyMassIndex,
+            data.bodyFatPercentage
+          ))
         );
   }
 }

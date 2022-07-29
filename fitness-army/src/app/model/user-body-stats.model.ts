@@ -9,7 +9,10 @@ export class UserBodyStats {
 
   constructor(bodyStats: BodyStatsInfo, bodyMassIndex?: BodyMassIndexStats, bodyFatPercentage?: BodyFatPercentage) {
     this.bodyStats = bodyStats;
-    this.bodyMassIndex = bodyMassIndex;
-    this.bodyFatPercentage = bodyFatPercentage;
+    this.bodyMassIndex =
+      new BodyMassIndexStats(bodyMassIndex?.bmi!, bodyMassIndex?.health!, bodyMassIndex?.healthyBmiRange!);
+    this.bodyFatPercentage =
+      new BodyFatPercentage(bodyFatPercentage?.bodyFatPercentage!,
+        bodyFatPercentage?.fatMassWeight!, bodyFatPercentage?.leanMassWeight!);
   }
 }

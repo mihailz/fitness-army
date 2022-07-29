@@ -4,6 +4,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserBodyStatsApiService} from "../../../../service/api/user-body-stats-api.service";
 import {ToastrService} from "ngx-toastr";
 import {UserBodyStats} from "../../../../model/user-body-stats.model";
+import {finalize} from "rxjs";
 
 @Component({
   selector: 'fitness-army-app-user-info',
@@ -14,11 +15,14 @@ export class UserInfoComponent implements OnInit {
 
   @Input() user!: User | null;
   userBodyStatsForm!: FormGroup;
-  bodyStats!: UserBodyStats | null;
-  displayBodyStats!: boolean;
+  userBodyStats!: UserBodyStats | null;
+  bodyMassChartData: Array<{ value: number | undefined, name: string }> = [];
+  fetchingData: boolean = false;
+  options: any;
 
   constructor(private userBodyStatsApiService: UserBodyStatsApiService,
-              private taostrService: ToastrService) { }
+              private taostrService: ToastrService) {
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -30,7 +34,7 @@ export class UserInfoComponent implements OnInit {
       Object.values(this.userBodyStatsForm.controls).forEach(control => {
         if (control.invalid) {
           control.markAsDirty();
-          control.updateValueAndValidity({ onlySelf: true });
+          control.updateValueAndValidity({onlySelf: true});
         }
       });
       return;
@@ -41,10 +45,12 @@ export class UserInfoComponent implements OnInit {
     const gender = this.userBodyStatsForm.get('gender')?.value;
 
     this.userBodyStatsApiService.createUserBodyStats(
-      {birthDate: dateOfBirth,
+      {
+        birthDate: dateOfBirth,
         weight: weight,
         height: height,
-        gender: gender}, this.user?.uid!
+        gender: gender
+      }, this.user?.uid!
     ).subscribe({
       next: (response: any) => {
         console.log('onUserProfileSave: ', response);
@@ -52,6 +58,11 @@ export class UserInfoComponent implements OnInit {
       },
       error: err => console.log(err)
     })
+  }
+
+  setUserGenderPhoto(): string {
+    return this.userBodyStats?.bodyStats?.gender === 'male' ?
+      './assets/images/male_user.jpg' : './assets/images/female_user.jpg';
   }
 
   private initForm(): void {
@@ -64,14 +75,66 @@ export class UserInfoComponent implements OnInit {
   }
 
   private fetchUserBodyStats(): void {
+    this.fetchingData = true;
     this.userBodyStatsApiService.getUserBodyStats(this.user?.uid!)
+      .pipe(
+        finalize(() => this.fetchingData = false)
+      )
       .subscribe({
         next: (bodyStats: UserBodyStats | null) => {
-          this.bodyStats = bodyStats;
-          this.displayBodyStats = !!bodyStats;
+          this.userBodyStats = bodyStats;
+          this.initBodyMassChart();
           console.log('fetchUserBodyStats: ', bodyStats);
         },
-        error: err => console.log(err)
+        error: err => {
+          this.fetchingData = false;
+          console.log(err)
+        }
       })
+  }
+
+  private initBodyMassChart(): void {
+    this.bodyMassChartData = [
+      {
+        value: this.userBodyStats?.bodyFatPercentage?.leanMassWeight,
+        name: "Lean mass"
+      },
+      {
+        value: this.userBodyStats?.bodyFatPercentage?.fatMassWeight,
+        name: "Fat mass"
+      },
+    ];
+    this.setOptions()
+  }
+
+  private setOptions() {
+    this.options = {
+      tooltip: {
+        trigger: 'item'
+      },
+      title: {
+        show: true,
+        text: "Body mass (kg)",
+        left: "35%",
+        top: "30"
+      },
+      area: {
+        prefix: "kg"
+      },
+      series: [
+        {
+          type: 'pie',
+          radius: '55%',
+          data: this.bodyMassChartData,
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          }
+        }
+      ]
+    };
   }
 }

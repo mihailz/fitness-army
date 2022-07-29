@@ -105,21 +105,24 @@ exports.postUpdateUser = (req: Request, res: Response) => {
       const updateUserPassword = req.query.update_password;
       const userId = req.params.user_id;
       const document = db.collection("users").doc(userId);
-      if (updateUserPassword) {
+      if (updateUserPassword === "true") {
+        console.log("updatedUserPass");
         await admin.auth().updateUser(userId, {
           displayName: req.body.displayName,
           email: req.body.email,
           password: req.body.password,
         });
+      } else {
+        await document.update({
+          displayName: req.body.displayName,
+          email: req.body.email,
+          role: req.body.role,
+          profileImage: req.body.profileImage,
+        });
       }
-      await document.update({
-        displayName: req.body.displayName,
-        email: req.body.email,
-        role: req.body.role,
-        profileImage: req.body.profileImage,
-      });
       return res.status(200).send({message: "User successfully updated!"});
     } catch (error) {
+      console.log(error);
       return res.status(500).send(error);
     }
   })();
