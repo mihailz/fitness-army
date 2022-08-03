@@ -12,10 +12,9 @@
 }
 
 .form {
-  width: 480px;
+  width: 100%;
   height: 100%;
   border-radius: 10px;
-  margin: 40px auto;
   background-color: $form-bg;
   padding: 40px;
   display: flex;
@@ -42,6 +41,13 @@
       border-radius: 8px;
       border: 1px solid $input-border;
     }
+  }
+
+  @media (min-width: 767.8px) {
+    width: 480px;
+    height: 100%;
+    margin: 40px auto;
+    justify-content: center;
   }
 
 }

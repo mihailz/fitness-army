@@ -4,7 +4,7 @@ export class BodyMassIndexStats {
   healthyBmiRange!: string;
 
   constructor(bmi: number, health: string, healthyBmiRange: string) {
-    this.bmi = parseFloat(bmi.toFixed(1));
+    this.bmi = bmi ? parseFloat(bmi.toFixed(1)) : bmi;
     this.health = health;
     this.healthyBmiRange = healthyBmiRange;
   }

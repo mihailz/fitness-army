@@ -105,6 +105,7 @@ exports.postUpdateUser = (req: Request, res: Response) => {
       const updateUserPassword = req.query.update_password;
       const userId = req.params.user_id;
       const document = db.collection("users").doc(userId);
+      console.log("postUpdateUser: ", req.body);
       if (updateUserPassword === "true") {
         console.log("updatedUserPass");
         await admin.auth().updateUser(userId, {

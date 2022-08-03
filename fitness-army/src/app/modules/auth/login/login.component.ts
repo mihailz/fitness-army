@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
     this.authApiService.login(email, password)
       .subscribe({
         next: (user: User) => {
+          console.log('login-user: ', user);
           if (this.isRememberMeChecked) {
             this.authApiService.saveUserInLocalStorage(user);
           }

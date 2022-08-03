@@ -54,10 +54,13 @@ exports.postUpdateUserBodyStats = (req: Request, res: Response) => {
       const userId = req.params.user_id;
       const document = db.collection("users").doc(userId)
           .collection("measurements").doc(userId);
-      await document.update({
+      const updatedBodyStats = {
         bodyStats: req.body.bodyStatsInfo,
         bodyMassIndex: req.body.bodyMassIndexInfo,
         bodyFatPercentage: req.body.bodyFatPercentageInfo,
+      };
+      await document.update({
+        userBodyStats: updatedBodyStats,
       });
       return res.status(200).send({
         message: "Measurement has been updated successfully!",

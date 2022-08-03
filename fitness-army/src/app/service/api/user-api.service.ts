@@ -38,7 +38,8 @@ export class UserApiService {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
-      role: user.role
+      role: user.role,
+      profileImage: user.profileImage
     });
   }
 
@@ -53,7 +54,7 @@ export class UserApiService {
         }),
         switchMap((downloadUrl: any) => {
           imageUrl = downloadUrl;
-          return from(this.db.collection('images').add( { downloadURL: downloadUrl, path }));
+          return from(this.db.collection('users').doc(uid).update( { profileImage: downloadUrl }));
         }),
         map(() => imageUrl)
       )
@@ -77,7 +78,6 @@ export class UserApiService {
     const params: Params = new HttpParams({
       fromObject: queryParam
     });
-    console.log('updateUser: ', user);
     return this.http.put(`${this.baseApiHref}/api/users/update-user/${user.uid}`, {
       displayName: user.displayName,
       email: user.email,

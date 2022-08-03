@@ -113,6 +113,12 @@
       }
     }
   }
+
+  .update-button-wrapper {
+    justify-content: flex-end;
+    display: flex;
+    padding-top: 20px;
+  }
 }
 
 @media(min-width: 992px) {
@@ -145,10 +151,11 @@
 
       .right {
         flex: 3;
-        padding-top: 12px;
+        padding: 12px;
         display: flex;
 
         .user-stats-form {
+          flex: 1;
           .action-button {
             display: flex;
             justify-content: flex-end;
@@ -160,7 +167,7 @@
 
   .user-stats-wrapper {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex: 1;
 
     .left-section {
@@ -221,6 +228,10 @@
           }
         }
       }
+    }
+
+    .update-button-wrapper {
+      padding-top: 0;
     }
   }
 }

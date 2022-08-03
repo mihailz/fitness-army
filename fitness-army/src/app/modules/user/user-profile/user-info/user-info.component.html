@@ -13,7 +13,7 @@
         <span class="user-email">{{user?.email}}</span>
       </div>
       <div class="right">
-        <ng-container *ngIf="!userBodyStats else bodyStats">
+        <ng-container *ngIf="!userBodyStats || editMode else bodyStats">
           <form nz-form [formGroup]="userBodyStatsForm" class="user-stats-form">
             <nz-form-item>
               <nz-form-label nzFor="birthDate">Date of birth</nz-form-label>
@@ -45,7 +45,9 @@
               </nz-form-control>
             </nz-form-item>
             <div class="action-button">
-              <button nz-button nzType="primary" (click)="onUserProfileSave()">Save</button>
+              <button nz-button nzType="primary" (click)="editMode ? onUserProfileUpdate()
+               : onUserProfileCreate()">{{editMode ? 'Update': 'Create'}}</button>
+              <button *ngIf="editMode" nz-button nzType="default" (click)="editMode = !editMode">Back</button>
             </div>
           </form>
         </ng-container>
@@ -57,41 +59,46 @@
 
 <ng-template #bodyStats>
   <div class="user-stats-wrapper">
-    <div class="left-section">
-      <div class="chart-wrapper">
-        <div echarts [options]="options"></div>
+    <div class="container">
+      <div class="left-section">
+        <div class="chart-wrapper">
+          <div echarts [options]="options"></div>
+        </div>
+        <p class="user-bfp">Body fat percentage: {{userBodyStats?.bodyFatPercentage?.bodyFatPercentage + ' %'}}</p>
       </div>
-      <p class="user-bfp">Body fat percentage: {{userBodyStats?.bodyFatPercentage?.bodyFatPercentage + ' %'}}</p>
-    </div>
-    <div class="right-section">
-      <div class="user-gender-image-wrapper">
-        <img [src]="setUserGenderPhoto()">
-        <span class="user-height">{{userBodyStats?.bodyStats?.height}} cm</span>
-      </div>
-      <div class="user-stats-data-wrapper">
-        <div class="user-stats-data">
-          <div class="user-stats-data-item">
-            <span class="user-stats-data-item-label">Age</span>
-            <span class="user-stats-data-item-value">{{userBodyStats?.bodyStats?.age}}</span>
-          </div>
-          <div class="user-stats-data-item">
-            <span class="user-stats-data-item-label">Current Weight</span>
-            <span class="user-stats-data-item-value">{{userBodyStats?.bodyStats?.weight + ' kg'}}</span>
-          </div>
-          <div class="user-stats-data-item">
-            <span class="user-stats-data-item-label">BMI</span>
-            <span class="user-stats-data-item-value">{{userBodyStats?.bodyMassIndex?.bmi + '%'}}</span>
-          </div>
-          <div class="user-stats-data-item">
-            <span class="user-stats-data-item-label">Health stats</span>
-            <span class="user-stats-data-item-value">{{userBodyStats?.bodyMassIndex?.health}}</span>
-          </div>
-          <div class="user-stats-data-item">
-            <span class="user-stats-data-item-label">Healthy BMI range</span>
-            <span class="user-stats-data-item-value">{{userBodyStats?.bodyMassIndex?.healthyBmiRange}}</span>
+      <div class="right-section">
+        <div class="user-gender-image-wrapper">
+          <img [src]="setUserGenderPhoto()">
+          <span class="user-height">{{userBodyStats?.bodyStats?.height}} cm</span>
+        </div>
+        <div class="user-stats-data-wrapper">
+          <div class="user-stats-data">
+            <div class="user-stats-data-item">
+              <span class="user-stats-data-item-label">Age</span>
+              <span class="user-stats-data-item-value">{{userBodyStats?.bodyStats?.age}}</span>
+            </div>
+            <div class="user-stats-data-item">
+              <span class="user-stats-data-item-label">Current Weight</span>
+              <span class="user-stats-data-item-value">{{userBodyStats?.bodyStats?.weight + ' kg'}}</span>
+            </div>
+            <div class="user-stats-data-item">
+              <span class="user-stats-data-item-label">BMI</span>
+              <span class="user-stats-data-item-value">{{userBodyStats?.bodyMassIndex?.bmi + '%'}}</span>
+            </div>
+            <div class="user-stats-data-item">
+              <span class="user-stats-data-item-label">Health stats</span>
+              <span class="user-stats-data-item-value">{{userBodyStats?.bodyMassIndex?.health}}</span>
+            </div>
+            <div class="user-stats-data-item">
+              <span class="user-stats-data-item-label">Healthy BMI range</span>
+              <span class="user-stats-data-item-value">{{userBodyStats?.bodyMassIndex?.healthyBmiRange}}</span>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="update-button-wrapper">
+      <button class="update-button" nz-button nzType="primary" (click)="enterEditMode()">Update body stats</button>
     </div>
   </div>
 </ng-template>

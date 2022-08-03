@@ -10,12 +10,16 @@
     }
 
     .header {
-      font-size: 40px;
+      font-size: 26px;
       font-family: 'Montserrat', sans-serif;
       font-weight: bold;
       text-transform: uppercase;
       text-align: center;
       color: #303030;
+
+      @media(min-width: 767.8px) {
+        font-size: 40px;
+      }
     }
 
     p {
