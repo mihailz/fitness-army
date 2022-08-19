@@ -1,0 +1,23 @@
+<a class="card" [routerLink]="['details', blog.id]">
+  <div class="thumb">
+    <img [src]="blog.imageUrl">
+  </div>
+  <div class="short-content">
+    {{blog.content[0].content.substring(0, 200)}}
+  </div>
+  <article>
+    <h1>{{blog.title}}</h1>
+    <div class="wrapper">
+      <span>{{blog.author.displayName}}</span>
+      <div class="blog-category-wrapper">
+        <div class="blog-category"
+             [class.fitness]="blog.category === blogCategories.FITNESS"
+             [class.motivation]="blog.category === blogCategories.MOTIVATION"
+             [class.food]="blog.category === blogCategories.FOOD">
+          {{blog.category}}
+        </div>
+      </div>
+    </div>
+  </article>
+</a>
+

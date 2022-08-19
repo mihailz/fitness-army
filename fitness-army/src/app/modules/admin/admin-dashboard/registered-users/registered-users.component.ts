@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {UserApiService} from "../../../service/api/user-api.service";
-import {User} from "../../../model/user.model";
+import {UserApiService} from "../../../../service/api/user-api.service";
+import {User} from "../../../../model/user.model";
 import {finalize} from "rxjs";
-import {TableColumn} from "../../../model/table-column";
+import {TableColumn} from "../../../../model/table-column";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 

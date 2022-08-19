@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ControlContainer, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'fitness-army-app-image-uploader',
@@ -7,12 +8,14 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 })
 export class ImageUploaderComponent implements OnInit {
 
-  @Input() fileName!: string;
+  @Input() controlName!: string;
   @Output() selectedImage: EventEmitter<File> = new EventEmitter<File>();
+  parentFormGroup!: any;
 
-  constructor() { }
+  constructor(private controlContainer: ControlContainer) { }
 
   ngOnInit(): void {
+    this.parentFormGroup = this.controlContainer.control;
   }
 
   processFile(imageInput: Event): void {

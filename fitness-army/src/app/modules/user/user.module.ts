@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {UserProfileComponent} from './user-profile/user-profile.component';
-import {UpdateUserComponent} from './update-user/update-user.component';
 import {UserRoutingModule} from "./user-routing.module";
 import {NzTabsModule} from "ng-zorro-antd/tabs";
 import {UserInfoComponent} from './user-profile/user-info/user-info.component';
@@ -21,7 +20,6 @@ import * as echarts from 'echarts';
 @NgModule({
   declarations: [
     UserProfileComponent,
-    UpdateUserComponent,
     UserInfoComponent,
     BmiCalculatorComponent
   ],

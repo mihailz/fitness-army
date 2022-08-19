@@ -4,7 +4,7 @@ import {AuthApiService} from "../../../service/api/auth-api.service";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import {UserApiService} from "../../../service/api/user-api.service";
-import {map, switchMap, tap} from "rxjs";
+import {map, switchMap} from "rxjs";
 import {User} from "../../../model/user.model";
 
 @Component({
@@ -88,7 +88,7 @@ export class SignUpComponent implements OnInit {
       });
   }
 
-  uploadImage(file: File): void {
+  onImageSelect(file: File): void {
     this.profileImage = file;
   }
 
@@ -97,7 +97,8 @@ export class SignUpComponent implements OnInit {
       userName: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, this.validatePassword]),
-      confirmPassword: new FormControl('', Validators.required)
+      confirmPassword: new FormControl('', Validators.required),
+      profileImage: new FormControl('', [Validators.required])
     });
   }
 

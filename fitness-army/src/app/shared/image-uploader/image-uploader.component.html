@@ -1,5 +1,12 @@
 <div class="button-wrap">
-  <label class="button" for="upload">Upload Image</label>
-  <input id="upload" type="file" class="image-uploader"
-         (change)="processFile($event)" autocomplete="off" accept="image/*">
+  <form nz-form *ngIf="parentFormGroup" [formGroup]="parentFormGroup">
+    <nz-form-item>
+      <nz-form-label [nzFor]="controlName">Upload image</nz-form-label>
+      <nz-form-control nzHasFeedback nzErrorTip="Please pick an image">
+        <input nz-input [writeFile]="true" [id]="controlName" type="file" class="image-uploader"
+               [formControlName]="controlName"
+               (change)="processFile($event)" autocomplete="off" accept="image/*">
+      </nz-form-control>
+    </nz-form-item>
+  </form>
 </div>

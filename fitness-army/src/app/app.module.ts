@@ -22,6 +22,7 @@ import {FormsModule} from '@angular/forms';
 import {UserSettingsComponent} from './components/navbar/user-settings/user-settings.component';
 import {NzDropDownModule} from "ng-zorro-antd/dropdown";
 import {BmiApiInterceptor} from "./modules/user/user-profile/interceptor/bmi-api.interceptor";
+import {RoleGuard} from "./guard/role.guard";
 
 registerLocaleData(en);
 
@@ -59,6 +60,7 @@ registerLocaleData(en);
       multi: true
     },
     AuthGuard,
+    RoleGuard,
     {provide: NZ_I18N, useValue: en_US}
   ],
   bootstrap: [AppComponent]

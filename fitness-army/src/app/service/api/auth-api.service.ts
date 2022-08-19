@@ -10,6 +10,7 @@ import firebase from "firebase/compat";
 import {GoogleAuthProvider} from 'firebase/auth';
 import UserCredential = firebase.auth.UserCredential;
 import {UserApiService} from "./user-api.service";
+import {UserRoles} from "../../model/roles";
 
 @Injectable({
   providedIn: 'root'

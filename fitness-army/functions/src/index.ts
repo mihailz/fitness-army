@@ -18,8 +18,10 @@ admin.initializeApp({
 
 const userRoutes = require("./route/user-route");
 const userBodyStatsRoutes = require("./route/user-body-stats-route");
+const blogRoutes = require("./route/blog.route");
 
 app.use(userRoutes);
 app.use(userBodyStatsRoutes);
+app.use(blogRoutes);
 
 exports.app = functions.https.onRequest(app);

@@ -1,0 +1,40 @@
+.container {
+  padding: 30px 20px;
+
+  nz-spin {
+    margin-top: 80px;
+  }
+
+  nz-empty {
+    top: 80px;
+  }
+
+  .add-blog-button-wrapper {
+    .add-blog-button {
+      width: 100%;
+    }
+
+    @media(min-width: 474px) {
+      display: flex;
+      justify-content: flex-end;
+      .add-blog-button {
+        width: 120px;
+      }
+    }
+  }
+
+  .blogs-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    gap: 1rem;
+    padding-top: 20px;
+
+    @media (min-width: 600px) {
+       grid-template-columns: repeat(2, 1fr);
+    }
+    @media (min-width: 900px) {
+       grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}

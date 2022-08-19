@@ -1,0 +1,86 @@
+<div *nzModalTitle>
+  <p class="modal-title">Create blog</p>
+</div>
+<nz-spin [nzSpinning]="true" *ngIf="isCreatingBlog" [nzTip]="'Blog is creating...'"></nz-spin>
+<div *ngIf="!isCreatingBlog" class="modal-content">
+  <form nz-form [formGroup]="blogPostForm" class="create-blog-form">
+    <nz-form-item class="form-item">
+      <nz-form-label nzFor="title" class="form-label" [nzSpan]="24">Title</nz-form-label>
+      <nz-form-control [nzSpan]="24" nzHasFeedback nzErrorTip="Please enter an title">
+        <input class="input" nz-input id="title" type="text" formControlName="title">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="form-item">
+      <nz-form-label [nzSpan]="24" nzFor="content" class="form-label content-label">Content</nz-form-label>
+      <nz-form-label [nzSpan]="24" class="paragraph-title-label">Paragraph title</nz-form-label>
+      <nz-form-control [nzSpan]="24">
+        <input #paragraphTitle class="input" nz-input type="text">
+      </nz-form-control>
+      <nz-form-label [nzSpan]="24">Paragraph content</nz-form-label>
+      <nz-form-control [nzSpan]="24">
+        <textarea #paragraphContent [nzAutosize]="true" class="input" nz-input></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button nzType="primary"
+                (click)="addParagraphToBlogContent(paragraphTitle.value, paragraphContent.value)">Add paragraph
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+    <div *ngIf="blogContent.controls.length" class="blog-content-preview-wrapper">
+      <div class="blog-paragraph" *ngFor="let paragraph of blogContent.controls; index as id">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24">Paragraph title</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <input [disabled]="!paragraph.get('isUpdating')?.value" #updatedTitle nz-input
+                   [value]="paragraph.get('title')?.value">
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24">Paragraph content</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <textarea [disabled]="!paragraph.get('isUpdating')?.value" #updatedContent nz-input
+                      [value]="paragraph.get('content')?.value"></textarea>
+          </nz-form-control>
+        </nz-form-item>
+        <div class="paragraph-action-buttons">
+          <ng-container *ngIf="!paragraph.get('isUpdating')?.value else updateBlogParagraphButtons">
+            <button nz-button nzType="primary"
+                    (click)="enterInEditMode(id)">Edit
+            </button>
+            <button nz-button nzType="default" (click)="deleteBlogParagraph(id)" class="delete-button">Delete</button>
+          </ng-container>
+          <ng-template #updateBlogParagraphButtons>
+            <button nz-button nzType="primary"
+                    (click)="editBlogParagraph(id, updatedTitle.value, updatedContent.value)">Update
+            </button>
+            <button nz-button nzType="primary" class="back-button"
+                    (click)="exitEditMode(id)">Back
+            </button>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <nz-form-item class="form-item">
+      <nz-form-label [nzSpan]="24" nzFor="category">Category</nz-form-label>
+      <nz-form-control [nzSpan]="24" nzHasFeedback nzErrorTip="Please pick category">
+        <nz-select formControlName="category">
+          <nz-option *ngFor="let type of blogTypes" [nzValue]="type" [nzLabel]="type"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="form-item">
+      <nz-form-control>
+        <fitness-army-app-image-uploader [controlName]="'blogImage'"
+                                         (selectedImage)="onImageSelect($event)"></fitness-army-app-image-uploader>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>
+
+<div *nzModalFooter>
+  <button nz-button nzType="default" (click)="closeModal()">Close</button>
+  <button nz-button nzType="primary" (click)="onCreateBlog()">Create blog</button>
+</div>
+

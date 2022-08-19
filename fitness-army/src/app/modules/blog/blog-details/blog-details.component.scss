@@ -1,0 +1,98 @@
+.blog-details-container {
+  .blog-details-wrapper {
+    background-color: #f8fbfe;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 30px;
+    padding-left: 12px;
+    padding-right: 12px;
+    position: relative;
+
+    .back-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 20px;
+      background-color: #3CB8FF;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 8px;
+      i {
+        color: white;
+        font-weight: bolder;
+      }
+    }
+
+    nz-spin {
+      padding-top: 130px;
+      width: 120px;
+    }
+
+    .header-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: 'Montserrat', sans-serif;
+
+      .blog-category {
+        color: white;
+        font-weight: bolder;
+        padding: 4px;
+        width: 100px;
+        display: flex;
+        border-radius: 3px;
+        justify-content: center;
+
+        &.fitness {
+          background-color: mediumseagreen;
+        }
+
+        &.motivation {
+          background-color: red;
+        }
+
+        &.food {
+          background-color: #3CB8FF;
+        }
+      }
+
+      .blog-title {
+        text-align: center;
+      }
+    }
+
+    .image-section {
+      padding-top: 12px;
+      width: 100%;
+
+      img {
+        width: 100%;
+      }
+    }
+
+    .blog-content-container {
+      padding-top: 30px;
+      font-family: 'Montserrat', sans-serif;
+
+      .main-title {
+        padding-top: 22px;
+      }
+    }
+  }
+
+  @media(min-width: 768px) {
+    display: flex;
+    justify-content: center;
+
+    .blog-details-wrapper {
+      width: 70%;
+      margin-top: 30px;
+      margin-bottom: 30px;
+      padding: 30px;
+    }
+  }
+}
