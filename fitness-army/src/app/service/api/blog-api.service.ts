@@ -32,6 +32,17 @@ export class BlogApiService {
     );
   }
 
+  updateBlogPost(blog: Blog, imageFile: File): Observable<any> {
+    return this.uploadBlogImage(imageFile, blog.id!)
+      .pipe(
+        switchMap((blogImageUrl: string) => {
+          return this.http.put(`${this.baseApiHref}/api/blogs/update/${blog.id}`, {
+            blog: {...blog, imageUrl: blogImageUrl}
+          });
+        })
+      )
+  }
+
   uploadBlogImage(file: File, blogId: string): Observable<string> {
     const path = `${blogId}`;
     const ref = this.storage.ref(path);
