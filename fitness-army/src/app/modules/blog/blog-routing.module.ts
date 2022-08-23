@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {Route, RouterModule} from "@angular/router";
 import {BlogsWrapperComponent} from "./blogs-wrapper/blogs-wrapper.component";
 import {BlogDetailsComponent} from "./blog-details/blog-details.component";
+import {UpdateBlogComponent} from "./update-blog/update-blog.component";
 
 const routes: Route[] = [
   {
@@ -12,6 +13,10 @@ const routes: Route[] = [
   {
     path: 'details/:id',
     component: BlogDetailsComponent
+  },
+  {
+    path: 'update/:id',
+    component: UpdateBlogComponent
   }
 ];
 

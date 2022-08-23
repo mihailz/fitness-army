@@ -1,0 +1,67 @@
+<div class="update-blog-form-container">
+  <nz-spin [nzSpinning]="true" [nzTip]="nzTipMessage" *ngIf="isFetchingData"></nz-spin>
+  <ng-container *ngIf="!isFetchingData">
+    <h1 class="page-title">Update blog</h1>
+    <form nz-form [formGroup]="updateBlogForm" class="update-blog-form">
+      <div class="main-area">
+        <div class="left-section">
+          <nz-form-item class="form-item">
+            <nz-form-label nzFor="title" class="form-label" [nzSpan]="24">Title</nz-form-label>
+            <nz-form-control [nzSpan]="24" nzHasFeedback nzErrorTip="Please enter an title">
+              <input class="input" nz-input id="title" type="text" formControlName="title">
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item class="form-item">
+            <nz-form-label [nzSpan]="24" nzFor="category">Category</nz-form-label>
+            <nz-form-control [nzSpan]="24" nzHasFeedback nzErrorTip="Please pick category">
+              <nz-select formControlName="category">
+                <nz-option *ngFor="let type of blogTypes" [nzValue]="type" [nzLabel]="type"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <div class="blog-image-wrapper">
+            <img [src]="uploadedImageUrl ? uploadedImageUrl : blog.imageUrl" alt="Blog image">
+          </div>
+          <nz-form-item class="form-item">
+            <nz-form-control>
+              <fitness-army-app-image-uploader [controlName]="'blogImage'"
+                                               (selectedImage)="onImageSelect($event)"></fitness-army-app-image-uploader>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="right-section">
+          <div class="section-heading">
+            <h3 class="blog-content-section-title">Blog content</h3>
+            <button class="add-paragraph-button" nz-button nzType="primary" (click)="openAddParagraphModal()">Add
+              paragraph
+            </button>
+          </div>
+          <div formArrayName="content" class="blog-content-container">
+            <div class="content-item" *ngFor="let contentForm of blogContent.controls; let id = index">
+              <nz-form-item [formGroupName]="id">
+                <nz-form-label [nzSpan]="24">Title</nz-form-label>
+                <nz-form-control [nzSpan]="24">
+                  <input nz-input formControlName="title">
+                </nz-form-control>
+                <nz-form-label [nzSpan]="24">Content</nz-form-label>
+                <nz-form-control [nzSpan]="24">
+                  <textarea nz-input formControlName="content"></textarea>
+                </nz-form-control>
+              </nz-form-item>
+              <nz-form-item>
+                <nz-form-control [nzSpan]="24">
+                  <button nz-button nzType="default" class="paragraph-delete-button" (click)="deleteParagraph(id)">
+                    Delete
+                  </button>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="action-buttons">
+        <button class="update-button" nz-button nzType="primary" (click)="updateBlog()">Update</button>
+      </div>
+    </form>
+  </ng-container>
+</div>

@@ -16,13 +16,17 @@ import { BlogComponent } from './blogs-wrapper/blog/blog.component';
 import {NzSpinModule} from "ng-zorro-antd/spin";
 import {NzEmptyModule} from "ng-zorro-antd/empty";
 import { BlogDetailsComponent } from './blog-details/blog-details.component';
+import { UpdateBlogComponent } from './update-blog/update-blog.component';
+import { AddParagraphModalComponent } from './add-paragraph-modal/add-paragraph-modal.component';
 
 @NgModule({
   declarations: [
     BlogsWrapperComponent,
     CreateBlogModalComponent,
     BlogComponent,
-    BlogDetailsComponent
+    BlogDetailsComponent,
+    UpdateBlogComponent,
+    AddParagraphModalComponent
   ],
   imports: [
     CommonModule,
