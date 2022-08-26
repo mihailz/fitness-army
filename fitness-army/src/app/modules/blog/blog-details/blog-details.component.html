@@ -3,41 +3,46 @@
     <a class="back-button" (click)="navigateToBlogsPage()">
       <i nz-icon nzType="left" nzTheme="outline"></i>
     </a>
-  <nz-spin *ngIf="isFetchingData" [nzSpinning]="true" [nzTip]="'Loading blog...'"></nz-spin>
-  <ng-container *ngIf="!isFetchingData">
-    <div class="header-section">
-      <div class="blog-category"
-           [class.fitness]="blog.category === blogCategories.FITNESS"
-           [class.motivation]="blog.category === blogCategories.MOTIVATION"
-           [class.food]="blog.category === blogCategories.FOOD">
-        {{blog.category}}
+    <nz-spin *ngIf="isFetchingData" [nzSpinning]="true" [nzTip]="'Loading blog...'"></nz-spin>
+    <ng-container *ngIf="!isFetchingData">
+      <div class="header-section">
+        <div class="blog-category"
+             [class.fitness]="blog.category === blogCategories.FITNESS"
+             [class.motivation]="blog.category === blogCategories.MOTIVATION"
+             [class.food]="blog.category === blogCategories.FOOD">
+          {{blog.category}}
+        </div>
+        <h1 class="blog-title">{{blog.title}}</h1>
+        <div class="blog-time-posted-and-author">
+          <span class="date-posted">Posted on {{blog.dateCreated | date}} | </span>
+          <span class="blog-author">by {{blog.author.displayName}}</span>
+        </div>
       </div>
-      <h1 class="blog-title">{{blog.title}}</h1>
-      <div class="blog-time-posted-and-author">
-        <span class="date-posted">Posted on {{blog.dateCreated | date}} | </span>
-        <span class="blog-author">by {{blog.author.displayName}}</span>
+      <div class="image-section">
+        <img class="blog-image" [src]="blog.imageUrl" alt="">
       </div>
-    </div>
-    <div class="image-section">
-      <img class="blog-image" [src]="blog.imageUrl" alt="">
-    </div>
-    <div class="blog-content-container">
-      <div *ngFor="let contentItem of blog.content" class="content-item">
-        <ng-container *ngIf="contentItem.title && !contentItem.content else subTitle">
-          <h1 class="main-title">
-            {{contentItem.title}}
-          </h1>
-        </ng-container>
-        <ng-template #subTitle>
-          <h2 class="sub-title">
-            {{contentItem.title}}
-          </h2>
-        </ng-template>
-        <p class="paragraph-content">
-          {{contentItem.content}}
-        </p>
+      <div class="blog-content-container">
+        <div *ngFor="let contentItem of blog.content" class="content-item">
+          <ng-container *ngIf="contentItem.title && !contentItem.content else subTitle">
+            <h1 class="main-title">
+              {{contentItem.title}}
+            </h1>
+          </ng-container>
+          <ng-template #subTitle>
+            <h2 class="sub-title">
+              {{contentItem.title}}
+            </h2>
+          </ng-template>
+          <p class="paragraph-content">
+            {{contentItem.content}}
+          </p>
+        </div>
       </div>
-    </div>
-  </ng-container>
+      <div class="update-button-wrapper">
+        <button class="go-to-update-blog-button" nzSize="large" nz-button nzType="primary"
+                (click)="navigateToUpdateBlogPage()">Update
+        </button>
+      </div>
+    </ng-container>
   </div>
 </div>

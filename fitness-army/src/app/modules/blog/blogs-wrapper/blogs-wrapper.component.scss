@@ -23,18 +23,32 @@
     }
   }
 
-  .blogs-grid {
+  .content-container {
     max-width: 1200px;
     margin: 0 auto;
-    display: grid;
-    gap: 1rem;
-    padding-top: 20px;
 
-    @media (min-width: 600px) {
-       grid-template-columns: repeat(2, 1fr);
-    }
-    @media (min-width: 900px) {
-       grid-template-columns: repeat(3, 1fr);
+    .blogs-grid-container {
+      .add-blog-post-button-wrapper {
+        display: flex;
+        justify-content: center;
+        padding-top: 16px;
+        padding-bottom: 16px;
+        @media(min-width: 768px) {
+          justify-content: flex-end;
+        }
+      }
+
+      .blogs-grid {
+        display: grid;
+        gap: 1rem;
+        @media (min-width: 600px) {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (min-width: 900px) {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
     }
   }
 }

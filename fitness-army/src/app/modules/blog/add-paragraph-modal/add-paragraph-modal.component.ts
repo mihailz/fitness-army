@@ -33,6 +33,7 @@ export class AddParagraphModalComponent implements OnInit {
     this.blogService.setBlogParagraph(new BlogParagraph(
       title, content
     ));
+    this.closeModal();
   }
 
   private initParagraphForm(): void {
@@ -40,6 +41,5 @@ export class AddParagraphModalComponent implements OnInit {
       title: this.fb.control('', []),
       content: this.fb.control('', [])
     });
-    this.closeModal();
   }
 }

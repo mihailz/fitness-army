@@ -60,8 +60,9 @@ export class BlogApiService {
       )
   }
 
-  getBlogPosts(): Observable<Blog[]> {
-    return this.http.get(`${this.baseApiHref}/api/blogs`)
+  getBlogPosts(category?: string): Observable<Blog[]> {
+    const url = category ? `${this.baseApiHref}/api/blogs?category=${category}` : `${this.baseApiHref}/api/blogs`;
+    return this.http.get(url)
       .pipe(
         map((response: any) => response.data
           .map((blogItem: any) =>

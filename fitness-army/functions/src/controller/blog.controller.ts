@@ -30,10 +30,56 @@ exports.getBlogs = (req: Request, res: Response) => {
   (async () => {
     try {
       const blogsCollection = db.collection("blogs");
-      const blogs: BlogPostModelDto[] = [];
+      const category = req.query.category;
+      let blogs: BlogPostModelDto[] = [];
       await blogsCollection.get()
           .then((blogsSnapshot: any) => {
-            const documents = blogsSnapshot.docs;
+            let documents;
+            if (category && category !== "ALL") {
+              documents = blogsSnapshot.docs.filter((document: any) => {
+                return document.data().category === category;
+              });
+              blogs = mapBlogsData(documents);
+            } else {
+              documents = blogsSnapshot.docs;
+              blogs = mapBlogsData(documents);
+            }
+          });
+      return res.status(200)
+          .send(
+              {data: blogs}
+          );
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(error);
+    }
+  })();
+};
+
+function mapBlogsData(documents: any): BlogPostModelDto[] {
+  return documents.map((document: any) => new BlogPostModelDto(
+      document.data().id,
+      document.data().author,
+      document.data().title,
+      document.data().content,
+      document.data().category,
+      document.data().dateCreated,
+      document.data().imageUrl,
+  ));
+}
+
+exports.getBlogPostsByCategory = (req: Request, res: Response) => {
+  (async () => {
+    try {
+      const blogsCollection = db.collection("blogs");
+      const category = req.query.category;
+      const blogs: BlogPostModelDto[] = [];
+      await blogsCollection.get()
+          .then((blogsSnapShop: any) => {
+            const documents = blogsSnapShop.docs.filter((document: any) => {
+              return document.data().category === category;
+            });
+            console.log("filteredDocuments: ", documents);
             for (const document of documents) {
               blogs.push(new BlogPostModelDto(
                   document.data().id,
@@ -46,10 +92,9 @@ exports.getBlogs = (req: Request, res: Response) => {
               ));
             }
           });
-      return res.status(200)
-          .send(
-              {data: blogs}
-          );
+      return res.status(200).send(
+          {data: blogs}
+      );
     } catch (error) {
       console.log(error);
       return res.status(500).send(error);

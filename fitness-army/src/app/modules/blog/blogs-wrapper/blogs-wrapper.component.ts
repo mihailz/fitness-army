@@ -1,13 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NzModalService} from "ng-zorro-antd/modal";
-import {CreateBlogModalComponent} from "./create-blog-modal/create-blog-modal.component";
 import {BlogApiService} from "../../../service/api/blog-api.service";
 import {Blog} from "../../../model/blog";
-import {finalize, Subscription} from "rxjs";
+import {finalize, fromEvent, Subscription} from "rxjs";
 import {AuthApiService} from "../../../service/api/auth-api.service";
 import {User} from "../../../model/user.model";
-import {UserRoles} from "../../../model/roles";
 import {BlogService} from "../../../service/data/blog.service";
+import {UserRoles} from "../../../model/roles";
+import {CreateBlogModalComponent} from "./create-blog-modal/create-blog-modal.component";
 
 @Component({
   selector: 'fitness-army-app-blogs-wrapper',
@@ -17,6 +17,7 @@ import {BlogService} from "../../../service/data/blog.service";
 export class BlogsWrapperComponent implements OnInit, OnDestroy {
 
   blogs: Blog[] = [];
+  filteredBlogs: Blog[] = [];
   isFetchingData: boolean = false;
   loggedInUser!: User | null;
   userRoles = UserRoles;
@@ -38,12 +39,6 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
     this.subscriptions?.unsubscribe();
   }
 
-  openCreateBlogModal(): void {
-    this.nzModalService.create({
-      nzContent: CreateBlogModalComponent,
-    })
-  }
-
   fetchBlogs(): void {
     this.isFetchingData = true;
     this.blogApiService.getBlogPosts()
@@ -53,12 +48,20 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response: Blog[]) => {
           this.blogs = response;
+          this.filteredBlogs = [...this.blogs];
         },
         error: (err) => {
           console.log(err);
           this.isFetchingData = false;
         }
       })
+  }
+
+  openCreateBlogModal(): void {
+    this.nzModalService.create({
+      nzContent: CreateBlogModalComponent,
+      nzFooter: null,
+    })
   }
 
   private getCurrentLoggedInUser(): void {
@@ -83,6 +86,29 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
         }
       });
     this.subscriptions.add(subscription);
+  }
+
+  onSearchBlogs(searchValue: string): void {
+    this.filteredBlogs = this.blogs.filter((blog: Blog) => {
+      return blog.title.toLowerCase().includes(searchValue.toLowerCase());
+    });
+  }
+
+  onCategorySelect(selectedCategory: string): void {
+    this.isFetchingData = true;
+    this.blogApiService.getBlogPosts(selectedCategory)
+      .pipe(
+        finalize(() => this.isFetchingData = false)
+      ).subscribe({
+      next: (blogs: Blog[]) => {
+        this.filteredBlogs = blogs;
+      },
+      error: (error) => {
+        console.log(error);
+        this.isFetchingData = false;
+      }
+    })
+
   }
 }
 

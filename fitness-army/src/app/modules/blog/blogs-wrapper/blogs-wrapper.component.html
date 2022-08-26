@@ -1,16 +1,28 @@
 <div class="container">
-  <ng-container *ngIf="loggedInUser?.role === userRoles.ADMIN || loggedInUser?.role === userRoles.COACH">
-    <div class="add-blog-button-wrapper">
-      <button class="add-blog-button" nz-button nzType="primary" (click)="openCreateBlogModal()">Add blog post</button>
-    </div>
-  </ng-container>
   <nz-spin [nzSpinning]="true" [nzSize]="'large'" *ngIf="isFetchingData" [nzTip]="'Fetching blogs...'"></nz-spin>
   <ng-container *ngIf="(!isFetchingData && !blogs.length) else blogsContainer">
     <nz-empty [nzNotFoundContent]="'There are no blogs found!'"></nz-empty>
   </ng-container>
   <ng-template #blogsContainer>
-    <div class="blogs-grid" *ngIf="!isFetchingData">
-      <fitness-army-app-blog *ngFor="let blog of blogs" [blog]="blog"></fitness-army-app-blog>
-    </div>
+    <ng-container *ngIf="!isFetchingData">
+      <div class="content-container">
+        <div class="blogs-filter-container">
+          <fitness-army-app-blogs-filter (onCategorySelect)="onCategorySelect($event)"
+                                         (onSearchBlogs)="onSearchBlogs($event)"
+                                         [userRole]="loggedInUser?.role!"></fitness-army-app-blogs-filter>
+        </div>
+        <div class="blogs-grid-container">
+          <ng-container *ngIf="loggedInUser?.role === userRoles.ADMIN || loggedInUser?.role === userRoles.COACH">
+            <div class="add-blog-post-button-wrapper">
+              <button class="add-blog-button" nz-button nzType="primary" (click)="openCreateBlogModal()">Add blog post
+              </button>
+            </div>
+          </ng-container>
+          <div class="blogs-grid">
+            <fitness-army-app-blog *ngFor="let blog of filteredBlogs" [blog]="blog"></fitness-army-app-blog>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </ng-template>
 </div>

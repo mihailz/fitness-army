@@ -33,6 +33,10 @@ export class BlogDetailsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/blogs']);
   }
 
+  navigateToUpdateBlogPage(): void {
+    this.router.navigate([`/blogs/update/${this.blog.id}`]);
+  }
+
   private fetchCurrentBlog(): void {
     this.isFetchingData = true;
       this.activatedRoute.params

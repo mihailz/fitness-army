@@ -1,0 +1,25 @@
+.blogs-filters-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid gray;
+
+  .blogs-filter-item {
+    margin: 8px;
+  }
+}
+
+@media (min-width: 767.8px) {
+  .blogs-filters-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+
+    .blogs-filter-item {
+      margin: 8px;
+    }
+  }
+}
