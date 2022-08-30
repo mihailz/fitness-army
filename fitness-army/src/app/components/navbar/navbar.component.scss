@@ -1,11 +1,13 @@
 .top-nav {
+  position: fixed;
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  background: #3CB8FF;
-  height: 70px;
   padding: 1em;
+  z-index: 1;
+  background-color: #3CB8FF;
 
   .user-dropdown {
     cursor: pointer;
