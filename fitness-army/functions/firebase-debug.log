@@ -1,0 +1,116 @@
+[debug] [2022-08-30T16:08:59.783Z] ----------------------------------------------------------------------
+[debug] [2022-08-30T16:08:59.784Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\mzafirovski\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start --only functions
+[debug] [2022-08-30T16:08:59.785Z] CLI Version:   11.2.1
+[debug] [2022-08-30T16:08:59.785Z] Platform:      win32
+[debug] [2022-08-30T16:08:59.785Z] Node Version:  v16.15.1
+[debug] [2022-08-30T16:08:59.785Z] Time:          Tue Aug 30 2022 18:08:59 GMT+0200 (Central European Summer Time)
+[debug] [2022-08-30T16:08:59.786Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-08-30T16:08:59.831Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-08-30T16:08:59.831Z] > authorizing via signed-in user (mihailzafirovski@gmail.com)
+[info] i  emulators: Starting emulators: functions {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: functions"}}
+[debug] [2022-08-30T16:08:59.859Z] [hub] writing locator at C:\Users\MZAFIR~1\AppData\Local\Temp\hub-fitness-army.json
+[warn] !  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: auth, firestore, database, hosting, pubsub, storage {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mauth, firestore, database, hosting, pubsub, storage\u001b[22m"}}
+[info] +  functions: Using node@16 from host. {"metadata":{"emulator":{"name":"functions"},"message":"Using node@16 from host."}}
+[debug] [2022-08-30T16:08:59.991Z] defaultcredentials: writing to file C:\Users\mzafirovski\AppData\Roaming\firebase\mihailzafirovski_gmail_com_application_default_credentials.json
+[debug] [2022-08-30T16:08:59.992Z] Setting GAC to C:\Users\mzafirovski\AppData\Roaming\firebase\mihailzafirovski_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\mzafirovski\\AppData\\Roaming\\firebase\\mihailzafirovski_gmail_com_application_default_credentials.json"}}
+[debug] [2022-08-30T16:08:59.994Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army/adminSdkConfig [none]
+[debug] [2022-08-30T16:09:00.556Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army/adminSdkConfig 200
+[debug] [2022-08-30T16:09:00.556Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army/adminSdkConfig {"projectId":"fitness-army","databaseURL":"https://fitness-army-default-rtdb.europe-west1.firebasedatabase.app","storageBucket":"fitness-army.appspot.com","locationId":"europe-west"}
+[debug] [2022-08-30T16:09:00.568Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2022-08-30T16:09:00.569Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2022-08-30T16:09:00.569Z] Starting Emulator UI with command {"binary":"node","args":["--dns-result-order=ipv4first","C:\\Users\\mzafirovski\\.cache\\firebase\\emulators\\ui-v1.7.0\\server.bundle.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"--dns-result-order=ipv4first\",\"C:\\\\Users\\\\mzafirovski\\\\.cache\\\\firebase\\\\emulators\\\\ui-v1.7.0\\\\server.bundle.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
+[info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
+[debug] [2022-08-30T16:09:00.651Z] Web / API server started at localhost:4000
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at localhost:4000\n"}}
+[info] i  functions: Watching "C:\Users\mzafirovski\WebstormProjects\fitness-army\fitness-army\functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"C:\\Users\\mzafirovski\\WebstormProjects\\fitness-army\\fitness-army\\functions\" for Cloud Functions..."}}
+[debug] [2022-08-30T16:09:00.862Z] Validating nodejs source
+[debug] [2022-08-30T16:09:02.921Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^10.0.2",
+    "firebase-functions": "^3.18.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^0.2.0",
+    "typescript": "^4.5.4"
+  },
+  "private": true
+}
+[debug] [2022-08-30T16:09:02.921Z] Building nodejs source
+[debug] [2022-08-30T16:09:02.922Z] Analyzing nodejs backend spec
+[debug] [2022-08-30T16:09:02.922Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-08-30T16:09:03.095Z] Serving at port 9006
+
+[debug] [2022-08-30T16:09:03.195Z] Got response from /__/functions.yaml {"endpoints":{"app":{"platform":"gcfv1","httpsTrigger":{},"entryPoint":"app"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-08-30T16:09:03.199Z] shutdown requested via /__/quitquitquit
+
+[info] +  functions[us-central1-app]: http function initialized (http://localhost:5001/fitness-army/us-central1/app). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://localhost:5001/fitness-army/us-central1/app)."}}
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://localhost:4000                │
+└─────────────────────────────────────────────────────────────┘
+
+┌───────────┬────────────────┬─────────────────────────────────┐
+│ Emulator  │ Host:Port      │ View in Emulator UI             │
+├───────────┼────────────────┼─────────────────────────────────┤
+│ Functions │ localhost:5001 │ http://localhost:4000/functions │
+└───────────┴────────────────┴─────────────────────────────────┘
+  Emulator Hub running at localhost:4400
+  Other reserved ports: 4500
+
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
+[debug] [2022-08-30T16:09:19.564Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2022-08-30T16:09:19.565Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2022-08-30T16:09:19.565Z] Accepted request POST /fitness-army/us-central1/app/api/coaches/create --> us-central1-app
+[debug] [2022-08-30T16:09:19.572Z] [worker-pool] addWorker(us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(us-central1-app)"}}
+[debug] [2022-08-30T16:09:19.573Z] [worker-pool] Adding worker with key us-central1-app, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key us-central1-app, total=1"}}
+[debug] [2022-08-30T16:09:19.573Z] [worker-pool] submitWork(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitWork(triggerId=us-central1-app)"}}
+[debug] [2022-08-30T16:09:19.573Z] [worker-us-central1-app-b5c66936-1254-492e-a0a0-bbabbbe05d2b]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-b5c66936-1254-492e-a0a0-bbabbbe05d2b]: BUSY"}}
+[debug] [2022-08-30T16:09:20.477Z] [runtime-status] [9596] Functions runtime initialized. {"cwd":"C:\\Users\\mzafirovski\\WebstormProjects\\fitness-army\\fitness-army\\functions","node_version":"16.15.1"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[runtime-status] [9596] Functions runtime initialized. {\"cwd\":\"C:\\\\Users\\\\mzafirovski\\\\WebstormProjects\\\\fitness-army\\\\fitness-army\\\\functions\",\"node_version\":\"16.15.1\"}"}}
+[debug] [2022-08-30T16:09:20.477Z] [runtime-status] [9596] Disabled runtime features: undefined {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[runtime-status] [9596] Disabled runtime features: undefined"}}
+[debug] [2022-08-30T16:09:20.480Z] [runtime-status] [9596] Resolved module firebase-admin {"declared":true,"installed":true,"version":"10.3.0","resolution":"C:\\Users\\mzafirovski\\WebstormProjects\\fitness-army\\fitness-army\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[runtime-status] [9596] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"10.3.0\",\"resolution\":\"C:\\\\Users\\\\mzafirovski\\\\WebstormProjects\\\\fitness-army\\\\fitness-army\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
+[debug] [2022-08-30T16:09:20.482Z] [runtime-status] [9596] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.22.0","resolution":"C:\\Users\\mzafirovski\\WebstormProjects\\fitness-army\\fitness-army\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[runtime-status] [9596] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.22.0\",\"resolution\":\"C:\\\\Users\\\\mzafirovski\\\\WebstormProjects\\\\fitness-army\\\\fitness-army\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-08-30T16:09:20.482Z] [runtime-status] [9596] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[runtime-status] [9596] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
+[debug] [2022-08-30T16:09:20.483Z] [runtime-status] [9596] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.22.0","resolution":"C:\\Users\\mzafirovski\\WebstormProjects\\fitness-army\\fitness-army\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[runtime-status] [9596] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.22.0\",\"resolution\":\"C:\\\\Users\\\\mzafirovski\\\\WebstormProjects\\\\fitness-army\\\\fitness-army\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-08-30T16:09:20.513Z] [runtime-status] [9596] Checked functions.config() {"config":{}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[runtime-status] [9596] Checked functions.config() {\"config\":{}}"}}
+[debug] [2022-08-30T16:09:20.514Z] [runtime-status] [9596] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.22.0","resolution":"C:\\Users\\mzafirovski\\WebstormProjects\\fitness-army\\fitness-army\\functions\\node_modules\\firebase-functions\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[runtime-status] [9596] firebase-functions has been stubbed. {\"functionsResolution\":{\"declared\":true,\"installed\":true,\"version\":\"3.22.0\",\"resolution\":\"C:\\\\Users\\\\mzafirovski\\\\WebstormProjects\\\\fitness-army\\\\fitness-army\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}}"}}
+[debug] [2022-08-30T16:09:20.514Z] [runtime-status] [9596] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.22.0","resolution":"C:\\Users\\mzafirovski\\WebstormProjects\\fitness-army\\fitness-army\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[runtime-status] [9596] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.22.0\",\"resolution\":\"C:\\\\Users\\\\mzafirovski\\\\WebstormProjects\\\\fitness-army\\\\fitness-army\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-08-30T16:09:20.516Z] [runtime-status] [9596] Resolved module firebase-admin {"declared":true,"installed":true,"version":"10.3.0","resolution":"C:\\Users\\mzafirovski\\WebstormProjects\\fitness-army\\fitness-army\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[runtime-status] [9596] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"10.3.0\",\"resolution\":\"C:\\\\Users\\\\mzafirovski\\\\WebstormProjects\\\\fitness-army\\\\fitness-army\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
+[debug] [2022-08-30T16:09:20.516Z] [runtime-status] [9596] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.22.0","resolution":"C:\\Users\\mzafirovski\\WebstormProjects\\fitness-army\\fitness-army\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[runtime-status] [9596] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.22.0\",\"resolution\":\"C:\\\\Users\\\\mzafirovski\\\\WebstormProjects\\\\fitness-army\\\\fitness-army\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-08-30T16:09:20.516Z] [runtime-status] [9596] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"10.3.0","resolution":"C:\\Users\\mzafirovski\\WebstormProjects\\fitness-army\\fitness-army\\functions\\node_modules\\firebase-admin\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[runtime-status] [9596] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"10.3.0\",\"resolution\":\"C:\\\\Users\\\\mzafirovski\\\\WebstormProjects\\\\fitness-army\\\\fitness-army\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}}"}}
+[debug] [2022-08-30T16:09:20.625Z] [runtime-status] [9596] initializeApp(DEFAULT) {"credential":{"implicit":false,"projectId":"fitness-army","privateKey":"-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDGTdY9TD2HeQVL\n8NSt/Fzw1UnK313LzRujpE45yalEllVjPduuQxFbn1FkJPNErIQ5AlytH8eqtIfB\naPruxoBY+xYqkPEdksup1PL9hgCKsseKhakjmI7ERrr6sz5wlYBI1lq/IRF9B8Mq\nK8z1gDyBdOAz5Jvgx0Isd43ENQzsAMMdpLIViTtmQjE1ZTM6gSmpKg07s1b4UlBZ\nj4gbQtcAuh9izLWVwDw3xrEpTvfS4cZCft19Ls035FLIAZZuYuoqzmXQMA1e9GJe\n27htIqeUgX0EOnr+l4FcP0XNLQsavhmie3K7K56C/XJmL/oh1kHmA6e+A6mNYDpS\nwSpeBd1dAgMBAAECggEAV6Ew0ZCdxf5YNVk8mo/hADm4bLJtD/DYzGUAfm/bYWgv\nXnYI3EZd5seN33umlovHuCuPiZ94C7rQHMtHy/ki4W8/Odsn+YIThr6IDDlJhwD+\nxXtQJV82g4yf9sX7iyO9dzJmEnzJ7h7egwWtAjXDRw+/PZ9BtMBIwT6pgnFQ/v6F\nQI4GEMSowYYqt9bT1pKb3okJRea2MhkGzBxhREaIHWQEpzHuz94whkJ4zrVw5A3z\nBoTcSIDa7zWpkf4/LZ9Ar8sskJLA1Zqg6wjL+XXGBNsqHTNuD1QClVyHXo640gQN\nQfl9W5Px57RiZJQUOZVCcS4C9ofyRXQUxx4PgCSXfwKBgQD3BmCrtSNsvOZt7W9z\nddLKwq+2aysTyiAlQfZbYMrvRbzV+QNbmSAXad1Xtm1b8sN6hJEg/ZyjziDqVD5G\nXmOpW6E4M9KZav+hf+nakA8z3CTXEmFk2cxeXXMUkGfl+R85i2YLRsSQwwkYzcvy\nQbMd5T2wiZG7x1AwDFyp0Ev2bwKBgQDNgkxDKyMPHTPSwBlSliZZ+bEQAVuridEV\naWqWKED/syN9wnXiHmtgZswcm8IIabDcT1LnNm0djeByuPPKywNkTMsQYWE8s77P\nM/C4ytZvy1I/qH3xd0Da00d2mwfYdE2dWuzxNNfMgxYxDpy2UdiPfA0XqeFZgMrP\ngMH1RA0u8wKBgE94gck78TWeYBOle2GN2k7Y62aoe6dWM5lI61TigucPbHz6K5Zg\nYO6nZEo/qlcWdsUHuRj//lDEk9pPV+mTnERz8h3+rhYlUjBG0pk6F2n7vO5kP2kO\nmK0TK17GRma6Cs2chyvBjKN124tbSe2aLWHEyl/tIjFjIe0TTQxkssuJAoGBAJyo\nJMZXDcSpuCWBdkw0VUvlQQo4Xs7modG2qB+K0/GXdwiYwg/6rFOySQnN2h1bpAxt\nE39ZR9htnJkXUBBYrV86AtmbwenqAxwkNe5IASr7TNll8YuuImws/p71Ewf3sGqx\nM0mzxIULsFD5GJEK1xCZuck+IKB/wxpmxnPWyk3tAoGBAOqgLSkyA3ZSd/7LNgy/\nEFcFlKEh03rxUSSa2K0QOc8j3JMAWYuBfBieZfKglvllxn0y463RJFdHZvuFibKu\nNqb4ABQUZf9JGE7VxxwZEcPCpDO4DSs43oVTxXSHL91uWnoLJJ2tB6FsN1JPI77v\nd1R2JJDnuungqrHB4j3wYLf9\n-----END PRIVATE KEY-----\n","clientEmail":"firebase-adminsdk-ba3tu@fitness-army.iam.gserviceaccount.com","httpClient":{"retry":{"maxRetries":4,"statusCodes":[503],"ioErrorCodes":["ECONNRESET","ETIMEDOUT"],"backOffFactor":0.5,"maxDelayInMillis":60000}}},"databaseURL":"https://fitness-army-default-rtdb.europe-west1.firebasedatabase.app"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[runtime-status] [9596] initializeApp(DEFAULT) {\"credential\":{\"implicit\":false,\"projectId\":\"fitness-army\",\"privateKey\":\"-----BEGIN PRIVATE KEY-----\\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDGTdY9TD2HeQVL\\n8NSt/Fzw1UnK313LzRujpE45yalEllVjPduuQxFbn1FkJPNErIQ5AlytH8eqtIfB\\naPruxoBY+xYqkPEdksup1PL9hgCKsseKhakjmI7ERrr6sz5wlYBI1lq/IRF9B8Mq\\nK8z1gDyBdOAz5Jvgx0Isd43ENQzsAMMdpLIViTtmQjE1ZTM6gSmpKg07s1b4UlBZ\\nj4gbQtcAuh9izLWVwDw3xrEpTvfS4cZCft19Ls035FLIAZZuYuoqzmXQMA1e9GJe\\n27htIqeUgX0EOnr+l4FcP0XNLQsavhmie3K7K56C/XJmL/oh1kHmA6e+A6mNYDpS\\nwSpeBd1dAgMBAAECggEAV6Ew0ZCdxf5YNVk8mo/hADm4bLJtD/DYzGUAfm/bYWgv\\nXnYI3EZd5seN33umlovHuCuPiZ94C7rQHMtHy/ki4W8/Odsn+YIThr6IDDlJhwD+\\nxXtQJV82g4yf9sX7iyO9dzJmEnzJ7h7egwWtAjXDRw+/PZ9BtMBIwT6pgnFQ/v6F\\nQI4GEMSowYYqt9bT1pKb3okJRea2MhkGzBxhREaIHWQEpzHuz94whkJ4zrVw5A3z\\nBoTcSIDa7zWpkf4/LZ9Ar8sskJLA1Zqg6wjL+XXGBNsqHTNuD1QClVyHXo640gQN\\nQfl9W5Px57RiZJQUOZVCcS4C9ofyRXQUxx4PgCSXfwKBgQD3BmCrtSNsvOZt7W9z\\nddLKwq+2aysTyiAlQfZbYMrvRbzV+QNbmSAXad1Xtm1b8sN6hJEg/ZyjziDqVD5G\\nXmOpW6E4M9KZav+hf+nakA8z3CTXEmFk2cxeXXMUkGfl+R85i2YLRsSQwwkYzcvy\\nQbMd5T2wiZG7x1AwDFyp0Ev2bwKBgQDNgkxDKyMPHTPSwBlSliZZ+bEQAVuridEV\\naWqWKED/syN9wnXiHmtgZswcm8IIabDcT1LnNm0djeByuPPKywNkTMsQYWE8s77P\\nM/C4ytZvy1I/qH3xd0Da00d2mwfYdE2dWuzxNNfMgxYxDpy2UdiPfA0XqeFZgMrP\\ngMH1RA0u8wKBgE94gck78TWeYBOle2GN2k7Y62aoe6dWM5lI61TigucPbHz6K5Zg\\nYO6nZEo/qlcWdsUHuRj//lDEk9pPV+mTnERz8h3+rhYlUjBG0pk6F2n7vO5kP2kO\\nmK0TK17GRma6Cs2chyvBjKN124tbSe2aLWHEyl/tIjFjIe0TTQxkssuJAoGBAJyo\\nJMZXDcSpuCWBdkw0VUvlQQo4Xs7modG2qB+K0/GXdwiYwg/6rFOySQnN2h1bpAxt\\nE39ZR9htnJkXUBBYrV86AtmbwenqAxwkNe5IASr7TNll8YuuImws/p71Ewf3sGqx\\nM0mzxIULsFD5GJEK1xCZuck+IKB/wxpmxnPWyk3tAoGBAOqgLSkyA3ZSd/7LNgy/\\nEFcFlKEh03rxUSSa2K0QOc8j3JMAWYuBfBieZfKglvllxn0y463RJFdHZvuFibKu\\nNqb4ABQUZf9JGE7VxxwZEcPCpDO4DSs43oVTxXSHL91uWnoLJJ2tB6FsN1JPI77v\\nd1R2JJDnuungqrHB4j3wYLf9\\n-----END PRIVATE KEY-----\\n\",\"clientEmail\":\"firebase-adminsdk-ba3tu@fitness-army.iam.gserviceaccount.com\",\"httpClient\":{\"retry\":{\"maxRetries\":4,\"statusCodes\":[503],\"ioErrorCodes\":[\"ECONNRESET\",\"ETIMEDOUT\"],\"backOffFactor\":0.5,\"maxDelayInMillis\":60000}}},\"databaseURL\":\"https://fitness-army-default-rtdb.europe-west1.firebasedatabase.app\"}"}}
+[warn] !  functions: The Cloud Firestore emulator is not running, so calls to Firestore will affect production. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"The Cloud Firestore emulator is not running, so calls to Firestore will affect production."}}
+[debug] [2022-08-30T16:09:20.652Z] [runtime-status] [9596] Beginning invocation function app! {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[runtime-status] [9596] Beginning invocation function app!"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[debug] [2022-08-30T16:09:20.653Z] [runtime-status] [9596] Running app in signature http {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[runtime-status] [9596] Running app in signature http"}}
+[debug] [2022-08-30T16:09:20.655Z] [runtime-status] [9596] Attempting to listen to port: \\?\pipe\fire_emu_d2b6fff2c629b9c4 {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[runtime-status] [9596] Attempting to listen to port: \\\\?\\pipe\\fire_emu_d2b6fff2c629b9c4"}}
+[debug] [2022-08-30T16:09:20.656Z] [runtime-status] [9596] Listening to port: \\?\pipe\fire_emu_d2b6fff2c629b9c4 {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[runtime-status] [9596] Listening to port: \\\\?\\pipe\\fire_emu_d2b6fff2c629b9c4"}}
+[debug] [2022-08-30T16:09:20.658Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-08-30T16:09:20.658Z] [functions] Got req.url=/fitness-army/us-central1/app/api/coaches/create, mapping to path=/api/coaches/create {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/fitness-army/us-central1/app/api/coaches/create, mapping to path=/api/coaches/create"}}
+[debug] [2022-08-30T16:09:20.672Z] [runtime-status] [9596] Ephemeral server handling POST request {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[runtime-status] [9596] Ephemeral server handling POST request"}}
+[debug] [2022-08-30T16:09:20.673Z] [runtime-status] [9596] Ephemeral server survived. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[runtime-status] [9596] Ephemeral server survived."}}
+[info] i  functions: Finished "app" in ~1s {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in ~1s"}}
+[debug] [2022-08-30T16:09:20.682Z] [worker-us-central1-app-b5c66936-1254-492e-a0a0-bbabbbe05d2b]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-b5c66936-1254-492e-a0a0-bbabbbe05d2b]: IDLE"}}
+[debug] [2022-08-30T16:09:20.682Z] [work-queue] {"queueLength":0,"workRunningCount":0}
