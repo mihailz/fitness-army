@@ -7,7 +7,7 @@ exports.postCreateCoach = (req: Request, res: Response) => {
   (async () => {
     try {
       const userId = req.params.coach_id;
-      console.log("postCreateCoach: ", req.params);
+      console.log("postCreateCoach: ", req.body);
       const coachesCollection = db.collection("coaches").doc(userId);
       await coachesCollection.create({
         user: {

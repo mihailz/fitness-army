@@ -1,7 +1,6 @@
 import {Request, Response} from "express";
 import {BlogPostModelDto} from "../model/blog-post.model.dto";
 
-
 const firebaseAdmin = require("firebase-admin");
 
 const uuid = require("uuid");
@@ -13,6 +12,7 @@ exports.postCreateBlogPost = (req: Request, res: Response) => {
     try {
       const blogId = uuid.v4();
       const blogsCollection = db.collection("blogs").doc(blogId);
+      console.log("postCreateBlogPost-body: ", req.body);
       await blogsCollection.create({
         ...req.body.blog, id: blogId,
       });
