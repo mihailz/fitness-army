@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
           if (this.isRememberMeChecked) {
             this.authApiService.saveUserInLocalStorage(user);
           }
-          this.router.navigate(['/blog']);
+          this.router.navigate(['/blogs']);
         },
         error: err => {
           console.log('error: ', err);

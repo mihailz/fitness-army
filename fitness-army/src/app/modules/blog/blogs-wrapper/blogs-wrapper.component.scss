@@ -1,5 +1,5 @@
 .container {
-  padding: 30px 20px;
+  padding: 90px 20px;
 
   nz-spin {
     margin-top: 80px;
@@ -28,6 +28,7 @@
     margin: 0 auto;
 
     .blogs-grid-container {
+      padding-top: 40px;
       .add-blog-post-button-wrapper {
         display: flex;
         justify-content: center;

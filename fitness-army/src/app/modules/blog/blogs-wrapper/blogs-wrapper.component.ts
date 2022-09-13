@@ -48,6 +48,8 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response: Blog[]) => {
           this.blogs = response;
+          console.log('fetcgBlogs: ', response);
+
           this.filteredBlogs = [...this.blogs];
         },
         error: (err) => {
