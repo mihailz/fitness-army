@@ -23,6 +23,7 @@ import {UserSettingsComponent} from './components/navbar/user-settings/user-sett
 import {NzDropDownModule} from "ng-zorro-antd/dropdown";
 import {BmiApiInterceptor} from "./modules/user/user-profile/interceptor/bmi-api.interceptor";
 import {RoleGuard} from "./guard/role.guard";
+import { FooterComponent } from './components/footer/footer.component';
 
 registerLocaleData(en);
 
@@ -31,7 +32,8 @@ registerLocaleData(en);
     AppComponent,
     LayoutComponent,
     NavbarComponent,
-    UserSettingsComponent
+    UserSettingsComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

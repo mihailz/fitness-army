@@ -52,7 +52,7 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   private getCurrentUser(): void {
-    this.userApiService.getAllUsers()
+    this.userApiService.getUsers()
       .pipe(
         tap((users: User[]) => {
           const email = localStorage.getItem('resetEmail');

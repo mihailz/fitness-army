@@ -19,9 +19,11 @@ admin.initializeApp({
 const userRoutes = require("./route/user-route");
 const userBodyStatsRoutes = require("./route/user-body-stats-route");
 const blogRoutes = require("./route/blog.route");
+const commentsRouter = require("./route/comments-route");
 
 app.use(userRoutes);
 app.use(userBodyStatsRoutes);
 app.use(blogRoutes);
+app.use(commentsRouter);
 
 exports.app = functions.https.onRequest(app);

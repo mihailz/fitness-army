@@ -30,8 +30,7 @@ router.delete("/api/users/delete/:user_id",
 router.get("/api/users",
     // isAuthenticated,
     // isAuthorized,
-    userController.getAllUsers
+    userController.getUsers
 );
-
 
 module.exports = router;

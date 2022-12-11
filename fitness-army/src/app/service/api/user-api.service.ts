@@ -60,8 +60,11 @@ export class UserApiService {
       )
   }
 
-  getAllUsers(): Observable<Array<User>> {
-    return this.http.get(`${this.baseApiHref}/api/users`)
+  getUsers(role: string = 'ALL'): Observable<Array<User>> {
+    return this.http.get(`${this.baseApiHref}/api/users`, {
+      params: new HttpParams().set('user_role', role
+      )
+    })
       .pipe(
         map((response: any) =>
           response.users.map((user: any) => new User(
@@ -73,6 +76,8 @@ export class UserApiService {
           )))
       );
   }
+  //
+  // getUsersByRole(): Observable<User[]> {}
 
   updateUser(user: User, queryParam: {[param: string]: string | number | boolean}, password?: string): Observable<any> {
     const params: Params = new HttpParams({

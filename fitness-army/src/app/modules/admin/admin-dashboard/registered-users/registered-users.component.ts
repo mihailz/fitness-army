@@ -30,7 +30,7 @@ export class RegisteredUsersComponent implements OnInit {
 
   private fetchAllUsers(): void {
     this.isFetchingData = true;
-    this.userApiService.getAllUsers()
+    this.userApiService.getUsers()
       .pipe(
         finalize(() => this.isFetchingData = false)
       )
@@ -68,6 +68,8 @@ export class RegisteredUsersComponent implements OnInit {
   }
 
   onRoleChange(updatedRole: string, user: User): void {
+    console.log('onRoleChange: ', updatedRole);
+
     const updatedUser = {...user, role: updatedRole};
     const queryParam = {'update_password': false};
     this.userApiService.updateUser(updatedUser, queryParam)

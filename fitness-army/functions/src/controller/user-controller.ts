@@ -1,5 +1,6 @@
 import {Request, Response} from "express";
 import {UserModelDto} from "../model/user.model.dto";
+
 const admin = require("firebase-admin");
 
 const db = admin.firestore();
@@ -47,14 +48,24 @@ async function addUserToCollection(uid: string, email: string,
   });
 }
 
-exports.getAllUsers = (req: Request, res: Response) => {
+exports.getUsers = (req: Request, res: Response) => {
   (async () => {
     try {
+      const userRole = req.query.user_role;
+      console.log("getUsersByRole - userRole", userRole);
       const usersCollection = db.collection("users");
       const users: UserModelDto[] = [];
       await usersCollection.get()
           .then((usersSnapshot: any) => {
-            const documents = usersSnapshot.docs;
+            let documents;
+            if (userRole !== "ALL") {
+              documents = usersSnapshot.docs
+                  .filter((userDocumentSnapshot: any) =>
+                    userDocumentSnapshot.data().role === userRole
+                  );
+            } else {
+              documents = usersSnapshot.docs;
+            }
             for (const document of documents) {
               users.push(new UserModelDto(
                   document.data().uid,
@@ -103,6 +114,7 @@ exports.postUpdateUser = (req: Request, res: Response) => {
   (async () => {
     try {
       const updateUserPassword = req.query.update_password;
+
       const userId = req.params.user_id;
       const document = db.collection("users").doc(userId);
       console.log("postUpdateUser: ", req.body);
