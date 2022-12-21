@@ -19,7 +19,8 @@ export class BlogDetailsComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
-              private blogApiService: BlogApiService) { }
+              private blogApiService: BlogApiService) {
+  }
 
   ngOnInit(): void {
     this.fetchCurrentBlog();
@@ -39,13 +40,13 @@ export class BlogDetailsComponent implements OnInit, OnDestroy {
 
   private fetchCurrentBlog(): void {
     this.isFetchingData = true;
-      this.activatedRoute.params
-        .pipe(
-          map((params: Params) => params['id']),
-          switchMap((blogId: string) => {
-            return this.blogApiService.getBlogById(blogId);
-          })
-        ).subscribe({
+    const sub$ = this.activatedRoute.params
+      .pipe(
+        map((params: Params) => params['id']),
+        switchMap((blogId: string) => {
+          return this.blogApiService.getBlogById(blogId);
+        })
+      ).subscribe({
         next: (blog: Blog) => {
           console.log('Blog: ', blog);
           this.isFetchingData = false;
@@ -54,6 +55,7 @@ export class BlogDetailsComponent implements OnInit, OnDestroy {
         error: err => {
           console.log(err);
         }
-      })
+      });
+    this.subscriptions.add(sub$);
   }
 }

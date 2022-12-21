@@ -5,9 +5,12 @@ import {HomePageRoutingModule} from "./home-page-routing.module";
 import {NzButtonModule} from "ng-zorro-antd/button";
 
 @NgModule({
-  declarations: [
-    HomePageComponent
-  ],
+    declarations: [
+        HomePageComponent
+    ],
+    exports: [
+        HomePageComponent
+    ],
     imports: [
         CommonModule,
         HomePageRoutingModule,

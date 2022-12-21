@@ -28,7 +28,7 @@ export class UserBodyStatsApiService {
     const bodyFatPercentage$ = this.getBodyFatPercentage(data.weight, data.height, userAge, data.gender);
     return forkJoin([bodyMassStats$, bodyFatPercentage$])
       .pipe(
-        map((response: any[]) => {
+        map((response: [BodyMassIndexStats, BodyFatPercentage]) => {
           const bodyMassIndex: BodyMassIndexStats = response[0];
           const bodyFatPercentage: BodyFatPercentage = response[1];
           const userBodyStats: UserBodyStats = new UserBodyStats(

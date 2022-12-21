@@ -1,26 +1,27 @@
-<div class="container">
+<div class="container blogs-container">
   <nz-spin [nzSpinning]="true" [nzSize]="'large'" *ngIf="isFetchingData" [nzTip]="'Fetching blogs...'"></nz-spin>
   <ng-container *ngIf="(!isFetchingData && !blogs.length) else blogsContainer">
     <nz-empty [nzNotFoundContent]="'There are no blogs found!'"></nz-empty>
   </ng-container>
   <ng-template #blogsContainer>
     <ng-container *ngIf="!isFetchingData">
-      <div class="content-container">
+      <div class="row">
         <div class="blogs-filter-container">
           <fitness-army-app-blogs-filter (onCategorySelect)="onCategorySelect($event)"
                                          (onSearchBlogs)="onSearchBlogs($event)"
                                          [userRole]="loggedInUser?.role!"></fitness-army-app-blogs-filter>
         </div>
-        <div class="blogs-grid-container">
-          <ng-container *ngIf="loggedInUser?.role === userRoles.ADMIN || loggedInUser?.role === userRoles.COACH">
-            <div class="add-blog-post-button-wrapper">
-              <button class="add-blog-button" nz-button nzType="primary" (click)="openCreateBlogModal()">Add blog post
-              </button>
-            </div>
-          </ng-container>
-          <div class="blogs-grid">
-            <fitness-army-app-blog *ngFor="let blog of filteredBlogs" [blog]="blog"></fitness-army-app-blog>
-          </div>
+      </div>
+      <ng-container *ngIf="loggedInUser?.role === userRoles.ADMIN || loggedInUser?.role === userRoles.COACH">
+        <div class="row pt-3 d-flex justify-content-center justify-content-md-end">
+            <button class="add-blog-button" nz-button nzType="primary" (click)="openCreateBlogModal()">Add blog post
+            </button>
+        </div>
+      </ng-container>
+      <div class="row pt-4">
+        <div class="col-xs-12 col-md-6 col-lg-4 mt-4 mt-lg-0"
+             *ngFor="let blog of filteredBlogs">
+          <fitness-army-app-blog [blog]="blog"></fitness-army-app-blog>
         </div>
       </div>
     </ng-container>

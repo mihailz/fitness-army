@@ -1,32 +1,50 @@
-import {AfterContentInit, Component, Input, OnInit} from '@angular/core';
+import {AfterContentInit, AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {User} from "../../../../model/user.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserBodyStatsApiService} from "../../../../service/api/user-body-stats-api.service";
 import {ToastrService} from "ngx-toastr";
 import {UserBodyStats} from "../../../../model/user-body-stats.model";
-import {finalize, switchMap, tap} from "rxjs";
+import {finalize, Subscription, tap} from "rxjs";
+import {Chart, ChartConfiguration, ChartData, ChartOptions} from "chart.js";
+import {AuthApiService} from "../../../../service/api/auth-api.service";
 
 @Component({
   selector: 'fitness-army-app-user-info',
   templateUrl: './user-info.component.html',
   styleUrls: ['./user-info.component.scss']
 })
-export class UserInfoComponent implements OnInit, AfterContentInit {
+export class UserInfoComponent implements OnInit, OnDestroy, AfterContentInit {
 
-  @Input() user!: User | null;
+  user!: User | null;
   userBodyStatsForm!: FormGroup;
   userBodyStats!: UserBodyStats | null;
-  bodyMassChartData: Array<{ value: number | undefined, name: string }> = [];
   fetchingData: boolean = false;
   editMode: boolean = false;
-  options: any;
+  chartLabels: string[] = [];
+  chartData: any;
+  chartOptions: ChartOptions = {
+    responsive: true,
+    title: {
+      text: "Body mass (%)",
+      display: true,
+      fontStyle: 'bold',
+      fontSize: 20
+    }
+  };
+  private subscriptions: Subscription = new Subscription();
 
   constructor(private userBodyStatsApiService: UserBodyStatsApiService,
-              private toastrService: ToastrService) {
+              private toastrService: ToastrService,
+              private authApiService: AuthApiService) {
   }
 
   ngOnInit(): void {
+    this.getUser();
     this.initForm();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions?.unsubscribe();
   }
 
   ngAfterContentInit(): void {
@@ -114,7 +132,7 @@ export class UserInfoComponent implements OnInit, AfterContentInit {
 
   setUserGenderPhoto(): string {
     return this.userBodyStats?.bodyStats?.gender === 'male' ?
-      './assets/images/male_user.jpg' : './assets/images/female_user.jpg';
+      './assets/images/male.png' : './assets/images/female.png';
   }
 
   private initForm(): void {
@@ -135,8 +153,7 @@ export class UserInfoComponent implements OnInit, AfterContentInit {
       .subscribe({
         next: (bodyStats: UserBodyStats | null) => {
           this.userBodyStats = bodyStats;
-          this.initBodyMassChart();
-          console.log('fetchUserBodyStats: ', bodyStats);
+          this.initChartData();
         },
         error: err => {
           console.log(err);
@@ -145,48 +162,20 @@ export class UserInfoComponent implements OnInit, AfterContentInit {
       })
   }
 
-  private initBodyMassChart(): void {
-    this.bodyMassChartData = [
-      {
-        value: this.userBodyStats?.bodyFatPercentage?.leanMassWeight,
-        name: "Lean mass"
-      },
-      {
-        value: this.userBodyStats?.bodyFatPercentage?.fatMassWeight,
-        name: "Fat mass"
-      },
-    ];
-    this.setOptions()
+  private initChartData(): void {
+    this.chartLabels = ['Lean mass', 'Fat mass'];
+    this.chartData = [this.userBodyStats?.bodyFatPercentage?.leanMassWeight,
+      this.userBodyStats?.bodyFatPercentage?.fatMassWeight];
   }
 
-  private setOptions() {
-    this.options = {
-      tooltip: {
-        trigger: 'item'
-      },
-      title: {
-        show: true,
-        text: "Body mass (kg)",
-        left: "35%",
-        top: "30"
-      },
-      area: {
-        prefix: "kg"
-      },
-      series: [
-        {
-          type: 'pie',
-          radius: '55%',
-          data: this.bodyMassChartData,
-          emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: 'rgba(0, 0, 0, 0.5)'
-            }
-          }
+  private getUser(): void {
+    const sub$ = this.authApiService.user$
+      .subscribe({
+        next: (user: User | null) => {
+          this.user = user;
         }
-      ]
-    };
+      });
+
+    this.subscriptions.add(sub$);
   }
 }

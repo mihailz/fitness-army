@@ -8,15 +8,15 @@
     </ng-template>
   </div>
   <div class="blogs-filter-dropdown blogs-filter-item">
-    <a nz-dropdown [nzDropdownMenu]="menu">
+    <a class="text-white text-decoration-none" nz-dropdown [nzDropdownMenu]="menu">
       Filter by category
       <i nz-icon nzType="down"></i>
     </a>
     <nz-dropdown-menu #menu="nzDropdownMenu">
-      <ul nz-menu nzSelectable>
-        <li nz-menu-item (click)="categorySelect('ALL')"
+      <ul class="filter-menu" nz-menu nzSelectable>
+        <li class="filter-menu-item" nz-menu-item (click)="categorySelect('ALL')"
             [value]="'ALL'">ALL</li>
-        <li nz-menu-item (click)="categorySelect(category)" *ngFor="let category of blogCategories"
+        <li class="filter-menu-item" nz-menu-item (click)="categorySelect(category)" *ngFor="let category of blogCategories"
             [value]="category">{{category}}</li>
       </ul>
     </nz-dropdown-menu>

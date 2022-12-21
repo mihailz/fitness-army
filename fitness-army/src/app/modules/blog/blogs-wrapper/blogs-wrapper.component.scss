@@ -1,55 +1,17 @@
 .container {
-  padding: 90px 20px;
+  padding-top: 30px;
 
   nz-spin {
-    margin-top: 80px;
+    top: 130px;
   }
 
-  nz-empty {
-    top: 80px;
-  }
-
-  .add-blog-button-wrapper {
-    .add-blog-button {
-      width: 100%;
-    }
-
-    @media(min-width: 474px) {
-      display: flex;
-      justify-content: flex-end;
-      .add-blog-button {
-        width: 120px;
-      }
-    }
-  }
-
-  .content-container {
-    max-width: 1200px;
-    margin: 0 auto;
-
-    .blogs-grid-container {
-      padding-top: 40px;
-      .add-blog-post-button-wrapper {
-        display: flex;
-        justify-content: center;
-        padding-top: 16px;
-        padding-bottom: 16px;
-        @media(min-width: 768px) {
-          justify-content: flex-end;
-        }
-      }
-
-      .blogs-grid {
-        display: grid;
-        gap: 1rem;
-        @media (min-width: 600px) {
-          grid-template-columns: repeat(2, 1fr);
-        }
-
-        @media (min-width: 900px) {
-          grid-template-columns: repeat(3, 1fr);
-        }
-      }
+  .add-blog-button {
+    width: 96%;
+    text-transform: uppercase;
+    font-weight: bolder;
+    @media(min-width: 767.8px) {
+      margin-right: 12px;
+      width: 135px;
     }
   }
 }

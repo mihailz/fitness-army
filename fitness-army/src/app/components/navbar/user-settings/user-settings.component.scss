@@ -9,9 +9,24 @@
   }
 }
 
-.menu {
-  .menu-item {
-    color: #3CB8FF;
+::ng-deep .user-settings-menu {
+  background: #1F2833;
+  box-shadow: 1px 1px 1px white;
+
+  .user-settings-menu-item {
+    color: white;
     font-weight: bold;
+
+    .user-settings-menu-item-link {
+      text-decoration: none;
+      color: white;
+    }
+
+    &:hover {
+      background: #45A29E;
+      .user-settings-menu-item-link {
+        color: #66FCF1;
+      }
+    }
   }
 }

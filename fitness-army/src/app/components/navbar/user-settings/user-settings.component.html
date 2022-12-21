@@ -2,14 +2,14 @@
   <img [src]="user?.profileImage" alt="User profile" />
 </div>
 <nz-dropdown-menu #menu="nzDropdownMenu">
-  <ul class="menu" nz-menu>
-    <li class="menu-item" nz-menu-item>
-      <a class="menu-item-link" (click)="navigateToUserProfile()">
+  <ul class="user-settings-menu" nz-menu>
+    <li class="user-settings-menu-item" nz-menu-item>
+      <a class="user-settings-menu-item-link" (click)="navigateToUserProfile()">
         View profile
       </a>
     </li>
-    <li class="menu-item" nz-menu-item>
-      <a class="menu-item-link" (click)="logout()">
+    <li class="user-settings-menu-item" nz-menu-item>
+      <a class="user-settings-menu-item-link" (click)="logout()">
         Log out
       </a>
     </li>

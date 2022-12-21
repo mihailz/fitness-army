@@ -3,6 +3,7 @@ header {
   max-width: 1240px;
   margin: 0 auto;
 }
+
 .band {
   width: 90%;
   max-width: 1240px;
@@ -27,7 +28,7 @@ header {
   background: white;
   text-decoration: none;
   color: #444;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px #45A29E;
   display: flex;
   flex-direction: column;
   min-height: 100%;
@@ -37,7 +38,7 @@ header {
 
   &:hover {
     top: -2px;
-    box-shadow: 0 4px 5px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
   }
 
   article {
@@ -79,8 +80,11 @@ header {
 
   .thumb {
     width: 100%;
+    height: auto;
 
     img {
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
       width: 100%;
     }
   }
@@ -89,6 +93,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     .blog-category-wrapper {
       padding: 8px 8px 0 10px;
 

@@ -1,115 +1,80 @@
-.blog-details-container {
+nz-spin {
+  top: 150px;
+}
+.container {
+  padding-top: 30px;
+  min-height: 100vh;
+  font-family: 'Montserrat', sans-serif;
+}
 
-  .blog-details-wrapper {
-    background-color: #f8fbfe;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    padding: 30px 12px 20px;
+.button-wrapper {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 
-    .update-button-wrapper {
-      display: flex;
-      width: 100%;
-      justify-content: center;
-
-      @media(min-width: 768px) {
-        justify-content: flex-end;
-      }
-
-      .go-to-update-blog-button {
-        font-weight: bolder;
-      }
-    }
-
-    .back-button {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      font-size: 20px;
-      background-color: #3CB8FF;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 8px;
-      i {
-        color: white;
-        font-weight: bolder;
-      }
-
-      &:hover {
-        opacity: .5;
-      }
-    }
-
-    nz-spin {
-      padding-top: 130px;
-      width: 120px;
-    }
-
-    .header-section {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      font-family: 'Montserrat', sans-serif;
-
-      .blog-category {
-        color: white;
-        font-weight: bolder;
-        padding: 4px;
-        width: 100px;
-        display: flex;
-        border-radius: 3px;
-        justify-content: center;
-
-        &.fitness {
-          background-color: mediumseagreen;
-        }
-
-        &.motivation {
-          background-color: red;
-        }
-
-        &.food {
-          background-color: #3CB8FF;
-        }
-      }
-
-      .blog-title {
-        text-align: center;
-      }
-    }
-
-    .image-section {
-      padding-top: 12px;
-      width: 100%;
-
-      img {
-        width: 100%;
-      }
-    }
-
-    .blog-content-container {
-      padding-top: 30px;
-      font-family: 'Montserrat', sans-serif;
-
-      .main-title {
-        padding-top: 22px;
-      }
-    }
+  &:hover {
+    opacity: .5;
   }
 
-  @media(min-width: 768px) {
+  .back-button {
+    margin-right: 5px;
+    font-size: 20px;
+    background-color: #3CB8FF;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
+    align-items: center;
+    padding: 8px;
+    width: 40px;
 
-    .blog-details-wrapper {
-      width: 70%;
-      margin-top: 30px;
-      margin-bottom: 30px;
-      padding: 30px;
+    i {
+      color: white;
+      font-weight: bolder;
     }
   }
 }
+
+.blog-category {
+  color: white;
+  font-weight: bolder;
+  padding: 4px;
+  width: 100px;
+  border-radius: 3px;
+
+  &.fitness {
+    background-color: mediumseagreen;
+  }
+
+  &.motivation {
+    background-color: red;
+  }
+
+  &.food {
+    background-color: #3CB8FF;
+  }
+}
+
+.blog-title {
+  text-align: center;
+}
+
+.created-by {
+  color: #66FCF1;
+}
+
+.image-section {
+  max-width: 100%;
+
+  img {
+    width: 100%;
+  }
+}
+
+.go-to-update-blog-button {
+  width: 100%;
+
+  @media(min-width: 767.8px) {
+    width: 120px;
+  }
+}
+

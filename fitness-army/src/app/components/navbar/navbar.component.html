@@ -3,15 +3,15 @@
   <label class='menu-button-container' for="menu-toggle">
     <div class='menu-button'></div>
   </label>
-  <ul class="menu">
-    <li class="menu-item">
-      <a class="menu-item-link" routerLink="blogs" routerLinkActive="active">Blog</a>
+  <ul class="navbar-menu">
+    <li class="navbar-menu-item">
+      <a class="navbar-menu-item-link" routerLink="blogs" routerLinkActive="active">Blog</a>
     </li>
-    <li class="menu-item" *ngIf="user?.role === 'ADMIN'">
-      <a class="menu-item-link" routerLink="/admin" routerLinkActive="active">Admin</a>
+    <li class="navbar-menu-item" *ngIf="user?.role === 'ADMIN'">
+      <a class="navbar-menu-item-link" routerLink="/admin" routerLinkActive="active">Admin</a>
     </li>
-    <li class="menu-item" *ngIf="!user">
-      <a class="menu-item-link" routerLink="/auth/login" routerLinkActive="active">Login</a>
+    <li class="navbar-menu-item" *ngIf="!user">
+      <a class="navbar-menu-item-link" routerLink="/auth/login" routerLinkActive="active">Login</a>
     </li>
   </ul>
   <ng-container *ngIf="user">

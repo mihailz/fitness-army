@@ -24,6 +24,9 @@ import {NzDropDownModule} from "ng-zorro-antd/dropdown";
 import {BmiApiInterceptor} from "./modules/user/user-profile/interceptor/bmi-api.interceptor";
 import {RoleGuard} from "./guard/role.guard";
 import { FooterComponent } from './components/footer/footer.component';
+import {ChartsModule} from "ng2-charts";
+import {NzLayoutModule} from "ng-zorro-antd/layout";
+import {NzIconModule} from "ng-zorro-antd/icon";
 
 registerLocaleData(en);
 
@@ -48,7 +51,10 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
-    NzDropDownModule
+    NzDropDownModule,
+    ChartsModule,
+    NzLayoutModule,
+    NzIconModule
   ],
   providers: [
     {

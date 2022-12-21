@@ -31,7 +31,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (url: string) => {
-          this.showNavigationMenu = !url.startsWith('/auth')
+          this.showNavigationMenu = !url.startsWith('/auth');
         },
         error: (err => console.log(err))
       });

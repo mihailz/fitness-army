@@ -4,10 +4,24 @@
   width: 100%;
   align-items: center;
   padding-bottom: 16px;
-  border-bottom: 1px solid gray;
+  border-bottom: 2px solid white;
 
   .blogs-filter-item {
     margin: 8px;
+  }
+}
+
+::ng-deep .filter-menu {
+  background: #1F2833;
+  box-shadow: 2px 2px white;
+
+  .filter-menu-item {
+    color: white;
+    font-weight: bold;
+    &:hover {
+      background: #45A29E;
+      color: #66FCF1;
+    }
   }
 }
 
