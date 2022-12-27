@@ -1,51 +1,74 @@
-.users-container {
-  padding: 10px 5px;
+nz-spin {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  color: darkblue;
 }
 
-:host ::ng-deep nz-table {
-  .ant-table-thead {
-    th {
-      background-color: #3CB8FF;
-      color: white;
+.users-container {
+  table {
+    width: 100%;
+    overflow: auto;
+  }
 
-      &:hover {
-        color: #3CB8FF;
-      }
+  .mat-header-cell {
+    background-color: darkblue;
+    color: white;
+    padding: 5px;
+  }
+
+  .mat-cell {
+    padding: 5px;
+  }
+
+  .mat-row {
+    &:nth-child(even) {
+      background-color: darkblue;
+      color: white;
+    }
+
+    &:nth-child(odd) {
+      background-color: black;
+      color: white;
     }
   }
 
-  .ant-table-tbody {
-    tr {
-      &:nth-child(even) {
-        &:hover {
-          color: #3CB8FF;
-        }
-      }
+  .mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
 
-      &:nth-child(odd) {
-        background-color: #3CB8FF;
+  .mat-paginator {
+    background-color: black;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    ::ng-deep .mat-paginator-page-size {
+      color: white;
+    }
+
+    ::ng-deep .mat-paginator-range-actions {
+      .mat-paginator-range-label {
         color: white;
-
-        &:hover {
-          color: #3CB8FF;
-        }
-
-        td.actions {
-          .edit-button {
-            background-color: white;
-            color: #3CB8FF;
-          }
-        }
       }
 
-      td.actions {
-        .edit-button {
-          margin-right: 5px;
-          background-color: #3CB8FF;
-          border: 1px solid #3CB8FF;
-        }
+      .mat-icon-button {
+        background-color: darkblue;
+        margin: 2px;
+        cursor: pointer;
+        color: white;
       }
+    }
+  }
+}
 
+::ng-deep .mat-select-panel {
+  background: #1F2833;
+  box-shadow: 1px 1px 1px white;
+
+  .mat-option {
+    color: white;
+
+    &:hover {
+      background: darkblue;
     }
   }
 }

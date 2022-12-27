@@ -1,9 +1,12 @@
 @import "../fitness-army/src/assets/css/forms";
 
+.login-form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .login-form {
   @extend .form;
-  height: 100vh;
-  justify-content: center;
 
   .header {
     font-size: 26px;

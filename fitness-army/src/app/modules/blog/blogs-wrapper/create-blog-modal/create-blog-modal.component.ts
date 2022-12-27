@@ -1,10 +1,10 @@
-import {Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {AbstractControl, FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, ElementRef, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {NzModalRef} from "ng-zorro-antd/modal";
 import {BlogType} from "../../../../model/blog-type";
 import {Blog} from "../../../../model/blog";
 import {AuthApiService} from "../../../../service/api/auth-api.service";
-import {finalize, Subscription, tap} from "rxjs";
+import {finalize, Subscription} from "rxjs";
 import {User} from "../../../../model/user.model";
 import {Router} from "@angular/router";
 import {BlogApiService} from "../../../../service/api/blog-api.service";
@@ -150,5 +150,11 @@ export class CreateBlogModalComponent implements OnInit, OnDestroy {
         }
       });
     this.subscriptions.add(subscription);
+  }
+
+ example(event: Event) {
+    const file = (<HTMLInputElement>event.target).files as FileList;
+    const formData = new FormData();
+    formData.append('file', file[0]);
   }
 }

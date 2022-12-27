@@ -8,7 +8,13 @@
   .add-blog-button {
     width: 96%;
     text-transform: uppercase;
+    background: darkblue;
+    border: none;
     font-weight: bolder;
+
+    &:hover {
+      opacity: .5;
+    }
     @media(min-width: 767.8px) {
       margin-right: 12px;
       width: 135px;

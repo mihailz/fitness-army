@@ -1,15 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Blog} from "../../../model/blog";
 import {BlogType} from "../../../model/blog-type";
 import {finalize, map, Subscription, switchMap} from "rxjs";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {BlogApiService} from "../../../service/api/blog-api.service";
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {BlogParagraph} from "../../../model/blog-paragraph";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {AddParagraphModalComponent} from "../add-paragraph-modal/add-paragraph-modal.component";
 import {BlogService} from "../../../service/data/blog.service";
 import {update} from "@angular/fire/database";
+import {MatAccordion} from "@angular/material/expansion";
 
 @Component({
   selector: 'fitness-army-app-update-blog',
@@ -18,6 +19,7 @@ import {update} from "@angular/fire/database";
 })
 export class UpdateBlogComponent implements OnInit, OnDestroy {
 
+  @ViewChild(MatAccordion) accordion!: MatAccordion;
   blog!: Blog;
   isFetchingData: boolean = false;
   updateBlogForm!: FormGroup;
@@ -25,6 +27,7 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
   blogImage!: File;
   uploadedImageUrl!: string | ArrayBuffer;
   nzTipMessage: string = '';
+  contentTitles: string[] = [];
   private subscriptions: Subscription = new Subscription();
 
   constructor(private router: Router,
@@ -62,6 +65,7 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
 
   deleteParagraph(paragraphIndex: number) {
     this.blogContent.removeAt(paragraphIndex);
+    this.contentTitles.splice(paragraphIndex, 1);
   }
 
   addParagraph(paragraph: BlogParagraph) {
@@ -94,8 +98,6 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
       content: content,
       category: category
     }
-
-    console.log('updatedBlog: ', updatedBlog);
     this.blogApiService.updateBlogPost(updatedBlog, this.blogImage)
       .pipe(
         finalize(() => {
@@ -105,7 +107,6 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (response) => {
-          console.log('updateBlog: ', response);
         },
         error: (err) => {
           console.log(err);
@@ -176,6 +177,7 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
 
       paragraphTitleFormControl.setValue(paragraph.title);
       paragraphContentFormControl.setValue(paragraph.content);
+      this.contentTitles.push(paragraph.title);
 
       this.blogContent.push(new FormGroup({
         title: paragraphTitleFormControl,

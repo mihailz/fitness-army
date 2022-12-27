@@ -34,13 +34,12 @@
     font-weight: bolder;
 
     &:hover {
-      color: #66FCF1;
-      border-bottom: 1px solid #66FCF1;
+      color: darkblue;
     }
 
     &.active {
       text-decoration: none;
-      color: #66FCF1;
+      color: darkblue;
     }
   }
 }

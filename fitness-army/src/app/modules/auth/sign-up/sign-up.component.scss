@@ -1,6 +1,11 @@
 @import "../fitness-army/src/assets/css/forms";
 @import "../fitness-army/src/assets/css/colors";
 
+.signup-form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .signup-form {
   @extend .form;
 

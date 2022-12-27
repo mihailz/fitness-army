@@ -48,27 +48,43 @@
             </div>
           </div>
           <div class="row mt-2">
-            <div formArrayName="content" class="blog-content-container">
-              <div class="content-item" *ngFor="let contentForm of blogContent.controls; let id = index">
-                <nz-form-item [formGroupName]="id">
-                  <nz-form-label class="text-white" [nzSpan]="24">Title</nz-form-label>
-                  <nz-form-control [nzSpan]="24">
-                    <input nz-input formControlName="title">
-                  </nz-form-control>
-                  <nz-form-label [nzSpan]="24">Content</nz-form-label>
-                  <nz-form-control [nzSpan]="24">
-                    <textarea nz-input formControlName="content"></textarea>
-                  </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                  <nz-form-control [nzSpan]="24">
-                    <button nz-button nzType="default" class="paragraph-delete-button" (click)="deleteParagraph(id)">
-                      Delete
-                    </button>
-                  </nz-form-control>
-                </nz-form-item>
-              </div>
-            </div>
+            <mat-accordion class="example-headers-align" multi>
+              <mat-expansion-panel *ngFor="let contentItem of blogContent.controls; let id = index" hideToggle>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{contentTitles[id]}}
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div formArrayName="content">
+                  <div class="content-item">
+                    <nz-form-item [formGroupName]="id">
+                      <nz-form-label [nzSpan]="24">
+                        <span class="text-white">Title</span>
+                      </nz-form-label>
+                      <nz-form-control [nzSpan]="24">
+                        <input nz-input formControlName="title">
+                      </nz-form-control>
+                      <nz-form-label [nzSpan]="24">
+                        <span class="text-white">Content</span>
+                      </nz-form-label>
+                      <nz-form-control [nzSpan]="24">
+                        <textarea nz-input formControlName="content"></textarea>
+                      </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                      <nz-form-control [nzSpan]="24">
+                        <button nz-button nzType="default" class="paragraph-delete-button" (click)="deleteParagraph(id)">
+                          Delete
+                        </button>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
           </div>
         </div>
         </div>

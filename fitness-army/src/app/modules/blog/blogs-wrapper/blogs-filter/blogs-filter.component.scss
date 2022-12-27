@@ -9,6 +9,16 @@
   .blogs-filter-item {
     margin: 8px;
   }
+
+  .search-button {
+    background: darkblue;
+    border: 1px solid darkblue;
+    border-radius: 0;
+
+    &:hover {
+      opacity: .5;
+    }
+  }
 }
 
 ::ng-deep .filter-menu {
@@ -19,8 +29,7 @@
     color: white;
     font-weight: bold;
     &:hover {
-      background: #45A29E;
-      color: #66FCF1;
+      background: darkblue;
     }
   }
 }

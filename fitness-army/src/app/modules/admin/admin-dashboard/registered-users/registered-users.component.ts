@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {UserApiService} from "../../../../service/api/user-api.service";
 import {User} from "../../../../model/user.model";
 import {finalize} from "rxjs";
-import {TableColumn} from "../../../../model/table-column";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort, Sort} from "@angular/material/sort";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'fitness-army-app-registered-users',
@@ -13,18 +15,22 @@ import {ToastrService} from "ngx-toastr";
 })
 export class RegisteredUsersComponent implements OnInit {
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
   users: User[] = [];
-  tableColumns: TableColumn<User>[] = [];
   editId!: string | null;
   isFetchingData: boolean = false;
   roles = ['ADMIN', 'COACH', 'USER'];
+  displayedColumns: string[] = ['displayName', 'email', 'role'];
+
+  dataSource: MatTableDataSource<User> =  new MatTableDataSource();
 
   constructor(private router: Router,
               private userApiService: UserApiService,
-              private toastrService: ToastrService) { }
+              private toastrService: ToastrService,
+              private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.initTableColumns();
     this.fetchAllUsers();
   }
 
@@ -37,27 +43,13 @@ export class RegisteredUsersComponent implements OnInit {
       .subscribe({
         next: (users: User[]) => {
           this.users = users;
+          this.dataSource = new MatTableDataSource(users);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.cdr.markForCheck();
         }
       })
   }
-
-  private initTableColumns(): void {
-    this.tableColumns = [
-      {
-        title: 'Username',
-        compare: (userA: User, userB: User) => userA.displayName.localeCompare(userB.displayName)
-      },
-      {
-        title: 'Email',
-        compare: (userA: User, userB: User) => userA.email.localeCompare(userB.email)
-      },
-      {
-        title: 'Role',
-        compare: (userA: User, userB: User) => userA.role.localeCompare(userB.role)
-      }
-    ];
-  }
-
 
   editUser(uid: string): void {
     this.editId = uid;

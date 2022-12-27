@@ -27,6 +27,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import {ChartsModule} from "ng2-charts";
 import {NzLayoutModule} from "ng-zorro-antd/layout";
 import {NzIconModule} from "ng-zorro-antd/icon";
+import {MaterialModule} from "./material.module";
 
 registerLocaleData(en);
 
@@ -54,7 +55,8 @@ registerLocaleData(en);
     NzDropDownModule,
     ChartsModule,
     NzLayoutModule,
-    NzIconModule
+    NzIconModule,
+    MaterialModule
   ],
   providers: [
     {

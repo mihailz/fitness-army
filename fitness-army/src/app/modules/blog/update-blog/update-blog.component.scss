@@ -1,35 +1,103 @@
+::ng-deep .ant-select-dropdown {
+  background: #1F2833;
+  color: white;
+
+  .ant-select-item {
+    color: white;
+  }
+
+  .ant-select-item-option-active, ant-select-item-option {
+    background: darkblue;
+  }
+}
+
 .update-blog-form-container {
   padding-top: 30px;
   padding-bottom: 30px;
   font-family: 'Montserrat', sans-serif;
   min-height: 100vh;
+
+  .example-action-buttons {
+    padding-bottom: 20px;
+  }
+
+  .example-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .example-headers-align .mat-mdc-form-field + .mat-mdc-form-field {
+    margin-left: 8px;
+  }
+
+  .form-item {
+    ::ng-deep .ant-input {
+      background: #1F2833;
+      color: white;
+    }
+
+    ::ng-deep .ant-select-selector {
+      background: #1F2833;
+      color: white;
+    }
+
+    ::ng-deep .anticon-down {
+      color: white;
+    }
+  }
 }
 
 nz-spin {
   padding-top: 130px;
 }
 
+.add-paragraph-button {
+  background: darkblue;
+  border: none;
 
-.blog-content-container {
-  overflow-y: auto;
-  height: 600px;
-
-  .content-item {
-    background-color: whitesmoke;
-    padding: 8px;
-    margin-top: 12px;
-    border-radius: 5px;
-
-    .paragraph-delete-button {
-      background-color: red;
-      color: white;
-
-      &:hover {
-        opacity: .5;
-      }
-    }
+  &:hover {
+    opacity: .5;
   }
 }
+
+::ng-deep .mat-expansion-panel-content {
+  &::ng-deep .mat-expansion-panel-body {
+    padding: 0;
+  }
+}
+mat-expansion-panel-header {
+  background: darkblue;
+  color: white;
+  padding: 8px;
+  border-radius: 50px 20px;
+  border: 1px solid white;
+
+  &:hover {
+    background: #1F2833;
+  }
+}
+
+
+.content-item {
+  padding: 15px;
+  background: darkblue;
+  border-radius: 50px 20px;
+
+  .paragraph-delete-button {
+    background-color: darkblue;
+    color: white;
+
+    &:hover {
+      opacity: .5;
+    }
+  }
+
+  ::ng-deep .ant-input {
+    background: #1F2833;
+    color: white;
+  }
+}
+
 
 .blog-image-wrapper {
   width: 100%;
@@ -47,6 +115,13 @@ nz-spin {
   padding-right: 10px;
 
   .update-button {
+    background: darkblue;
+    border: none;
+
+    &:hover {
+      opacity: .5;
+    }
+
     flex: 1;
     border-radius: 5px;
     font-weight: bolder;
