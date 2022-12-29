@@ -40,10 +40,12 @@
   div.ant-form-item-control-input {
    left: 15px;
    width: 95%;
+   display: none;
 
     div.ant-form-item-control-input-content {
       input {
         border: none;
+        background: transparent;
       }
 
       nz-form-item-feedback-icon {

@@ -65,11 +65,12 @@ nz-spin {
     padding: 0;
   }
 }
+
 mat-expansion-panel-header {
   background: darkblue;
   color: white;
   padding: 8px;
-  border-radius: 50px 20px;
+  border-radius: 10px;
   border: 1px solid white;
 
   &:hover {
@@ -81,7 +82,7 @@ mat-expansion-panel-header {
 .content-item {
   padding: 15px;
   background: darkblue;
-  border-radius: 50px 20px;
+  border-radius: 10px;
 
   .paragraph-delete-button {
     background-color: darkblue;
@@ -107,10 +108,31 @@ mat-expansion-panel-header {
   }
 }
 
+.content-items {
+  height: 600px;
+  overflow-y: auto;
+}
+
+.content-items::-webkit-scrollbar {
+  //width: 12px;
+  background: darkblue;
+  width: 10px !important; /* width of the entire scrollbar */
+}
+
+.content-items::-webkit-scrollbar-track {
+  background: darkblue;
+  /* color of the tracking area */
+}
+
+.content-items::-webkit-scrollbar-thumb {
+  width: 15px;
+  background-color: #1F2833; /* color of the scroll thumb */
+  /* roundness of the scroll thumb */
+}
+
 .action-buttons {
   display: flex;
   justify-content: center;
-  padding-top: 20px;
   padding-left: 10px;
   padding-right: 10px;
 
