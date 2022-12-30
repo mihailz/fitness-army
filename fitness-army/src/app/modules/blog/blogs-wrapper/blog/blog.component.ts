@@ -15,6 +15,7 @@ export class BlogComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log('blog:', this.blog)
   }
 
 }

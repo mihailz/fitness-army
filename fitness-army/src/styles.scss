@@ -6,3 +6,16 @@
 body {
   font-family: 'Montserrat', sans-serif;
 }
+
+ .mat-select-panel {
+  background: #1F2833;
+  box-shadow: 1px 1px 1px white;
+
+  .mat-option {
+    color: white;
+
+    &:hover {
+      background: darkblue;
+    }
+  }
+}

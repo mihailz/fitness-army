@@ -7,6 +7,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [],
@@ -18,7 +19,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatInputModule,
     MatSortModule,
     MatPaginatorModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatSelectModule
   ],
   exports: [
     MatTableModule,
@@ -28,7 +30,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatInputModule,
     MatSortModule,
     MatPaginatorModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatSelectModule
   ]
 })
 export class MaterialModule { }

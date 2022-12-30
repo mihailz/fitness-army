@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {Blog} from "../../model/blog";
-import {from, map, Observable, switchMap} from "rxjs";
+import {BehaviorSubject, catchError, from, map, Observable, of, Subject, switchMap, tap, throwError} from "rxjs";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {BlogParagraph} from "../../model/blog-paragraph";
@@ -14,6 +14,8 @@ import {User} from "../../model/user.model";
 export class BlogApiService {
 
   baseApiHref: string = '';
+  blogsSubject: Subject<Blog[]> = new Subject<Blog[]>();
+  blogs$ = this.blogsSubject.asObservable();
 
   constructor(private http: HttpClient,
               private storage: AngularFireStorage,
@@ -60,9 +62,9 @@ export class BlogApiService {
       )
   }
 
-  getBlogPosts(category?: string): Observable<Blog[]> {
+  getBlogPosts(category?: string): void {
     const url = category ? `${this.baseApiHref}/api/blogs?category=${category}` : `${this.baseApiHref}/api/blogs`;
-    return this.http.get(url)
+    this.http.get(url)
       .pipe(
         map((response: any) => response.data
           .map((blogItem: any) =>
@@ -84,8 +86,16 @@ export class BlogApiService {
               blogItem.dateCreated,
               blogItem.imageUrl
             )
-          )),
-      );
+          ),
+          catchError((error: HttpErrorResponse) => throwError(() => of(error)))),
+      ).subscribe({
+      next: (blogs: Blog[]) => {
+        this.blogsSubject.next(blogs);
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
   }
 
   getBlogById(blogId: string): Observable<Blog> {

@@ -35,7 +35,7 @@ exports.getBlogs = (req: Request, res: Response) => {
       await blogsCollection.get()
           .then((blogsSnapshot: any) => {
             let documents;
-            if (category && category !== "ALL") {
+            if (category && category.length !== 0) {
               documents = blogsSnapshot.docs.filter((document: any) => {
                 return document.data().category === category;
               });

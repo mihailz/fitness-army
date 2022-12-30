@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {BlogType} from "../../../../model/blog-type";
+import {BlogFilterCategories} from "../../../../model/blog-type";
+import {MatSelectChange} from "@angular/material/select";
 
 @Component({
   selector: 'fitness-army-app-blogs-filter',
@@ -11,11 +12,14 @@ export class BlogsFilterComponent implements OnInit {
   @Input() userRole!: string;
   @Output() onSearchBlogs: EventEmitter<string> = new EventEmitter<string>();
   @Output() onCategorySelect: EventEmitter<string> = new EventEmitter<string>();
-  blogCategories = Object.values(BlogType);
+  blogCategories = Object.values(BlogFilterCategories);
+  selectedCategory: string = '';
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
+    this.selectedCategory = this.blogCategories[0];
   }
 
   searchBlogs($event: Event): void {
@@ -24,8 +28,8 @@ export class BlogsFilterComponent implements OnInit {
     this.onSearchBlogs.emit(searchValue);
   }
 
-
-  categorySelect(selectedCategory: string): void {
-    this.onCategorySelect.emit(selectedCategory);
+  onCategorySelectionChange(categoryChangeObject: MatSelectChange): void {
+    this.selectedCategory = categoryChangeObject.value;
+    this.onCategorySelect.emit(this.selectedCategory);
   }
 }

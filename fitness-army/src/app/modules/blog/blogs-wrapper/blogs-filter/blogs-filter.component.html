@@ -1,5 +1,6 @@
 <div class="blogs-filters-container">
   <div class="blogs-search-wrapper blogs-filter-item">
+
     <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
       <input (change)="searchBlogs($event)" type="text" nz-input placeholder="Search here..."/>
     </nz-input-group>
@@ -8,17 +9,12 @@
     </ng-template>
   </div>
   <div class="blogs-filter-dropdown blogs-filter-item">
-    <a class="text-white text-decoration-none" nz-dropdown [nzDropdownMenu]="menu">
-      Filter by category
-      <i nz-icon nzType="down"></i>
-    </a>
-    <nz-dropdown-menu #menu="nzDropdownMenu">
-      <ul class="filter-menu" nz-menu nzSelectable>
-        <li class="filter-menu-item" nz-menu-item (click)="categorySelect('ALL')"
-            [value]="'ALL'">ALL</li>
-        <li class="filter-menu-item" nz-menu-item (click)="categorySelect(category)" *ngFor="let category of blogCategories"
-            [value]="category">{{category}}</li>
-      </ul>
-    </nz-dropdown-menu>
+    <mat-form-field class="blog-category-select-container" appearance="fill">
+      <mat-select (selectionChange)="onCategorySelectionChange($event)">
+        <mat-option *ngFor="let category of blogCategories" [value]="category">
+          {{category}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
 </div>

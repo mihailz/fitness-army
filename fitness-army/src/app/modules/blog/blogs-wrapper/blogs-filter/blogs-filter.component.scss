@@ -21,17 +21,9 @@
   }
 }
 
-::ng-deep .filter-menu {
-  background: #1F2833;
-  box-shadow: 2px 2px white;
-
-  .filter-menu-item {
-    color: white;
-    font-weight: bold;
-    &:hover {
-      background: darkblue;
-    }
-  }
+.blog-category-select-container {
+  border: 1px solid white;
+  color: white;
 }
 
 @media (min-width: 767.8px) {

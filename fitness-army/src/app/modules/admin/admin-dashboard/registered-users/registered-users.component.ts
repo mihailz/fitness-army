@@ -5,8 +5,21 @@ import {finalize} from "rxjs";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {MatPaginator} from "@angular/material/paginator";
-import {MatSort, Sort} from "@angular/material/sort";
+import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
+import {MatSelectChange} from "@angular/material/select";
+
+enum TableHeaderColumn {
+  'displayName' = 'Username',
+  'email' = 'Email',
+  'role' = 'Role',
+}
+
+type IUserColumn = {
+  [K in keyof User]: string
+};
+
+type ITableColumns = keyof Partial<User>;
 
 @Component({
   selector: 'fitness-army-app-registered-users',
@@ -18,17 +31,17 @@ export class RegisteredUsersComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   users: User[] = [];
-  editId!: string | null;
   isFetchingData: boolean = false;
   roles = ['ADMIN', 'COACH', 'USER'];
-  displayedColumns: string[] = ['displayName', 'email', 'role'];
-
-  dataSource: MatTableDataSource<User> =  new MatTableDataSource();
+  displayedColumns: ITableColumns[] = ['displayName', 'email', 'role'];
+  tableHeaderColumn = TableHeaderColumn as IUserColumn;
+  dataSource: MatTableDataSource<IUserColumn> = new MatTableDataSource();
 
   constructor(private router: Router,
               private userApiService: UserApiService,
               private toastrService: ToastrService,
-              private cdr: ChangeDetectorRef) { }
+              private cdr: ChangeDetectorRef) {
+  }
 
   ngOnInit(): void {
     this.fetchAllUsers();
@@ -51,17 +64,12 @@ export class RegisteredUsersComponent implements OnInit {
       })
   }
 
-  editUser(uid: string): void {
-    this.editId = uid;
-  }
-
-  stopEditing(): void {
-    this.editId = null;
+  onSelectionChange(matSelectChangeObject: MatSelectChange, userId: number): void {
+    const role = matSelectChangeObject.value;
+    this.onRoleChange(role, this.users[userId]);
   }
 
   onRoleChange(updatedRole: string, user: User): void {
-    console.log('onRoleChange: ', updatedRole);
-
     const updatedUser = {...user, role: updatedRole};
     const queryParam = {'update_password': false};
     this.userApiService.updateUser(updatedUser, queryParam)

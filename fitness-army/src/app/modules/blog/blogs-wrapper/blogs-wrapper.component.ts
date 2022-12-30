@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NzModalService} from "ng-zorro-antd/modal";
 import {BlogApiService} from "../../../service/api/blog-api.service";
 import {Blog} from "../../../model/blog";
-import {finalize, fromEvent, Subscription} from "rxjs";
+import {filter, finalize, fromEvent, map, Observable, Subscription} from "rxjs";
 import {AuthApiService} from "../../../service/api/auth-api.service";
 import {User} from "../../../model/user.model";
 import {BlogService} from "../../../service/data/blog.service";
@@ -16,8 +16,8 @@ import {CreateBlogModalComponent} from "./create-blog-modal/create-blog-modal.co
 })
 export class BlogsWrapperComponent implements OnInit, OnDestroy {
 
-  blogs: Blog[] = [];
-  filteredBlogs: Blog[] = [];
+  blogs$!: Observable<Blog[]>;
+  filteredBlogs$!: Observable<Blog[]>;
   isFetchingData: boolean = false;
   loggedInUser!: User | null;
   userRoles = UserRoles;
@@ -33,30 +33,15 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
     this.getCurrentLoggedInUser();
     this.listenForBlogCreationStatus();
     this.fetchBlogs();
+    this.blogs$ = this.blogApiService.blogs$;
   }
 
   ngOnDestroy(): void {
     this.subscriptions?.unsubscribe();
   }
 
-  fetchBlogs(): void {
-    this.isFetchingData = true;
-    this.blogApiService.getBlogPosts()
-      .pipe(
-        finalize(() => this.isFetchingData = false)
-      )
-      .subscribe({
-        next: (response: Blog[]) => {
-          this.blogs = response;
-          console.log('fetcgBlogs: ', response);
-
-          this.filteredBlogs = [...this.blogs];
-        },
-        error: (err) => {
-          console.log(err);
-          this.isFetchingData = false;
-        }
-      })
+  fetchBlogs(category = ''): void {
+    this.blogApiService.getBlogPosts();
   }
 
   openCreateBlogModal(): void {
@@ -91,25 +76,18 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
   }
 
   onSearchBlogs(searchValue: string): void {
-    this.filteredBlogs = this.blogs.filter((blog: Blog) => {
-      return blog.title.toLowerCase().includes(searchValue.toLowerCase());
-    });
+    // this.filteredBlogs$ = this.blogs$
+    //   .pipe(
+    //     map((blogs: Blog[]) => blogs.filter((blog: Blog) => {
+    //         return blog.title.toLowerCase().includes(searchValue.toLowerCase());
+    //       })
+    //     )
+    //   );
+
   }
 
   onCategorySelect(selectedCategory: string): void {
-    this.isFetchingData = true;
-    this.blogApiService.getBlogPosts(selectedCategory)
-      .pipe(
-        finalize(() => this.isFetchingData = false)
-      ).subscribe({
-      next: (blogs: Blog[]) => {
-        this.filteredBlogs = blogs;
-      },
-      error: (error) => {
-        console.log(error);
-        this.isFetchingData = false;
-      }
-    })
+    this.fetchBlogs(selectedCategory);
 
   }
 }

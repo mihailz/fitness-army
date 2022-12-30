@@ -1,28 +1,26 @@
 <div class="users-container">
   <h1 class="text-white">Registered users</h1>
-  <!--  <mat-form-field>-->
-  <!--    <mat-label>Filter</mat-label>-->
-  <!--    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>-->
-  <!--  </mat-form-field>-->
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-    <ng-container matColumnDef="displayName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Username</th>
-      <td mat-cell *matCellDef="let row"> {{row.displayName}} </td>
+    <ng-container *ngFor="let column of displayedColumns">
+      <ng-container [matColumnDef]="column">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ tableHeaderColumn[column] || column}}</th>
+        <td mat-cell *matCellDef="let row; let id = index">
+          <ng-container *ngIf="column !== 'role' else roleCell">
+            {{row[column]}}
+          </ng-container>
+          <ng-template #roleCell>
+            <mat-form-field class="user-role-form-field" appearance="fill">
+              <mat-select [(ngModel)]="row['role']" name="role" (selectionChange)="onSelectionChange($event, id)">
+                <mat-option *ngFor="let role of roles" [value]="role">
+                  {{role}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-template>
+        </td>
+      </ng-container>
     </ng-container>
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Email</th>
-      <td mat-cell *matCellDef="let row"> {{row.email}} </td>
-    </ng-container>
-    <ng-container matColumnDef="role">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Role</th>
-      <td mat-cell *matCellDef="let row">
-        <ng-container>
-
-        </ng-container>
-        {{row.role}}
-      </td>
-    </ng-container>
-
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -34,9 +32,6 @@
         </td>
       </tr>
     </ng-container>
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4">No data matching the filter</td>
-    </tr>
   </table>
   <mat-paginator [length]="dataSource.data.length"
                  [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
