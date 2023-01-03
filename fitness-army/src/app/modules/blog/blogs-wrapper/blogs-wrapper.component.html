@@ -1,5 +1,4 @@
 <div class="container blogs-container">
-<!--  <nz-spin [nzSpinning]="true" [nzSize]="'large'" *ngIf="isFetchingData" [nzTip]="'Fetching blogs...'"></nz-spin>-->
   <div class="row">
     <div class="blogs-filter-container">
       <fitness-army-app-blogs-filter (onCategorySelect)="onCategorySelect($event)"
@@ -14,9 +13,16 @@
     </div>
   </ng-container>
   <div class="row pt-4">
-    <div class="col-xs-12 col-md-6 col-lg-4 mt-4 mt-lg-0"
-         *ngFor="let blog of blogs$ | async">
-      <fitness-army-app-blog [blog]="blog"></fitness-army-app-blog>
-    </div>
+    <ng-container *ngIf="isFetchingData">
+      <div class="loading-indicator">
+        <mat-spinner></mat-spinner>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="blogs$ | async as blogs">
+      <div class="col-xs-12 col-md-6 col-lg-4 mt-4 mt-lg-0"
+           *ngFor="let blog of blogs">
+        <fitness-army-app-blog [blog]="blog"></fitness-army-app-blog>
+      </div>
+    </ng-container>
   </div>
 </div>

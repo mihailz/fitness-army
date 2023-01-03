@@ -13,7 +13,7 @@ export class BlogsFilterComponent implements OnInit {
   @Output() onSearchBlogs: EventEmitter<string> = new EventEmitter<string>();
   @Output() onCategorySelect: EventEmitter<string> = new EventEmitter<string>();
   blogCategories = Object.values(BlogFilterCategories);
-  selectedCategory: string = '';
+  selectedCategory: string = 'ALL';
 
   constructor() {
   }

@@ -2,7 +2,20 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {Blog} from "../../model/blog";
-import {BehaviorSubject, catchError, from, map, Observable, of, Subject, switchMap, tap, throwError} from "rxjs";
+import {
+  BehaviorSubject,
+  catchError,
+  from,
+  map,
+  Observable,
+  of,
+  share,
+  shareReplay,
+  Subject,
+  switchMap,
+  tap,
+  throwError
+} from "rxjs";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {BlogParagraph} from "../../model/blog-paragraph";
@@ -62,8 +75,9 @@ export class BlogApiService {
       )
   }
 
-  getBlogPosts(category?: string): void {
+  getBlogPosts(category: string, cb: (status: boolean) => void): void {
     const url = category ? `${this.baseApiHref}/api/blogs?category=${category}` : `${this.baseApiHref}/api/blogs`;
+    cb(true);
     this.http.get(url)
       .pipe(
         map((response: any) => response.data
@@ -91,9 +105,11 @@ export class BlogApiService {
       ).subscribe({
       next: (blogs: Blog[]) => {
         this.blogsSubject.next(blogs);
+        cb(false);
       },
       error: (err) => {
         console.log(err);
+        cb(false);
       }
     });
   }

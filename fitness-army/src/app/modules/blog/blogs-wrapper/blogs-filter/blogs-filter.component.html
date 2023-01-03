@@ -10,7 +10,7 @@
   </div>
   <div class="blogs-filter-dropdown blogs-filter-item">
     <mat-form-field class="blog-category-select-container" appearance="fill">
-      <mat-select (selectionChange)="onCategorySelectionChange($event)">
+      <mat-select [(value)] ="selectedCategory" (selectionChange)="onCategorySelectionChange($event)">
         <mat-option *ngFor="let category of blogCategories" [value]="category">
           {{category}}
         </mat-option>

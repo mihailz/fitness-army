@@ -35,7 +35,7 @@ exports.getBlogs = (req: Request, res: Response) => {
       await blogsCollection.get()
           .then((blogsSnapshot: any) => {
             let documents;
-            if (category && category.length !== 0) {
+            if (category && category.length != 0) {
               documents = blogsSnapshot.docs.filter((document: any) => {
                 return document.data().category === category;
               });
@@ -79,7 +79,6 @@ exports.getBlogPostsByCategory = (req: Request, res: Response) => {
             const documents = blogsSnapShop.docs.filter((document: any) => {
               return document.data().category === category;
             });
-            console.log("filteredDocuments: ", documents);
             for (const document of documents) {
               blogs.push(new BlogPostModelDto(
                   document.data().id,
@@ -123,6 +122,7 @@ exports.updateBlog = (req: Request, res: Response) => {
   (async () => {
     try {
       const blogId = req.params.blog_id;
+      console.log("updateBlog = blogId: ", blogId);
       const blogDocument = db.collection("blogs").doc(blogId);
       await blogDocument.update({
         author: req.body.blog.author,

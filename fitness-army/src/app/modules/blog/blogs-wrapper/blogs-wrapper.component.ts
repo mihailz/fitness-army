@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {NzModalService} from "ng-zorro-antd/modal";
 import {BlogApiService} from "../../../service/api/blog-api.service";
 import {Blog} from "../../../model/blog";
@@ -8,6 +8,8 @@ import {User} from "../../../model/user.model";
 import {BlogService} from "../../../service/data/blog.service";
 import {UserRoles} from "../../../model/roles";
 import {CreateBlogModalComponent} from "./create-blog-modal/create-blog-modal.component";
+import {ThemePalette} from "@angular/material/core";
+import {ProgressSpinnerMode} from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'fitness-army-app-blogs-wrapper',
@@ -21,27 +23,34 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
   isFetchingData: boolean = false;
   loggedInUser!: User | null;
   userRoles = UserRoles;
+  color: ThemePalette = 'primary';
+  mode: ProgressSpinnerMode = 'determinate';
+  value = 50;
   private subscriptions: Subscription = new Subscription();
 
   constructor(private nzModalService: NzModalService,
               private blogApiService: BlogApiService,
               private authApiService: AuthApiService,
-              private blogService: BlogService) {
+              private blogService: BlogService,
+              private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
     this.getCurrentLoggedInUser();
     this.listenForBlogCreationStatus();
-    this.fetchBlogs();
-    this.blogs$ = this.blogApiService.blogs$;
+    this.fetchBlogs('');
+
   }
 
   ngOnDestroy(): void {
     this.subscriptions?.unsubscribe();
   }
 
-  fetchBlogs(category = ''): void {
-    this.blogApiService.getBlogPosts();
+  fetchBlogs(category: string): void {
+    this.blogApiService.getBlogPosts(category, (status: boolean) => {
+      this.setLoading(status);
+      this.blogs$ = this.blogApiService.blogs$;
+    });
   }
 
   openCreateBlogModal(): void {
@@ -49,6 +58,20 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
       nzContent: CreateBlogModalComponent,
       nzFooter: null,
     })
+  }
+
+  onSearchBlogs(searchValue: string): void {
+    // this.filteredBlogs$ = this.blogs$
+    //   .pipe(
+    //     map((blogs: Blog[]) => blogs.filter((blog: Blog) => {
+    //         return blog.title.toLowerCase().includes(searchValue.toLowerCase());
+    //       })
+    //     )
+    //   );
+  }
+
+  onCategorySelect(selectedCategory: string): void {
+    selectedCategory === 'ALL' ? this.fetchBlogs('') : this.fetchBlogs(selectedCategory);
   }
 
   private getCurrentLoggedInUser(): void {
@@ -68,27 +91,15 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (status: boolean) => {
           if (status) {
-            this.fetchBlogs();
+            this.fetchBlogs('');
           }
         }
       });
     this.subscriptions.add(subscription);
   }
 
-  onSearchBlogs(searchValue: string): void {
-    // this.filteredBlogs$ = this.blogs$
-    //   .pipe(
-    //     map((blogs: Blog[]) => blogs.filter((blog: Blog) => {
-    //         return blog.title.toLowerCase().includes(searchValue.toLowerCase());
-    //       })
-    //     )
-    //   );
-
-  }
-
-  onCategorySelect(selectedCategory: string): void {
-    this.fetchBlogs(selectedCategory);
-
+  private setLoading(status = true): void {
+    this.isFetchingData = status;
   }
 }
 

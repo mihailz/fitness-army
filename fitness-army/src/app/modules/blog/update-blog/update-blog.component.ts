@@ -97,7 +97,9 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
       title: title,
       content: content,
       category: category
-    }
+    };
+    console.log('Update blog: ', updatedBlog);
+
     this.blogApiService.updateBlogPost(updatedBlog, this.blogImage)
       .pipe(
         finalize(() => {
@@ -107,6 +109,7 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (response) => {
+          console.log('updatedBlog: ', response)
         },
         error: (err) => {
           console.log(err);
