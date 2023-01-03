@@ -55,6 +55,7 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
     reader.onloadend = (e: ProgressEvent<FileReader> | null) => { // function call once readAsDataUrl is completed
       if (e?.target?.['result']) {
         this.uploadedImageUrl = e?.target?.['result'];
+        console.log('onImageSelect: ', this.uploadedImageUrl)
       }
     }
   }
@@ -98,7 +99,7 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
       content: content,
       category: category
     };
-    console.log('Update blog: ', updatedBlog);
+    const blogImage = this.blogImage ? this.blogImage : null;
     this.blogApiService.updateBlogPost(updatedBlog, this.blogImage, status => {
       this.setLoading(status);
     })
@@ -116,6 +117,7 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
       .subscribe({
         next: ((blogParagraph: BlogParagraph) => {
           this.addParagraph(blogParagraph);
+          this.contentTitles.push(blogParagraph.title);
         })
       });
     this.subscriptions.add(subscription);
@@ -136,7 +138,6 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
       ).subscribe({
         next: (blog: Blog) => {
           this.blog = blog;
-          console.log('blog here: ', blog);
           this.populateUpdateBlogForm(blog);
           this.populateUpdateBlogContentFormArray(blog);
         },

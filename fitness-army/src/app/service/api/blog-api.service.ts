@@ -21,6 +21,7 @@ import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {BlogParagraph} from "../../model/blog-paragraph";
 import {User} from "../../model/user.model";
 import {stat} from "fs";
+import {isNil} from "ng-zorro-antd/core/util";
 
 @Injectable({
   providedIn: 'root'
@@ -45,16 +46,15 @@ export class BlogApiService {
     return this.http.post(`${this.baseApiHref}/api/blogs/create/${blog.author.uid}`, {
       blog: blog
     }).pipe(
-      map((response: any) => response.blogId),
-      switchMap((blogId: string) => {
-        return this.uploadBlogImage(imageFile, blogId)
+      switchMap((blog: any) => {
+        return this.uploadBlogImage(imageFile, blog)
       })
     );
   }
 
-  updateBlogPost(blog: Blog, imageFile: File, cb: (status: boolean) => void): void {
+  updateBlogPost(blog: Blog, imageFile: File | null, cb: (status: boolean) => void): void {
     cb(true);
-    this.uploadBlogImage(imageFile, blog.id!)
+    this.uploadBlogImage(imageFile, blog)
       .pipe(
         switchMap((blogImageUrl: string) => {
           return this.http.put(`${this.baseApiHref}/api/blogs/update/${blog.id}`, {
@@ -80,7 +80,7 @@ export class BlogApiService {
           blogData.dateCreated,
           blogData.imageUrl
         )),
-        catchError((error: HttpErrorResponse) => throwError(() => of(error))),
+        catchError((error: HttpErrorResponse) => throwError(() => of(error.message))),
         finalize(() => cb(false))
       ).subscribe({
       next: (blog: Blog) => {
@@ -92,21 +92,27 @@ export class BlogApiService {
     })
   }
 
-  uploadBlogImage(file: File, blogId: string): Observable<string> {
-    const path = `${blogId}`;
-    const ref = this.storage.ref(path);
-    let imageUrl = "";
-    return from(this.storage.upload(path, file))
-      .pipe(
-        switchMap(() => {
-          return ref.getDownloadURL();
-        }),
-        switchMap((downloadUrl: any) => {
-          imageUrl = downloadUrl;
-          return from(this.db.collection('blogs').doc(blogId).update({imageUrl: downloadUrl}));
-        }),
-        map(() => imageUrl)
-      )
+  uploadBlogImage(file: File | null, blog: Blog): Observable<string> {
+    if (isNil(file)) {
+      console.log('nema selektirano fajl zemi go postoeckoto url!');
+      return of(blog.imageUrl!)
+    } else {
+      console.log('ima selektirano fajl kreiraj pateka!');
+      const path = `${blog.id}`;
+      const ref = this.storage.ref(path);
+      let imageUrl = "";
+      return from(this.storage.upload(path, file))
+        .pipe(
+          switchMap(() => {
+            return ref.getDownloadURL();
+          }),
+          switchMap((downloadUrl: any) => {
+            imageUrl = downloadUrl;
+            return from(this.db.collection('blogs').doc(blog.id!).update({imageUrl: downloadUrl}));
+          }),
+          map(() => imageUrl)
+        )
+    }
   }
 
   getBlogPosts(category: string, cb: (status: boolean) => void): void {
@@ -114,37 +120,9 @@ export class BlogApiService {
     cb(true);
     this.http.get(url)
       .pipe(
-        map((response: any) => response.data
-            .map((blogItem: any) =>
-              new Blog(
-                blogItem.id,
-                new User(
-                  blogItem.author.email,
-                  blogItem.author.uid,
-                  blogItem.author.displayName,
-                  blogItem.author.role,
-                  blogItem.author.profileImage,
-                ),
-                blogItem.title,
-                blogItem.content.map((blogParagraph: any) => new BlogParagraph(
-                  blogParagraph.title,
-                  blogParagraph.content
-                )),
-                blogItem.category,
-                blogItem.dateCreated,
-                blogItem.imageUrl
-              )
-            ),
-          catchError((error: HttpErrorResponse) => throwError(() => of(error)))),
-        finalize(() => cb(false))
-      ).subscribe({
-      next: (blogs: Blog[]) => {
-        this.blogsSubject.next(blogs);
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    });
+        catchError((error: HttpErrorResponse) => throwError(() => of(error)))),
+      finalize(() => cb(false)
+      );
   }
 
 

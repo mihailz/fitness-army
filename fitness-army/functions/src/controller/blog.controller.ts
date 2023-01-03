@@ -122,20 +122,16 @@ exports.updateBlog = (req: Request, res: Response) => {
   (async () => {
     try {
       const blogId = req.params.blog_id;
-      console.log("updateBlog = blogId: ", blogId);
       const blogDocument = db.collection("blogs").doc(blogId);
-      const updatedBlog: BlogPostModelDto = {
-        id: blogId,
+      await blogDocument.update({
         author: req.body.blog.author,
         title: req.body.blog.title,
         content: req.body.blog.content,
         category: req.body.blog.category,
         imageUrl: req.body.blog.imageUrl,
-        dateCreated: req.body.dateCreated,
-      };
-      await blogDocument.update(updatedBlog);
+      });
       return res.status(200).send({
-        blog: updatedBlog,
+        message: "Blog has been updated!",
       });
     } catch (error) {
       console.log(error);
