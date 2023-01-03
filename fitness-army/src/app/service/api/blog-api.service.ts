@@ -4,7 +4,7 @@ import {environment} from "../../../environments/environment";
 import {Blog} from "../../model/blog";
 import {
   BehaviorSubject,
-  catchError,
+  catchError, finalize,
   from,
   map,
   Observable,
@@ -20,6 +20,7 @@ import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {BlogParagraph} from "../../model/blog-paragraph";
 import {User} from "../../model/user.model";
+import {stat} from "fs";
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +28,12 @@ import {User} from "../../model/user.model";
 export class BlogApiService {
 
   baseApiHref: string = '';
+
   blogsSubject: Subject<Blog[]> = new Subject<Blog[]>();
   blogs$ = this.blogsSubject.asObservable();
+
+  blogSubject: Subject<Blog> = new Subject<Blog>();
+  blog$ = this.blogSubject.asObservable();
 
   constructor(private http: HttpClient,
               private storage: AngularFireStorage,
@@ -47,15 +52,44 @@ export class BlogApiService {
     );
   }
 
-  updateBlogPost(blog: Blog, imageFile: File): Observable<any> {
-    return this.uploadBlogImage(imageFile, blog.id!)
+  updateBlogPost(blog: Blog, imageFile: File, cb: (status: boolean) => void): void {
+    cb(true);
+    this.uploadBlogImage(imageFile, blog.id!)
       .pipe(
         switchMap((blogImageUrl: string) => {
           return this.http.put(`${this.baseApiHref}/api/blogs/update/${blog.id}`, {
             blog: {...blog, imageUrl: blogImageUrl}
           });
-        })
-      )
+        }),
+        map((response: any) => response.blog),
+        map((blogData: any) => new Blog(
+          blogData.id,
+          new User(
+            blogData.author.email,
+            blogData.author.uid,
+            blogData.author.displayName,
+            blogData.author.role,
+            blogData.author.profileImage,
+          ),
+          blogData.title,
+          blogData.content.map((blogParagraph: any) => new BlogParagraph(
+            blogParagraph.title,
+            blogParagraph.content
+          )),
+          blogData.category,
+          blogData.dateCreated,
+          blogData.imageUrl
+        )),
+        catchError((error: HttpErrorResponse) => throwError(() => of(error))),
+        finalize(() => cb(false))
+      ).subscribe({
+      next: (blog: Blog) => {
+        this.blogSubject.next(blog);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error(err)
+      }
+    })
   }
 
   uploadBlogImage(file: File, blogId: string): Observable<string> {
@@ -81,35 +115,70 @@ export class BlogApiService {
     this.http.get(url)
       .pipe(
         map((response: any) => response.data
-          .map((blogItem: any) =>
-            new Blog(
-              blogItem.id,
-              new User(
-                blogItem.author.email,
-                blogItem.author.uid,
-                blogItem.author.displayName,
-                blogItem.author.role,
-                blogItem.author.profileImage,
-              ),
-              blogItem.title,
-              blogItem.content.map((blogParagraph: any) => new BlogParagraph(
-                blogParagraph.title,
-                blogParagraph.content
-              )),
-              blogItem.category,
-              blogItem.dateCreated,
-              blogItem.imageUrl
-            )
-          ),
+            .map((blogItem: any) =>
+              new Blog(
+                blogItem.id,
+                new User(
+                  blogItem.author.email,
+                  blogItem.author.uid,
+                  blogItem.author.displayName,
+                  blogItem.author.role,
+                  blogItem.author.profileImage,
+                ),
+                blogItem.title,
+                blogItem.content.map((blogParagraph: any) => new BlogParagraph(
+                  blogParagraph.title,
+                  blogParagraph.content
+                )),
+                blogItem.category,
+                blogItem.dateCreated,
+                blogItem.imageUrl
+              )
+            ),
           catchError((error: HttpErrorResponse) => throwError(() => of(error)))),
+        finalize(() => cb(false))
       ).subscribe({
       next: (blogs: Blog[]) => {
         this.blogsSubject.next(blogs);
-        cb(false);
       },
       error: (err) => {
         console.log(err);
-        cb(false);
+      }
+    });
+  }
+
+
+  getBlogByIdTest(blogId: string, cb: (status: boolean) => void): void {
+    cb(true);
+    this.http.get(`${this.baseApiHref}/api/blogs/${blogId}`)
+      .pipe(
+        map((response: any) => response.data),
+        map((blogData: any) => new Blog(
+          blogData.id,
+          new User(
+            blogData.author.email,
+            blogData.author.uid,
+            blogData.author.displayName,
+            blogData.author.role,
+            blogData.author.profileImage,
+          ),
+          blogData.title,
+          blogData.content.map((blogParagraph: any) => new BlogParagraph(
+            blogParagraph.title,
+            blogParagraph.content
+          )),
+          blogData.category,
+          blogData.dateCreated,
+          blogData.imageUrl
+        )),
+        catchError((err: HttpErrorResponse) => throwError(() => of(err))),
+        finalize(() => cb(false))
+      ).subscribe({
+      next: (blog: Blog) => {
+        this.blogSubject.next(blog);
+      },
+      error: (err) => {
+        console.log(err);
       }
     });
   }

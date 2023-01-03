@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Blog} from "../../../model/blog";
 import {BlogType} from "../../../model/blog-type";
-import {finalize, map, Subscription, switchMap} from "rxjs";
+import {finalize, map, Observable, Subscription, switchMap, tap} from "rxjs";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {BlogApiService} from "../../../service/api/blog-api.service";
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
@@ -99,25 +99,9 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
       category: category
     };
     console.log('Update blog: ', updatedBlog);
-
-    this.blogApiService.updateBlogPost(updatedBlog, this.blogImage)
-      .pipe(
-        finalize(() => {
-          this.isFetchingData = false;
-          this.nzTipMessage = '';
-        })
-      )
-      .subscribe({
-        next: (response) => {
-          console.log('updatedBlog: ', response)
-        },
-        error: (err) => {
-          console.log(err);
-          this.isFetchingData = false;
-          this.nzTipMessage = '';
-        }
-      })
-
+    this.blogApiService.updateBlogPost(updatedBlog, this.blogImage, status => {
+      this.setLoading(status);
+    })
   }
 
   openAddParagraphModal(): void {
@@ -138,43 +122,47 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
   }
 
   private fetchCurrentBlog(): void {
-    this.nzTipMessage = 'Loading blog content...';
-    this.isFetchingData = true;
-    this.activatedRoute.params
+    const sub$ = this.activatedRoute.params
       .pipe(
         map((params: Params) => params['id']),
         switchMap((blogId: string) => {
-          return this.blogApiService.getBlogById(blogId);
+          let blogSub$: Observable<Blog> = new Observable<Blog>();
+          this.blogApiService.getBlogByIdTest(blogId, (status: boolean) => {
+            this.setLoading(status);
+            blogSub$ = this.blogApiService.blog$;
+          });
+          return blogSub$
         })
       ).subscribe({
-      next: (blog: Blog) => {
-        this.isFetchingData = false;
-        this.nzTipMessage = '';
-        this.blog = blog;
-        if (this.blog) {
-          this.populateUpdateBlogForm();
-          this.populateUpdateBlogContentFormArray();
+        next: (blog: Blog) => {
+          this.blog = blog;
+          console.log('blog here: ', blog);
+          this.populateUpdateBlogForm(blog);
+          this.populateUpdateBlogContentFormArray(blog);
+        },
+        error: (err) => {
+          console.error(err);
         }
-      },
-      error: err => {
-        console.log(err);
-        this.nzTipMessage = '';
-        this.isFetchingData = false;
-      }
-    })
+      });
+
+    this.subscriptions.add(sub$);
   }
 
-  private populateUpdateBlogForm(): void {
+  private setLoading(status = true): void {
+    this.isFetchingData = status;
+  }
+
+  private populateUpdateBlogForm(blog: Blog): void {
     this.updateBlogForm.patchValue({
-      title: this.blog.title,
-      category: this.blog.category,
-      blogImage: this.blog.imageUrl
+      title: blog.title,
+      category: blog.category,
+      blogImage: blog.imageUrl
     });
   }
 
-  private populateUpdateBlogContentFormArray(): FormArray {
+  private populateUpdateBlogContentFormArray(blog: Blog): FormArray {
     const contentFormArray = new FormArray([]);
-    this.blog.content.forEach((paragraph: BlogParagraph, index: number) => {
+    blog.content.forEach((paragraph: BlogParagraph, index: number) => {
       let paragraphTitleFormControl = new FormControl('');
       let paragraphContentFormControl = new FormControl('');
 

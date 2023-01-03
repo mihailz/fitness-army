@@ -1,6 +1,10 @@
 <div class="container text-white update-blog-form-container">
-  <nz-spin [nzSpinning]="true" [nzTip]="nzTipMessage" *ngIf="isFetchingData"></nz-spin>
-  <ng-container *ngIf="!isFetchingData">
+  <ng-container *ngIf="isFetchingData">
+    <div class="loading-indicator">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="blog">
     <div class="row">
       <div class="col">
         <h1 class="page-title text-center text-white">Update blog</h1>

@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from "@angular/router";
-import {map, Subscription, switchMap} from "rxjs";
+import {map, Observable, Subscription, switchMap, tap} from "rxjs";
 import {BlogApiService} from "../../../service/api/blog-api.service";
 import {Blog} from "../../../model/blog";
 import {BlogType} from "../../../model/blog-type";
@@ -12,7 +12,7 @@ import {BlogType} from "../../../model/blog-type";
 })
 export class BlogDetailsComponent implements OnInit, OnDestroy {
 
-  blog!: Blog;
+  blog$!: Observable<Blog>;
   blogCategories = BlogType;
   isFetchingData: boolean = false;
   private subscriptions: Subscription = new Subscription();
@@ -34,28 +34,29 @@ export class BlogDetailsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/blogs']);
   }
 
-  navigateToUpdateBlogPage(): void {
-    this.router.navigate([`/blogs/update/${this.blog.id}`]);
+  navigateToUpdateBlogPage(blog: Blog): void {
+    if (blog) {
+      this.router.navigate([`/blogs/update/${blog.id}`]);
+    }
   }
 
   private fetchCurrentBlog(): void {
-    this.isFetchingData = true;
     const sub$ = this.activatedRoute.params
       .pipe(
         map((params: Params) => params['id']),
-        switchMap((blogId: string) => {
-          return this.blogApiService.getBlogById(blogId);
+        tap({
+          next: (blogId: string) => {
+            this.blogApiService.getBlogByIdTest(blogId, (status: boolean) => {
+              this.setLoading(status);
+              this.blog$ = this.blogApiService.blogSubject;
+            })
+          }
         })
-      ).subscribe({
-        next: (blog: Blog) => {
-          console.log('Blog: ', blog);
-          this.isFetchingData = false;
-          this.blog = blog;
-        },
-        error: err => {
-          console.log(err);
-        }
-      });
+      ).subscribe();
     this.subscriptions.add(sub$);
+  }
+
+  private setLoading(status = true): void {
+    this.isFetchingData = status;
   }
 }
