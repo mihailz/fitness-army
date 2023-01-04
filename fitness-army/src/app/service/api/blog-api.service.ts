@@ -94,10 +94,8 @@ export class BlogApiService {
 
   uploadBlogImage(file: File | null, blog: Blog): Observable<string> {
     if (isNil(file)) {
-      console.log('nema selektirano fajl zemi go postoeckoto url!');
       return of(blog.imageUrl!)
     } else {
-      console.log('ima selektirano fajl kreiraj pateka!');
       const path = `${blog.id}`;
       const ref = this.storage.ref(path);
       let imageUrl = "";
@@ -115,18 +113,52 @@ export class BlogApiService {
     }
   }
 
+  searchBlogPosts(searchString: string, cb: (status: boolean) => void): void {
+    const url = `${this.baseApiHref}/api/search=${searchString}`;
+    cb(true);
+
+  }
+
   getBlogPosts(category: string, cb: (status: boolean) => void): void {
-    const url = category ? `${this.baseApiHref}/api/blogs?category=${category}` : `${this.baseApiHref}/api/blogs`;
+    const url = `${this.baseApiHref}/api/blogs?category=${category}`;
     cb(true);
     this.http.get(url)
       .pipe(
-        catchError((error: HttpErrorResponse) => throwError(() => of(error)))),
-      finalize(() => cb(false)
-      );
+        map((response: any) => response.data
+          .map((blogItem: any) =>
+            new Blog(
+              blogItem.id,
+              new User(
+                blogItem.author.email,
+                blogItem.author.uid,
+                blogItem.author.displayName,
+                blogItem.author.role,
+                blogItem.author.profileImage,
+              ),
+              blogItem.title,
+              blogItem.content.map((blogParagraph: any) => new BlogParagraph(
+                blogParagraph.title,
+                blogParagraph.content
+              )),
+              blogItem.category,
+              blogItem.dateCreated,
+              blogItem.imageUrl
+            )
+          )
+        ),
+        catchError((error: HttpErrorResponse) => throwError(() => of(error))),
+        finalize(() => cb(false)))
+      .subscribe({
+        next: (blogs: Blog[]) => {
+          this.blogsSubject.next(blogs);
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
   }
 
-
-  getBlogByIdTest(blogId: string, cb: (status: boolean) => void): void {
+  getBlogById(blogId: string, cb: (status: boolean) => void): void {
     cb(true);
     this.http.get(`${this.baseApiHref}/api/blogs/${blogId}`)
       .pipe(
@@ -159,30 +191,5 @@ export class BlogApiService {
         console.log(err);
       }
     });
-  }
-
-  getBlogById(blogId: string): Observable<Blog> {
-    return this.http.get(`${this.baseApiHref}/api/blogs/${blogId}`)
-      .pipe(
-        map((response: any) => response.data),
-        map((blogData: any) => new Blog(
-          blogData.id,
-          new User(
-            blogData.author.email,
-            blogData.author.uid,
-            blogData.author.displayName,
-            blogData.author.role,
-            blogData.author.profileImage,
-          ),
-          blogData.title,
-          blogData.content.map((blogParagraph: any) => new BlogParagraph(
-            blogParagraph.title,
-            blogParagraph.content
-          )),
-          blogData.category,
-          blogData.dateCreated,
-          blogData.imageUrl
-        ))
-      );
   }
 }

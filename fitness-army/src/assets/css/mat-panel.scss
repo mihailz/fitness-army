@@ -1,0 +1,14 @@
+@import "colors";
+
+.mat-select-panel {
+  background: $bg-dark;
+  box-shadow: 1px 1px 1px $color-white;
+
+  .mat-option {
+    color: $color-white;
+
+    &:hover {
+      background: $primary;
+    }
+  }
+}

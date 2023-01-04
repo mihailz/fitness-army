@@ -5,6 +5,9 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {RxReactiveFormsModule} from "@rxweb/reactive-form-validators";
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NzInputModule} from "ng-zorro-antd/input";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -15,7 +18,10 @@ import {NzInputModule} from "ng-zorro-antd/input";
     ReactiveFormsModule,
     RxReactiveFormsModule,
     NzFormModule,
-    NzInputModule
+    NzInputModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule
   ],
   exports: [
     ImageUploaderComponent

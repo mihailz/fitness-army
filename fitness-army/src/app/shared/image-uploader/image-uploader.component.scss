@@ -1,56 +1,15 @@
-.button-wrap {
-  position: relative;
-  padding-top: 16px;
-  z-index: 1;
-}
+@import "/src/assets/css/colors";
 
-:host ::ng-deep nz-form-label {
-  label {
-    color: white;
-    padding: 25px 18px;
+.image-picker-button-wrap {
+  position: relative;
+
+  .image-picker-button {
+    color: $color-white;
+    padding: 5px;
     cursor: pointer;
     border-radius: 5px;
-    background-color: darkblue;
+    background-color: $primary;
     font-size: 16px;
     font-weight: bold;
-    z-index: 1;
-    display: inline-flex;
-  }
-
-  label:after {
-    content: none;
-  }
-}
-
-:host ::ng-deep nz-form-control {
-    font-size: 17px;
-    color: #b8b8b8;
-    position: absolute;
-    top: 22px;
-    left: 22px;
-    cursor: pointer;
-    z-index: -1;
-
-  div.ant-form-item-explain {
-    position: relative;
-    top: 10px;
-    left: -20px;
-  }
-
-  div.ant-form-item-control-input {
-   left: 15px;
-   width: 95%;
-   display: none;
-
-    div.ant-form-item-control-input-content {
-      input {
-        border: none;
-        background: transparent;
-      }
-
-      nz-form-item-feedback-icon {
-        left: 200px;
-      }
-    }
   }
 }

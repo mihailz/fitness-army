@@ -46,7 +46,7 @@ export class BlogDetailsComponent implements OnInit, OnDestroy {
         map((params: Params) => params['id']),
         tap({
           next: (blogId: string) => {
-            this.blogApiService.getBlogByIdTest(blogId, (status: boolean) => {
+            this.blogApiService.getBlogById(blogId, (status: boolean) => {
               this.setLoading(status);
               this.blog$ = this.blogApiService.blogSubject;
             })

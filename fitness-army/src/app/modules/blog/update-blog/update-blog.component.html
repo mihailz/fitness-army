@@ -13,90 +13,80 @@
     <form nz-form [formGroup]="updateBlogForm" class="update-blog-form">
       <div class="row mt-4">
         <div class="col-xs-12 col-md-6 col-lg-6">
-          <nz-form-item class="form-item">
-            <nz-form-label nzFor="title" class="form-label" [nzSpan]="24">
-              <span class="text-white">Title</span></nz-form-label>
-            <nz-form-control [nzSpan]="24" nzHasFeedback nzErrorTip="Please enter an title">
-              <input class="input" nz-input id="title" type="text" formControlName="title">
-            </nz-form-control>
-          </nz-form-item>
-          <nz-form-item class="form-item">
-            <nz-form-label [nzSpan]="24" nzFor="category">
-              <span class="text-white">Category</span></nz-form-label>
-            <nz-form-control [nzSpan]="24" nzHasFeedback nzErrorTip="Please pick category">
-              <nz-select formControlName="category">
-                <nz-option *ngFor="let type of blogTypes" [nzValue]="type" [nzLabel]="type"></nz-option>
-              </nz-select>
-            </nz-form-control>
-          </nz-form-item>
-          <div class="blog-image-wrapper">
-            <img [src]="uploadedImageUrl ? uploadedImageUrl : blog.imageUrl" alt="Blog image">
+          <div class="mat-form-field">
+            <label class="text-white" for="title">Title</label>
+            <mat-form-field appearance="outline">
+              <input matInput id="title" formControlName="title" required>
+            </mat-form-field>
           </div>
-          <nz-form-item class="form-item">
-            <nz-form-control>
-              <fitness-army-app-image-uploader [controlName]="'blogImage'"
-                                               (selectedImage)="onImageSelect($event)"></fitness-army-app-image-uploader>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-        <div class="col-xs-12 col-md-6">
-          <div class="row">
+          <div class="mat-form-field">
+            <label class="text-white" for="blogType">Category</label>
+            <mat-form-field class="mat-select-dark" appearance="outline">
+              <mat-select formControlName="category" id="blogType">
+                <mat-option *ngFor="let type of blogTypes" [value]="type">
+                  {{type}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="row pt-3">
             <div class="col-6">
               <h3 class="blog-content-section-title text-white">Blog content</h3>
             </div>
             <div class="col-6 d-flex justify-content-end">
-              <button class="add-paragraph-button fw-bold" nz-button nzType="primary" (click)="openAddParagraphModal()">
-                Add
-                paragraph
+              <button mat-button class="add-paragraph-button fw-bold" (click)="openAddParagraphModal()">
+                Add paragraph
               </button>
             </div>
           </div>
+
           <div class="row mt-2 content-items">
-            <mat-accordion class="example-headers-align" multi>
+            <mat-accordion multi>
               <mat-expansion-panel *ngFor="let contentItem of blogContent.controls; let id = index" hideToggle>
                 <mat-expansion-panel-header>
                   <mat-panel-title>
                     {{contentTitles[id]}}
                   </mat-panel-title>
-                  <mat-panel-description>
-                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
-                  </mat-panel-description>
                 </mat-expansion-panel-header>
                 <div formArrayName="content">
                   <div class="content-item">
-                    <nz-form-item [formGroupName]="id">
-                      <nz-form-label [nzSpan]="24">
-                        <span class="text-white">Title</span>
-                      </nz-form-label>
-                      <nz-form-control [nzSpan]="24">
-                        <input nz-input formControlName="title">
-                      </nz-form-control>
-                      <nz-form-label [nzSpan]="24">
-                        <span class="text-white">Content</span>
-                      </nz-form-label>
-                      <nz-form-control [nzSpan]="24">
-                        <textarea nz-input formControlName="content"></textarea>
-                      </nz-form-control>
-                    </nz-form-item>
-                    <nz-form-item>
-                      <nz-form-control [nzSpan]="24">
-                        <button nz-button nzType="default" class="paragraph-delete-button"
-                                (click)="deleteParagraph(id)">
-                          Delete
-                        </button>
-                      </nz-form-control>
-                    </nz-form-item>
+                    <div [formGroupName]="id">
+                      <div class="mat-form-field">
+                        <label class="text-white" for="paragraphTitle">Title</label>
+                        <mat-form-field appearance="outline">
+                          <input matInput id="paragraphTitle" formControlName="title">
+                        </mat-form-field>
+                      </div>
+                      <div class="mat-form-field">
+                        <label class="text-white" for="paragraphContent">Content</label>
+                        <mat-form-field appearance="outline">
+                          <input matInput id="paragraphContent" formControlName="content">
+                        </mat-form-field>
+                      </div>
+                      <button mat-button class="paragraph-delete-button" (click)="deleteParagraph(id)">
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
               </mat-expansion-panel>
             </mat-accordion>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="action-buttons">
-          <button class="update-button" nz-button nzType="primary" (click)="updateBlog()">Update</button>
+        <div class="col-xs-12 col-md-6 pt-4">
+          <div class="image-picker-wrapper">
+            <fitness-army-app-image-uploader [controlName]="'blogImage'"
+                                             (selectedImage)="onImageSelect($event)"></fitness-army-app-image-uploader>
+          </div>
+
+          <div class="blog-image-wrapper">
+            <img [src]="uploadedImageUrl ? uploadedImageUrl : blog.imageUrl" alt="Blog image">
+          </div>
         </div>
+      </div>
+      <div class="row pt-4 d-flex justify-content-end p-3">
+        <button mat-button class="update-button" (click)="updateBlog()">Update</button>
       </div>
     </form>
   </ng-container>

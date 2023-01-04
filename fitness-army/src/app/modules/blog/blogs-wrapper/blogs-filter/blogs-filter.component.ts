@@ -9,11 +9,10 @@ import {MatSelectChange} from "@angular/material/select";
 })
 export class BlogsFilterComponent implements OnInit {
 
-  @Input() userRole!: string;
   @Output() onSearchBlogs: EventEmitter<string> = new EventEmitter<string>();
   @Output() onCategorySelect: EventEmitter<string> = new EventEmitter<string>();
   blogCategories = Object.values(BlogFilterCategories);
-  selectedCategory: string = 'ALL';
+  selectedCategory: string = BlogFilterCategories.ALL;
 
   constructor() {
   }

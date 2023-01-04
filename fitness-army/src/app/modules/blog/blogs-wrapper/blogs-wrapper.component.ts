@@ -23,9 +23,6 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
   isFetchingData: boolean = false;
   loggedInUser!: User | null;
   userRoles = UserRoles;
-  color: ThemePalette = 'primary';
-  mode: ProgressSpinnerMode = 'determinate';
-  value = 50;
   private subscriptions: Subscription = new Subscription();
 
   constructor(private nzModalService: NzModalService,
@@ -39,7 +36,6 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
     this.getCurrentLoggedInUser();
     this.listenForBlogCreationStatus();
     this.fetchBlogs('');
-
   }
 
   ngOnDestroy(): void {
@@ -61,6 +57,8 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
   }
 
   onSearchBlogs(searchValue: string): void {
+    console.log('searchValue: ', searchValue);
+
     // this.filteredBlogs$ = this.blogs$
     //   .pipe(
     //     map((blogs: Blog[]) => blogs.filter((blog: Blog) => {

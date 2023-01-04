@@ -60,6 +60,10 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
     }
   }
 
+  getFormControl(controlName: string): AbstractControl | null {
+    return this.updateBlogForm.get(controlName) ? this.updateBlogForm.get(controlName) as AbstractControl: null;
+  }
+
   get blogContent(): FormArray {
     return this.updateBlogForm.controls['content'] as FormArray;
   }
@@ -78,8 +82,6 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
   }
 
   updateBlog(): void {
-    this.nzTipMessage = 'Updating blog...';
-    this.isFetchingData = true;
     if (!this.updateBlogForm.valid) {
       Object.values(this.updateBlogForm.controls).forEach(control => {
         if (control.invalid) {
@@ -99,7 +101,6 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
       content: content,
       category: category
     };
-    const blogImage = this.blogImage ? this.blogImage : null;
     this.blogApiService.updateBlogPost(updatedBlog, this.blogImage, status => {
       this.setLoading(status);
     })
@@ -129,7 +130,7 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
         map((params: Params) => params['id']),
         switchMap((blogId: string) => {
           let blogSub$: Observable<Blog> = new Observable<Blog>();
-          this.blogApiService.getBlogByIdTest(blogId, (status: boolean) => {
+          this.blogApiService.getBlogById(blogId, (status: boolean) => {
             this.setLoading(status);
             blogSub$ = this.blogApiService.blog$;
           });

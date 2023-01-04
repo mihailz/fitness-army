@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Blog} from "../../../../model/blog";
 import {BlogType} from "../../../../model/blog-type";
 
@@ -7,15 +7,10 @@ import {BlogType} from "../../../../model/blog-type";
   templateUrl: './blog.component.html',
   styleUrls: ['./blog.component.scss']
 })
-export class BlogComponent implements OnInit {
+export class BlogComponent {
 
   @Input() blog!: Blog;
   blogCategories = BlogType;
 
   constructor() { }
-
-  ngOnInit(): void {
-    console.log('blog:', this.blog)
-  }
-
 }

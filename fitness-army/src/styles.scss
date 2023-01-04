@@ -2,22 +2,12 @@
 @import "~ng-zorro-antd/ng-zorro-antd.min.css";
 @import "~ng-zorro-antd/ng-zorro-antd.compact.css";
 @import '~bootstrap/dist/css/bootstrap.css';
+@import "assets/css/mat-form-field";
+@import "assets/css/mat-panel";
+@import 'material-icons/iconfont/material-icons.scss';
 
 body {
   font-family: 'Montserrat', sans-serif;
+  background: black!important;
 }
-
- .mat-select-panel {
-  background: #1F2833;
-  box-shadow: 1px 1px 1px white;
-
-  .mat-option {
-    color: white;
-
-    &:hover {
-      background: darkblue;
-    }
-  }
-}
-
 

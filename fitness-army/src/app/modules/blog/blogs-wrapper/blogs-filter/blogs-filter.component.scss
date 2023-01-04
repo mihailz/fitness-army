@@ -1,29 +1,12 @@
+@import "src/assets/css/colors";
+
 .blogs-filters-container {
   display: flex;
   flex-direction: column;
   width: 100%;
   align-items: center;
   padding-bottom: 16px;
-  border-bottom: 2px solid white;
-
-  .blogs-filter-item {
-    margin: 8px;
-  }
-
-  .search-button {
-    background: darkblue;
-    border: 1px solid darkblue;
-    border-radius: 0;
-
-    &:hover {
-      opacity: .5;
-    }
-  }
-}
-
-.blog-category-select-container {
-  border: 1px solid white;
-  color: white;
+  border-bottom: 2px solid $color-white;
 }
 
 @media (min-width: 767.8px) {
@@ -32,9 +15,5 @@
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-
-    .blogs-filter-item {
-      margin: 8px;
-    }
   }
 }
