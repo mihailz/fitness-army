@@ -114,7 +114,7 @@ export class BlogApiService {
   }
 
   getBlogPosts(category: string, searchString: string, cb: (status: boolean) => void): void {
-    const url = `${this.baseApiHref}/api/blogs?category=${category}`;
+    const url = `${this.baseApiHref}/api/blogs?category=${category}?searchString=${searchString}`;
     cb(true);
     this.http.get(url)
       .pipe(

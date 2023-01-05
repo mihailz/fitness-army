@@ -32,42 +32,45 @@ exports.getBlogs = (req: Request, res: Response) => {
       const blogsCollection = db.collection("blogs");
       const category = req.query.category;
       const searchString = req.query.searchString as string;
+
+      console.log("category: ", category);
+      console.log("searchKey: ", searchString);
       let blogs: BlogPostModelDto[] = [];
       await blogsCollection.get()
           .then((blogsSnapshot: any) => {
-            let documents;
             /** Return all blogs from the current selected category
            * based on the searched key
            **/
-            if (searchString?.length !== 0 &&
-              (category && category.length !== 0)) {
-              documents = blogsSnapshot.docs.filter((document: any) => {
-                return document.data().category === category;
-              });
-              const searchedDocuments = documents.filter((document: any) => {
-                return document.data().title.toLowerCase()
-                    .includes(searchString.toLowerCase());
-              });
-              blogs = mapBlogsData(searchedDocuments);
-              // eslint-disable-next-line brace-style
-            }
+            // if ((searchString && searchString?.length !== 0) &&
+            //   (category && category.length !== 0)) {
+            //   console.log("ima kategorija i searchKey");
+            //   documents = blogsSnapshot.docs.filter((document: any) => {
+            //     return document.data().category === category;
+            //   });
+            //   const searchedDocuments = documents.filter((document: any) => {
+            //     return document.data().title.toLowerCase()
+            //         .includes(searchString.toLowerCase());
+            //   });
+            //   blogs = mapBlogsData(searchedDocuments);
+            //   // eslint-disable-next-line brace-style
+            // }
             /** Return all blogs from selected category if no search key
            * is provided
            * **/
-            else if ((category && category.length != 0) &&
-            searchString?.length === 0) {
-              documents = blogsSnapshot.docs.filter((document: any) => {
-                return document.data().category === category;
-              });
-              blogs = mapBlogsData(documents);
-              // eslint-disable-next-line brace-style
-            }
+            const documents = blogsSnapshot.docs.filter((document: any) => {
+              return document.data().category === category;
+            });
+            blogs = mapBlogsData(documents);
+            // eslint-disable-next-line brace-style
+
             /** Return all blogs if no category and search key is provided **/
-            else {
-              documents = blogsSnapshot.docs;
-              blogs = mapBlogsData(documents);
-            }
+            // if (!category && !searchString) {
+            //   console.log("nema kategorija, nema search key");
+            //   documents = blogsSnapshot.docs;
+            //   blogs = mapBlogsData(documents);
+            // }
           });
+      // console.log("blogs: ", blogs);
       return res.status(200)
           .send(
               {data: blogs}
