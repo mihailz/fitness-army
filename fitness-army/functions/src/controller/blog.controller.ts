@@ -31,16 +31,39 @@ exports.getBlogs = (req: Request, res: Response) => {
     try {
       const blogsCollection = db.collection("blogs");
       const category = req.query.category;
+      const searchString = req.query.searchString as string;
       let blogs: BlogPostModelDto[] = [];
       await blogsCollection.get()
           .then((blogsSnapshot: any) => {
             let documents;
-            if (category && category.length != 0) {
+            /** Return all blogs from the current selected category
+           * based on the searched key
+           **/
+            if (searchString?.length !== 0 &&
+              (category && category.length !== 0)) {
+              documents = blogsSnapshot.docs.filter((document: any) => {
+                return document.data().category === category;
+              });
+              const searchedDocuments = documents.filter((document: any) => {
+                return document.data().title.toLowerCase()
+                    .includes(searchString.toLowerCase());
+              });
+              blogs = mapBlogsData(searchedDocuments);
+              // eslint-disable-next-line brace-style
+            }
+            /** Return all blogs from selected category if no search key
+           * is provided
+           * **/
+            else if ((category && category.length != 0) &&
+            searchString?.length === 0) {
               documents = blogsSnapshot.docs.filter((document: any) => {
                 return document.data().category === category;
               });
               blogs = mapBlogsData(documents);
-            } else {
+              // eslint-disable-next-line brace-style
+            }
+            /** Return all blogs if no category and search key is provided **/
+            else {
               documents = blogsSnapshot.docs;
               blogs = mapBlogsData(documents);
             }
@@ -56,6 +79,7 @@ exports.getBlogs = (req: Request, res: Response) => {
   })();
 };
 
+
 function mapBlogsData(documents: any): BlogPostModelDto[] {
   return documents.map((document: any) => new BlogPostModelDto(
       document.data().id,
@@ -67,39 +91,6 @@ function mapBlogsData(documents: any): BlogPostModelDto[] {
       document.data().imageUrl,
   ));
 }
-
-exports.getBlogPostsByCategory = (req: Request, res: Response) => {
-  (async () => {
-    try {
-      const blogsCollection = db.collection("blogs");
-      const category = req.query.category;
-      const blogs: BlogPostModelDto[] = [];
-      await blogsCollection.get()
-          .then((blogsSnapShop: any) => {
-            const documents = blogsSnapShop.docs.filter((document: any) => {
-              return document.data().category === category;
-            });
-            for (const document of documents) {
-              blogs.push(new BlogPostModelDto(
-                  document.data().id,
-                  document.data().author,
-                  document.data().title,
-                  document.data().content,
-                  document.data().category,
-                  document.data().dateCreated,
-                  document.data().imageUrl,
-              ));
-            }
-          });
-      return res.status(200).send(
-          {data: blogs}
-      );
-    } catch (error) {
-      console.log(error);
-      return res.status(500).send(error);
-    }
-  })();
-};
 
 exports.getBlogPost = (req: Request, res: Response) => {
   (async () => {

@@ -113,13 +113,7 @@ export class BlogApiService {
     }
   }
 
-  searchBlogPosts(searchString: string, cb: (status: boolean) => void): void {
-    const url = `${this.baseApiHref}/api/search=${searchString}`;
-    cb(true);
-
-  }
-
-  getBlogPosts(category: string, cb: (status: boolean) => void): void {
+  getBlogPosts(category: string, searchString: string, cb: (status: boolean) => void): void {
     const url = `${this.baseApiHref}/api/blogs?category=${category}`;
     cb(true);
     this.http.get(url)

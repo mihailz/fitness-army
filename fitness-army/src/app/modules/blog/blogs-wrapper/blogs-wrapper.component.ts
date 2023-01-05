@@ -10,6 +10,7 @@ import {UserRoles} from "../../../model/roles";
 import {CreateBlogModalComponent} from "./create-blog-modal/create-blog-modal.component";
 import {ThemePalette} from "@angular/material/core";
 import {ProgressSpinnerMode} from "@angular/material/progress-spinner";
+import {BlogsFilter} from "../../../model/types/blogs-filter-type";
 
 @Component({
   selector: 'fitness-army-app-blogs-wrapper',
@@ -23,6 +24,7 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
   isFetchingData: boolean = false;
   loggedInUser!: User | null;
   userRoles = UserRoles;
+  selectedBlogCategory: string = '';
   private subscriptions: Subscription = new Subscription();
 
   constructor(private nzModalService: NzModalService,
@@ -42,11 +44,15 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
     this.subscriptions?.unsubscribe();
   }
 
-  fetchBlogs(category: string): void {
-    this.blogApiService.getBlogPosts(category, (status: boolean) => {
+  fetchBlogs(category: string, searchString = ''): void {
+    this.blogApiService.getBlogPosts(category, searchString,(status: boolean) => {
       this.setLoading(status);
       this.blogs$ = this.blogApiService.blogs$;
     });
+  }
+
+  onFilterSubmit(filterOptions: BlogsFilter): void {
+    this.fetchBlogs(filterOptions.category, filterOptions.searchKey);
   }
 
   openCreateBlogModal(): void {
@@ -54,22 +60,6 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
       nzContent: CreateBlogModalComponent,
       nzFooter: null,
     })
-  }
-
-  onSearchBlogs(searchValue: string): void {
-    console.log('searchValue: ', searchValue);
-
-    // this.filteredBlogs$ = this.blogs$
-    //   .pipe(
-    //     map((blogs: Blog[]) => blogs.filter((blog: Blog) => {
-    //         return blog.title.toLowerCase().includes(searchValue.toLowerCase());
-    //       })
-    //     )
-    //   );
-  }
-
-  onCategorySelect(selectedCategory: string): void {
-    selectedCategory === 'ALL' ? this.fetchBlogs('') : this.fetchBlogs(selectedCategory);
   }
 
   private getCurrentLoggedInUser(): void {

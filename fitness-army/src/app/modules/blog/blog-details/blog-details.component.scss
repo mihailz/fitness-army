@@ -68,14 +68,16 @@
   }
 }
 
-//.go-to-update-blog-button {
-//  width: 100%;
-//  background: darkblue;
-//  border: none;
-//  @media(min-width: 767.8px) {
-//    width: 120px;
-//  }
-//}
+.go-to-update-blog-button {
+  width: 150px;
+  background: darkblue;
+  border: none;
+  color: white;
+
+  &:hover {
+    opacity: .5;
+  }
+}
 
 .loading-indicator {
   position: fixed;

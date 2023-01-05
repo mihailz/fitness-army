@@ -1,10 +1,6 @@
 <div class="container blogs-container">
-  <div class="row">
-    <div class="blogs-filter-container">
-      <fitness-army-app-blogs-filter (onCategorySelect)="onCategorySelect($event)"
-                                     (onSearchBlogs)="onSearchBlogs($event)"></fitness-army-app-blogs-filter>
-    </div>
-  </div>
+      <fitness-army-app-blogs-filter (onBlogsFilterSubmit)="onFilterSubmit($event)"></fitness-army-app-blogs-filter>
+
   <ng-container *ngIf="loggedInUser?.role === userRoles.ADMIN || loggedInUser?.role === userRoles.COACH">
     <div class="row p-3 d-flex justify-content-end">
       <button class="add-blog-button" mat-button (click)="openCreateBlogModal()">Add blog<mat-icon>add_circle_outline</mat-icon>

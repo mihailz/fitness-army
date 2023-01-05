@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {BlogFilterCategories} from "../../../../model/blog-type";
 import {MatSelectChange} from "@angular/material/select";
+import {BlogsFilter} from "../../../../model/types/blogs-filter-type";
 
 @Component({
   selector: 'fitness-army-app-blogs-filter',
@@ -9,13 +10,10 @@ import {MatSelectChange} from "@angular/material/select";
 })
 export class BlogsFilterComponent implements OnInit {
 
-  @Output() onSearchBlogs: EventEmitter<string> = new EventEmitter<string>();
-  @Output() onCategorySelect: EventEmitter<string> = new EventEmitter<string>();
+  @Output() onBlogsFilterSubmit: EventEmitter<BlogsFilter> = new EventEmitter<BlogsFilter>();
   blogCategories = Object.values(BlogFilterCategories);
   selectedCategory: string = BlogFilterCategories.ALL;
-
-  constructor() {
-  }
+  searchKey: string = '';
 
   ngOnInit(): void {
     this.selectedCategory = this.blogCategories[0];
@@ -23,12 +21,14 @@ export class BlogsFilterComponent implements OnInit {
 
   searchBlogs($event: Event): void {
     const inputElement = <HTMLInputElement>$event.target;
-    const searchValue = inputElement.value;
-    this.onSearchBlogs.emit(searchValue);
+    this.searchKey = inputElement.value;
   }
 
   onCategorySelectionChange(categoryChangeObject: MatSelectChange): void {
     this.selectedCategory = categoryChangeObject.value;
-    this.onCategorySelect.emit(this.selectedCategory);
+  }
+
+  onFilterClick(): void {
+    this.onBlogsFilterSubmit.emit({category: this.selectedCategory, searchKey: this.searchKey})
   }
 }

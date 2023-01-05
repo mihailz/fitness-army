@@ -1,18 +1,26 @@
-<div class="blogs-filters-container">
-  <div class="mat-form-field p-1">
-    <mat-form-field appearance="outline">
-      <input type="text" placeholder="Search blogs here..." matInput (change)="searchBlogs($event)">
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
+<div class="row blogs-filters-container d-flex">
+  <div class="col-xs-12 col-md-5">
+    <div class="mat-form-field">
+      <mat-form-field appearance="outline">
+        <input type="text" placeholder="Search blogs here..." matInput (change)="searchBlogs($event)">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
   </div>
-  <div class="mat-form-field p-1">
-    <mat-form-field class="mat-select-dark" appearance="outline">
-      <mat-select id="blogCategory" [(value)] ="selectedCategory" (selectionChange)="onCategorySelectionChange($event)">
-        <mat-option *ngFor="let category of blogCategories" [value]="category">
-          {{category}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+  <div class="col-xs-12 col-md-5">
+    <div class="mat-form-field">
+      <mat-form-field class="mat-select-dark" appearance="outline">
+        <mat-select id="blogCategory" [(value)]="selectedCategory"
+                    (selectionChange)="onCategorySelectionChange($event)">
+          <mat-option *ngFor="let category of blogCategories" [value]="category">
+            {{category}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-2 pt-1">
+    <button (click)="onFilterClick()" class="filter-button" mat-button>Filter <mat-icon>filter_list</mat-icon></button>
   </div>
 </div>
 
