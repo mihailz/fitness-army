@@ -31,45 +31,13 @@ exports.getBlogs = (req: Request, res: Response) => {
     try {
       const blogsCollection = db.collection("blogs");
       const category = req.query.category;
-      const searchString = req.query.searchString as string;
-
-      console.log("category: ", category);
-      console.log("searchKey: ", searchString);
+      // const searchString = req.query.searchString;
       let blogs: BlogPostModelDto[] = [];
-      await blogsCollection.get()
-          .then((blogsSnapshot: any) => {
-            /** Return all blogs from the current selected category
-           * based on the searched key
-           **/
-            // if ((searchString && searchString?.length !== 0) &&
-            //   (category && category.length !== 0)) {
-            //   console.log("ima kategorija i searchKey");
-            //   documents = blogsSnapshot.docs.filter((document: any) => {
-            //     return document.data().category === category;
-            //   });
-            //   const searchedDocuments = documents.filter((document: any) => {
-            //     return document.data().title.toLowerCase()
-            //         .includes(searchString.toLowerCase());
-            //   });
-            //   blogs = mapBlogsData(searchedDocuments);
-            //   // eslint-disable-next-line brace-style
-            // }
-            /** Return all blogs from selected category if no search key
-           * is provided
-           * **/
-            const documents = blogsSnapshot.docs.filter((document: any) => {
-              return document.data().category === category;
-            });
-            blogs = mapBlogsData(documents);
-            // eslint-disable-next-line brace-style
-
-            /** Return all blogs if no category and search key is provided **/
-            // if (!category && !searchString) {
-            //   console.log("nema kategorija, nema search key");
-            //   documents = blogsSnapshot.docs;
-            //   blogs = mapBlogsData(documents);
-            // }
-          });
+      const blogsSnapshot =
+        (category && category.length !== 0) ?
+        await blogsCollection.where().get() :
+        await blogsCollection.where("category", "==", category).get();
+      blogs = mapBlogsData(blogsSnapshot.docs);
       // console.log("blogs: ", blogs);
       return res.status(200)
           .send(

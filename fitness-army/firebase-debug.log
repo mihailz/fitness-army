@@ -1,0 +1,197 @@
+[debug] [2023-01-08T11:37:08.694Z] ----------------------------------------------------------------------
+[debug] [2023-01-08T11:37:08.695Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\mzafirovski\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2023-01-08T11:37:08.696Z] CLI Version:   11.20.0
+[debug] [2023-01-08T11:37:08.696Z] Platform:      win32
+[debug] [2023-01-08T11:37:08.696Z] Node Version:  v16.15.1
+[debug] [2023-01-08T11:37:08.697Z] Time:          Sun Jan 08 2023 12:37:08 GMT+0100 (Central European Standard Time)
+[debug] [2023-01-08T11:37:08.697Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-01-08T11:37:08.747Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-01-08T11:37:08.748Z] > authorizing via signed-in user (mihailzafirovski@gmail.com)
+[debug] [2023-01-08T11:37:08.748Z] [iam] checking project fitness-army for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-01-08T11:37:08.749Z] > refreshing access token with scopes: []
+[debug] [2023-01-08T11:37:08.750Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-01-08T11:37:08.750Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-01-08T11:37:09.319Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2023-01-08T11:37:09.319Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-01-08T11:37:09.328Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/fitness-army:testIamPermissions [none]
+[debug] [2023-01-08T11:37:09.329Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/fitness-army:testIamPermissions x-goog-quota-user=projects/fitness-army
+[debug] [2023-01-08T11:37:09.329Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/fitness-army:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-01-08T11:37:10.494Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/fitness-army:testIamPermissions 200
+[debug] [2023-01-08T11:37:10.494Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/fitness-army:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-01-08T11:37:10.494Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/fitness-army/serviceAccounts/fitness-army@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2023-01-08T11:37:10.494Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/fitness-army/serviceAccounts/fitness-army@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2023-01-08T11:37:11.615Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/fitness-army/serviceAccounts/fitness-army@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2023-01-08T11:37:11.615Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/fitness-army/serviceAccounts/fitness-army@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2023-01-08T11:37:11.617Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army [none]
+[debug] [2023-01-08T11:37:12.309Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army 200
+[debug] [2023-01-08T11:37:12.310Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army {"projectId":"fitness-army","projectNumber":"232059287122","displayName":"fitness-army","name":"projects/fitness-army","resources":{"hostingSite":"fitness-army","realtimeDatabaseInstance":"fitness-army-default-rtdb","storageBucket":"fitness-army.appspot.com","locationId":"europe-west"},"state":"ACTIVE","etag":"1_29fae700-0d83-40b5-951a-eef70e0169ca"}
+[info] 
+[info] === Deploying to 'fitness-army'...
+[info] 
+[info] i  deploying functions, hosting 
+[info] Running command: npm --prefix "$RESOURCE_DIR" run lint
+[info] Running command: npm --prefix "$RESOURCE_DIR" run build
+[info] +  functions: Finished running predeploy script. 
+[debug] [2023-01-08T11:37:17.324Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army [none]
+[debug] [2023-01-08T11:37:17.926Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army 200
+[debug] [2023-01-08T11:37:17.927Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army {"projectId":"fitness-army","projectNumber":"232059287122","displayName":"fitness-army","name":"projects/fitness-army","resources":{"hostingSite":"fitness-army","realtimeDatabaseInstance":"fitness-army-default-rtdb","storageBucket":"fitness-army.appspot.com","locationId":"europe-west"},"state":"ACTIVE","etag":"1_29fae700-0d83-40b5-951a-eef70e0169ca"}
+[info] i  functions: preparing codebase default for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2023-01-08T11:37:17.929Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/cloudfunctions.googleapis.com [none]
+[debug] [2023-01-08T11:37:17.929Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/fitness-army
+[debug] [2023-01-08T11:37:17.930Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/runtimeconfig.googleapis.com [none]
+[debug] [2023-01-08T11:37:17.930Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/fitness-army
+[debug] [2023-01-08T11:37:17.930Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/cloudbuild.googleapis.com [none]
+[debug] [2023-01-08T11:37:17.930Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/cloudbuild.googleapis.com x-goog-quota-user=projects/fitness-army
+[debug] [2023-01-08T11:37:17.931Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/artifactregistry.googleapis.com [none]
+[debug] [2023-01-08T11:37:17.931Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/artifactregistry.googleapis.com x-goog-quota-user=projects/fitness-army
+[debug] [2023-01-08T11:37:19.317Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/artifactregistry.googleapis.com 200
+[debug] [2023-01-08T11:37:19.317Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/artifactregistry.googleapis.com [omitted]
+[info] +  artifactregistry: required API artifactregistry.googleapis.com is enabled 
+[debug] [2023-01-08T11:37:19.318Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/cloudbuild.googleapis.com 200
+[debug] [2023-01-08T11:37:19.318Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/cloudbuild.googleapis.com [omitted]
+[info] +  functions: required API cloudbuild.googleapis.com is enabled 
+[debug] [2023-01-08T11:37:19.322Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/cloudfunctions.googleapis.com 200
+[debug] [2023-01-08T11:37:19.322Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/cloudfunctions.googleapis.com [omitted]
+[info] +  functions: required API cloudfunctions.googleapis.com is enabled 
+[debug] [2023-01-08T11:37:19.330Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/runtimeconfig.googleapis.com 200
+[debug] [2023-01-08T11:37:19.330Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2023-01-08T11:37:19.330Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army/adminSdkConfig [none]
+[debug] [2023-01-08T11:37:19.773Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army/adminSdkConfig 200
+[debug] [2023-01-08T11:37:19.773Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army/adminSdkConfig {"projectId":"fitness-army","databaseURL":"https://fitness-army-default-rtdb.europe-west1.firebasedatabase.app","storageBucket":"fitness-army.appspot.com","locationId":"europe-west"}
+[debug] [2023-01-08T11:37:19.774Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fitness-army/configs [none]
+[debug] [2023-01-08T11:37:20.485Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fitness-army/configs 200
+[debug] [2023-01-08T11:37:20.485Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fitness-army/configs {"configs":[{"name":"projects/fitness-army/configs/algolia"}]}
+[debug] [2023-01-08T11:37:20.485Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fitness-army/configs/algolia/variables [none]
+[debug] [2023-01-08T11:37:21.579Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fitness-army/configs/algolia/variables 200
+[debug] [2023-01-08T11:37:21.580Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fitness-army/configs/algolia/variables {"variables":[{"name":"projects/fitness-army/configs/algolia/variables/app","updateTime":"2023-01-07T20:23:12.026704666Z"},{"name":"projects/fitness-army/configs/algolia/variables/key","updateTime":"2023-01-07T20:23:13.039197461Z"}]}
+[debug] [2023-01-08T11:37:21.580Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fitness-army/configs/algolia/variables/app [none]
+[debug] [2023-01-08T11:37:21.583Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fitness-army/configs/algolia/variables/key [none]
+[debug] [2023-01-08T11:37:22.063Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fitness-army/configs/algolia/variables/key 200
+[debug] [2023-01-08T11:37:22.063Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fitness-army/configs/algolia/variables/key {"name":"projects/fitness-army/configs/algolia/variables/key","updateTime":"2023-01-07T20:23:13.039197461Z","text":"9ed50b70b3082f049aca4324918b4df2"}
+[debug] [2023-01-08T11:37:22.073Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fitness-army/configs/algolia/variables/app 200
+[debug] [2023-01-08T11:37:22.073Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fitness-army/configs/algolia/variables/app {"name":"projects/fitness-army/configs/algolia/variables/app","updateTime":"2023-01-07T20:23:12.026704666Z","text":"KGT0G3B5US"}
+[debug] [2023-01-08T11:37:22.074Z] Validating nodejs source
+[debug] [2023-01-08T11:37:23.138Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "algoliasearch": "^4.14.3",
+    "firebase-admin": "^11.4.1",
+    "firebase-functions": "^4.1.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^0.2.0",
+    "typescript": "^4.5.4"
+  },
+  "private": true
+}
+[debug] [2023-01-08T11:37:23.138Z] Building nodejs source
+[debug] [2023-01-08T11:37:23.139Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-01-08T11:37:23.304Z] Serving at port 9007
+
+[debug] [2023-01-08T11:37:23.564Z] Got response from /__/functions.yaml {"endpoints":{"addToBlogsIndex":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"eventTrigger":{"eventType":"providers/cloud.firestore/eventTypes/document.create","eventFilters":{"resource":"projects/fitness-army/databases/(default)/documents/blogs/{blog_id}"},"retry":false},"labels":{},"entryPoint":"addToBlogsIndex"},"updateBlogIndex":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"eventTrigger":{"eventType":"providers/cloud.firestore/eventTypes/document.update","eventFilters":{"resource":"projects/fitness-army/databases/(default)/documents/blogs/{blog_id}"},"retry":false},"labels":{},"entryPoint":"updateBlogIndex"},"deleteBlogFromIndex":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"eventTrigger":{"eventType":"providers/cloud.firestore/eventTypes/document.delete","eventFilters":{"resource":"projects/fitness-army/databases/(default)/documents/blogs/{blog_id}"},"retry":false},"labels":{},"entryPoint":"deleteBlogFromIndex"},"app":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"app"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-01-08T11:37:23.570Z] shutdown requested via /__/quitquitquit
+
+[info] i  functions: preparing functions directory for uploading... 
+[info] i  functions: packaged C:\Users\mzafirovski\WebstormProjects\Diplomska\fitness-army\functions (158.31 KB) for uploading 
+[debug] [2023-01-08T11:37:23.721Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v1/projects/fitness-army/locations/-/functions [none]
+[debug] [2023-01-08T11:37:24.795Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v1/projects/fitness-army/locations/-/functions 200
+[debug] [2023-01-08T11:37:24.795Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v1/projects/fitness-army/locations/-/functions {"functions":[{"name":"projects/fitness-army/locations/us-central1/functions/addToBlogsIndex","eventTrigger":{"eventType":"providers/cloud.firestore/eventTypes/document.create","resource":"projects/fitness-army/databases/(default)/documents/blogs/{blog_id}","service":"firestore.googleapis.com","failurePolicy":{}},"status":"ACTIVE","entryPoint":"addToBlogsIndex","timeout":"60s","availableMemoryMb":256,"serviceAccountEmail":"fitness-army@appspot.gserviceaccount.com","updateTime":"2023-01-08T10:13:47.653Z","versionId":"4","labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"4e7a82b8831c661d3a36843301449d8bfb322da8"},"sourceUploadUrl":"https://storage.googleapis.com/uploads-645309662845.us-central1.cloudfunctions.appspot.com/a191a7d7-eaef-46e2-947a-38d5ecbb2924.zip","environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"fitness-army\",\"databaseURL\":\"https://fitness-army-default-rtdb.europe-west1.firebasedatabase.app\",\"storageBucket\":\"fitness-army.appspot.com\",\"locationId\":\"europe-west\"}","GCLOUD_PROJECT":"fitness-army","EVENTARC_CLOUD_EVENT_SOURCE":"projects/fitness-army/locations/us-central1/functions/app"},"runtime":"nodejs16","maxInstances":3000,"ingressSettings":"ALLOW_ALL","buildId":"775cee68-509e-4dbd-97fb-8081e791492a","buildName":"projects/232059287122/locations/us-central1/builds/775cee68-509e-4dbd-97fb-8081e791492a","dockerRegistry":"ARTIFACT_REGISTRY"},{"name":"projects/fitness-army/locations/us-central1/functions/app","httpsTrigger":{"url":"https://us-central1-fitness-army.cloudfunctions.net/app","securityLevel":"SECURE_ALWAYS"},"status":"ACTIVE","entryPoint":"app","timeout":"60s","availableMemoryMb":256,"updateTime":"2023-01-08T10:13:53.502Z","versionId":"192","labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"4e7a82b8831c661d3a36843301449d8bfb322da8"},"sourceUploadUrl":"https://storage.googleapis.com/uploads-645309662845.us-central1.cloudfunctions.appspot.com/a191a7d7-eaef-46e2-947a-38d5ecbb2924.zip","environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"fitness-army\",\"databaseURL\":\"https://fitness-army-default-rtdb.europe-west1.firebasedatabase.app\",\"storageBucket\":\"fitness-army.appspot.com\",\"locationId\":\"europe-west\"}","GCLOUD_PROJECT":"fitness-army","EVENTARC_CLOUD_EVENT_SOURCE":"projects/fitness-army/locations/us-central1/functions/app"},"runtime":"nodejs16","ingressSettings":"ALLOW_ALL","buildId":"775cee68-509e-4dbd-97fb-8081e791492a","buildName":"projects/232059287122/locations/us-central1/builds/775cee68-509e-4dbd-97fb-8081e791492a","dockerRegistry":"ARTIFACT_REGISTRY"},{"name":"projects/fitness-army/locations/us-central1/functions/deleteBlogFromIndex","eventTrigger":{"eventType":"providers/cloud.firestore/eventTypes/document.delete","resource":"projects/fitness-army/databases/(default)/documents/blogs/{blog_id}","service":"firestore.googleapis.com","failurePolicy":{}},"status":"ACTIVE","entryPoint":"deleteBlogFromIndex","timeout":"60s","availableMemoryMb":256,"serviceAccountEmail":"fitness-army@appspot.gserviceaccount.com","updateTime":"2023-01-08T10:13:52.476Z","versionId":"4","labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"4e7a82b8831c661d3a36843301449d8bfb322da8"},"sourceUploadUrl":"https://storage.googleapis.com/uploads-645309662845.us-central1.cloudfunctions.appspot.com/a191a7d7-eaef-46e2-947a-38d5ecbb2924.zip","environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"fitness-army\",\"databaseURL\":\"https://fitness-army-default-rtdb.europe-west1.firebasedatabase.app\",\"storageBucket\":\"fitness-army.appspot.com\",\"locationId\":\"europe-west\"}","GCLOUD_PROJECT":"fitness-army","EVENTARC_CLOUD_EVENT_SOURCE":"projects/fitness-army/locations/us-central1/functions/app"},"runtime":"nodejs16","maxInstances":3000,"ingressSettings":"ALLOW_ALL","buildId":"775cee68-509e-4dbd-97fb-8081e791492a","buildName":"projects/232059287122/locations/us-central1/builds/775cee68-509e-4dbd-97fb-8081e791492a","dockerRegistry":"ARTIFACT_REGISTRY"},{"name":"projects/fitness-army/locations/us-central1/functions/updateBlogIndex","eventTrigger":{"eventType":"providers/cloud.firestore/eventTypes/document.update","resource":"projects/fitness-army/databases/(default)/documents/blogs/{blog_id}","service":"firestore.googleapis.com","failurePolicy":{}},"status":"ACTIVE","entryPoint":"updateBlogIndex","timeout":"60s","availableMemoryMb":256,"serviceAccountEmail":"fitness-army@appspot.gserviceaccount.com","updateTime":"2023-01-08T10:13:54.247Z","versionId":"4","labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"4e7a82b8831c661d3a36843301449d8bfb322da8"},"sourceUploadUrl":"https://storage.googleapis.com/uploads-645309662845.us-central1.cloudfunctions.appspot.com/a191a7d7-eaef-46e2-947a-38d5ecbb2924.zip","environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"fitness-army\",\"databaseURL\":\"https://fitness-army-default-rtdb.europe-west1.firebasedatabase.app\",\"storageBucket\":\"fitness-army.appspot.com\",\"locationId\":\"europe-west\"}","GCLOUD_PROJECT":"fitness-army","EVENTARC_CLOUD_EVENT_SOURCE":"projects/fitness-army/locations/us-central1/functions/app"},"runtime":"nodejs16","maxInstances":3000,"ingressSettings":"ALLOW_ALL","buildId":"775cee68-509e-4dbd-97fb-8081e791492a","buildName":"projects/232059287122/locations/us-central1/builds/775cee68-509e-4dbd-97fb-8081e791492a","dockerRegistry":"ARTIFACT_REGISTRY"}]}
+[debug] [2023-01-08T11:37:24.796Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/fitness-army/locations/-/functions filter=environment%3D%22GEN_2%22
+[debug] [2023-01-08T11:37:25.966Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/fitness-army/locations/-/functions 200
+[debug] [2023-01-08T11:37:25.966Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/fitness-army/locations/-/functions {}
+[debug] [2023-01-08T11:37:25.974Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army [none]
+[debug] [2023-01-08T11:37:26.399Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army 200
+[debug] [2023-01-08T11:37:26.400Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army {"projectId":"fitness-army","projectNumber":"232059287122","displayName":"fitness-army","name":"projects/fitness-army","resources":{"hostingSite":"fitness-army","realtimeDatabaseInstance":"fitness-army-default-rtdb","storageBucket":"fitness-army.appspot.com","locationId":"europe-west"},"state":"ACTIVE","etag":"1_29fae700-0d83-40b5-951a-eef70e0169ca"}
+[debug] [2023-01-08T11:37:26.400Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army [none]
+[debug] [2023-01-08T11:37:26.798Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army 200
+[debug] [2023-01-08T11:37:26.799Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army {"projectId":"fitness-army","projectNumber":"232059287122","displayName":"fitness-army","name":"projects/fitness-army","resources":{"hostingSite":"fitness-army","realtimeDatabaseInstance":"fitness-army-default-rtdb","storageBucket":"fitness-army.appspot.com","locationId":"europe-west"},"state":"ACTIVE","etag":"1_29fae700-0d83-40b5-951a-eef70e0169ca"}
+[debug] [2023-01-08T11:37:26.799Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army [none]
+[debug] [2023-01-08T11:37:47.856Z] Failed to make request to https://firebase.googleapis.com/v1beta1/projects/fitness-army
+[debug] [2023-01-08T11:37:48.085Z] FirebaseError: Failed to make request to https://firebase.googleapis.com/v1beta1/projects/fitness-army
+    at RetryOperation._fn (C:\Users\mzafirovski\AppData\Roaming\npm\node_modules\firebase-tools\lib\apiv2.js:242:31)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+[error] 
+[error] Error: Failed to get Firebase project fitness-army. Please make sure the project exists and your account has permission to access it.
+[debug] [2023-01-08T11:39:27.665Z] ----------------------------------------------------------------------
+[debug] [2023-01-08T11:39:27.666Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\mzafirovski\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2023-01-08T11:39:27.666Z] CLI Version:   11.20.0
+[debug] [2023-01-08T11:39:27.666Z] Platform:      win32
+[debug] [2023-01-08T11:39:27.666Z] Node Version:  v16.15.1
+[debug] [2023-01-08T11:39:27.667Z] Time:          Sun Jan 08 2023 12:39:27 GMT+0100 (Central European Standard Time)
+[debug] [2023-01-08T11:39:27.667Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-01-08T11:39:27.716Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-01-08T11:39:27.716Z] > authorizing via signed-in user (mihailzafirovski@gmail.com)
+[debug] [2023-01-08T11:39:27.716Z] [iam] checking project fitness-army for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-01-08T11:39:27.718Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/fitness-army:testIamPermissions [none]
+[debug] [2023-01-08T11:39:27.718Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/fitness-army:testIamPermissions x-goog-quota-user=projects/fitness-army
+[debug] [2023-01-08T11:39:27.718Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/fitness-army:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-01-08T11:39:28.659Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/fitness-army:testIamPermissions 200
+[debug] [2023-01-08T11:39:28.659Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/fitness-army:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-01-08T11:39:28.659Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/fitness-army/serviceAccounts/fitness-army@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2023-01-08T11:39:28.659Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/fitness-army/serviceAccounts/fitness-army@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2023-01-08T11:39:29.481Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/fitness-army/serviceAccounts/fitness-army@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2023-01-08T11:39:29.481Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/fitness-army/serviceAccounts/fitness-army@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2023-01-08T11:39:29.483Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army [none]
+[debug] [2023-01-08T11:39:29.909Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army 200
+[debug] [2023-01-08T11:39:29.909Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army {"projectId":"fitness-army","projectNumber":"232059287122","displayName":"fitness-army","name":"projects/fitness-army","resources":{"hostingSite":"fitness-army","realtimeDatabaseInstance":"fitness-army-default-rtdb","storageBucket":"fitness-army.appspot.com","locationId":"europe-west"},"state":"ACTIVE","etag":"1_29fae700-0d83-40b5-951a-eef70e0169ca"}
+[info] 
+[info] === Deploying to 'fitness-army'...
+[info] 
+[info] i  deploying functions, hosting 
+[info] Running command: npm --prefix "$RESOURCE_DIR" run lint
+[info] Running command: npm --prefix "$RESOURCE_DIR" run build
+[info] +  functions: Finished running predeploy script. 
+[debug] [2023-01-08T11:39:34.691Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army [none]
+[debug] [2023-01-08T11:39:35.080Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army 200
+[debug] [2023-01-08T11:39:35.080Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/fitness-army {"projectId":"fitness-army","projectNumber":"232059287122","displayName":"fitness-army","name":"projects/fitness-army","resources":{"hostingSite":"fitness-army","realtimeDatabaseInstance":"fitness-army-default-rtdb","storageBucket":"fitness-army.appspot.com","locationId":"europe-west"},"state":"ACTIVE","etag":"1_29fae700-0d83-40b5-951a-eef70e0169ca"}
+[info] i  functions: preparing codebase default for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2023-01-08T11:39:35.082Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/cloudfunctions.googleapis.com [none]
+[debug] [2023-01-08T11:39:35.082Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/fitness-army
+[debug] [2023-01-08T11:39:35.083Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/runtimeconfig.googleapis.com [none]
+[debug] [2023-01-08T11:39:35.083Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/fitness-army
+[debug] [2023-01-08T11:39:35.083Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/cloudbuild.googleapis.com [none]
+[debug] [2023-01-08T11:39:35.083Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/cloudbuild.googleapis.com x-goog-quota-user=projects/fitness-army
+[debug] [2023-01-08T11:39:35.084Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/artifactregistry.googleapis.com [none]
+[debug] [2023-01-08T11:39:35.084Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/artifactregistry.googleapis.com x-goog-quota-user=projects/fitness-army
+[debug] [2023-01-08T11:39:36.158Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/runtimeconfig.googleapis.com 200
+[debug] [2023-01-08T11:39:36.158Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2023-01-08T11:39:36.160Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/cloudbuild.googleapis.com 200
+[debug] [2023-01-08T11:39:36.160Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/cloudbuild.googleapis.com [omitted]
+[info] +  functions: required API cloudbuild.googleapis.com is enabled 
+[debug] [2023-01-08T11:39:36.184Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/artifactregistry.googleapis.com 200
+[debug] [2023-01-08T11:39:36.184Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fitness-army/services/artifactregistry.googleapis.com [omitted]
+[info] +  artifactregistry: required API artifactregistry.googleapis.com is enabled 
+[debug] [2023-01-08T11:40:01.138Z] Error: Timed out.
+    at Timeout._onTimeout (C:\Users\mzafirovski\AppData\Roaming\npm\node_modules\firebase-tools\lib\utils.js:253:49)
+    at listOnTimeout (node:internal/timers:559:17)
+    at processTimers (node:internal/timers:502:7)
+[error] 
+[error] Error: An unexpected error has occurred.
