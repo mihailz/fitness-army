@@ -195,3 +195,29 @@
     at processTimers (node:internal/timers:502:7)
 [error] 
 [error] Error: An unexpected error has occurred.
+[debug] [2023-01-08T11:44:48.351Z] ----------------------------------------------------------------------
+[debug] [2023-01-08T11:44:48.352Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\mzafirovski\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2023-01-08T11:44:48.353Z] CLI Version:   11.20.0
+[debug] [2023-01-08T11:44:48.353Z] Platform:      win32
+[debug] [2023-01-08T11:44:48.353Z] Node Version:  v16.15.1
+[debug] [2023-01-08T11:44:48.354Z] Time:          Sun Jan 08 2023 12:44:48 GMT+0100 (Central European Standard Time)
+[debug] [2023-01-08T11:44:48.354Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-01-08T11:44:48.401Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-01-08T11:44:48.401Z] > authorizing via signed-in user (mihailzafirovski@gmail.com)
+[debug] [2023-01-08T11:44:48.401Z] [iam] checking project fitness-army for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2023-01-08T11:44:48.403Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/fitness-army:testIamPermissions [none]
+[debug] [2023-01-08T11:44:48.403Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/fitness-army:testIamPermissions x-goog-quota-user=projects/fitness-army
+[debug] [2023-01-08T11:44:48.403Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/fitness-army:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2023-01-08T11:44:49.600Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/fitness-army:testIamPermissions 200
+[debug] [2023-01-08T11:44:49.600Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/fitness-army:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2023-01-08T11:44:49.600Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/fitness-army/serviceAccounts/fitness-army@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2023-01-08T11:44:49.600Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/fitness-army/serviceAccounts/fitness-army@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2023-01-08T11:44:50.732Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/fitness-army/serviceAccounts/fitness-army@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2023-01-08T11:44:50.733Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/fitness-army/serviceAccounts/fitness-army@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[info] 
+[info] === Deploying to 'fitness-army'...
+[info] 
+[info] i  deploying functions 
+[info] Running command: npm --prefix "$RESOURCE_DIR" run lint
+[info] Running command: npm --prefix "$RESOURCE_DIR" run build
