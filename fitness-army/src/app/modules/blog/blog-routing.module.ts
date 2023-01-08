@@ -4,6 +4,7 @@ import {Route, RouterModule} from "@angular/router";
 import {BlogsWrapperComponent} from "./blogs-wrapper/blogs-wrapper.component";
 import {BlogDetailsComponent} from "./blog-details/blog-details.component";
 import {UpdateBlogComponent} from "./update-blog/update-blog.component";
+import {AddBlogComponent} from "./add-blog/add-blog.component";
 
 const routes: Route[] = [
   {
@@ -17,6 +18,10 @@ const routes: Route[] = [
   {
     path: 'update/:id',
     component: UpdateBlogComponent
+  },
+  {
+    path: 'create',
+    component: AddBlogComponent
   }
 ];
 

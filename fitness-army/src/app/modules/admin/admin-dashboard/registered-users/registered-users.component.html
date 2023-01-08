@@ -10,13 +10,15 @@
             {{row[column]}}
           </ng-container>
           <ng-template #roleCell>
-            <mat-form-field class="user-role-form-field" appearance="fill">
-              <mat-select [(ngModel)]="row['role']" name="role" (selectionChange)="onSelectionChange($event, id)">
-                <mat-option *ngFor="let role of roles" [value]="role">
-                  {{role}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div class="mat-form-field w-25">
+              <mat-form-field class="mat-select-dark" appearance="outline">
+                <mat-select [(ngModel)]="row['role']" name="role" (selectionChange)="onSelectionChange($event, id)">
+                  <mat-option *ngFor="let role of roles" [value]="role">
+                    {{role}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </ng-template>
         </td>
       </ng-container>

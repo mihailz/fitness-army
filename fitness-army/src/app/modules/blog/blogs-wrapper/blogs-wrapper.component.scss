@@ -17,6 +17,16 @@
       opacity: .5;
     }
   }
+
+  .no-data-container {
+    color: $color-white;
+
+    .no-data-icon {
+      font-size: 70px;
+      width: 100%;
+      display: contents;
+    }
+  }
 }
 
 .loading-indicator {

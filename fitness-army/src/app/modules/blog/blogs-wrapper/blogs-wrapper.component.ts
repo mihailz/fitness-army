@@ -1,17 +1,15 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NzModalService} from "ng-zorro-antd/modal";
 import {BlogApiService} from "../../../service/api/blog-api.service";
 import {Blog} from "../../../model/blog";
-import {filter, finalize, fromEvent, map, Observable, Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {AuthApiService} from "../../../service/api/auth-api.service";
 import {User} from "../../../model/user.model";
 import {BlogService} from "../../../service/data/blog.service";
 import {UserRoles} from "../../../model/roles";
-import {CreateBlogModalComponent} from "./create-blog-modal/create-blog-modal.component";
-import {ThemePalette} from "@angular/material/core";
-import {ProgressSpinnerMode} from "@angular/material/progress-spinner";
 import {BlogsFilter} from "../../../model/types/blogs-filter-type";
 import {BlogFilterCategories} from "../../../model/blog-type";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'fitness-army-app-blogs-wrapper',
@@ -27,24 +25,24 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
   userRoles = UserRoles;
   private subscriptions: Subscription = new Subscription();
 
-  constructor(private nzModalService: NzModalService,
+  constructor(private router: Router,
+              private nzModalService: NzModalService,
               private blogApiService: BlogApiService,
               private authApiService: AuthApiService,
-              private blogService: BlogService,
-              private cdr: ChangeDetectorRef) {
+              private blogService: BlogService) {
   }
 
   ngOnInit(): void {
     this.getCurrentLoggedInUser();
     this.listenForBlogCreationStatus();
-    this.fetchBlogs('');
+    this.fetchBlogs('', '');
   }
 
   ngOnDestroy(): void {
     this.subscriptions?.unsubscribe();
   }
 
-  fetchBlogs(category = 'ALL', searchString = ''): void {
+  fetchBlogs(category: string, searchString: string): void {
     this.blogApiService.getBlogPosts(category, searchString,(status: boolean) => {
       this.setLoading(status);
       this.blogs$ = this.blogApiService.blogs$;
@@ -52,14 +50,13 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
   }
 
   onFilterSubmit(filterOptions: BlogsFilter): void {
-    this.fetchBlogs(filterOptions.category, filterOptions.searchKey);
+    const category = filterOptions.category === BlogFilterCategories.ALL ?
+      '' : filterOptions.category;
+    this.fetchBlogs(category, filterOptions.searchKey);
   }
 
-  openCreateBlogModal(): void {
-    this.nzModalService.create({
-      nzContent: CreateBlogModalComponent,
-      nzFooter: null,
-    })
+  navigateToAddBlogPage(): void {
+    this.router.navigate(['/blogs/create']);
   }
 
   private getCurrentLoggedInUser(): void {
@@ -79,7 +76,7 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (status: boolean) => {
           if (status) {
-            this.fetchBlogs('');
+            this.fetchBlogs('', '');
           }
         }
       });

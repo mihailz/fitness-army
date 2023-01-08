@@ -1,21 +1,21 @@
-import {Component, ElementRef, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
-import {NzModalRef} from "ng-zorro-antd/modal";
-import {BlogType} from "../../../../model/blog-type";
-import {Blog} from "../../../../model/blog";
-import {AuthApiService} from "../../../../service/api/auth-api.service";
+import {BlogType} from "../../../model/blog-type";
+import {User} from "../../../model/user.model";
 import {finalize, Subscription} from "rxjs";
-import {User} from "../../../../model/user.model";
 import {Router} from "@angular/router";
-import {BlogApiService} from "../../../../service/api/blog-api.service";
-import {BlogService} from "../../../../service/data/blog.service";
+import {NzModalRef} from "ng-zorro-antd/modal";
+import {AuthApiService} from "../../../service/api/auth-api.service";
+import {BlogApiService} from "../../../service/api/blog-api.service";
+import {BlogService} from "../../../service/data/blog.service";
+import {Blog} from "../../../model/blog";
 
 @Component({
-  selector: 'fitness-army-app-create-blog-modal',
-  templateUrl: './create-blog-modal.component.html',
-  styleUrls: ['./create-blog-modal.component.scss']
+  selector: 'fitness-army-app-add-blog',
+  templateUrl: './add-blog.component.html',
+  styleUrls: ['./add-blog.component.scss']
 })
-export class CreateBlogModalComponent implements OnInit, OnDestroy {
+export class AddBlogComponent implements OnInit {
 
   @ViewChild('paragraphTitle') paragraphTitleInput!: ElementRef;
   @ViewChild('paragraphContent') paragraphContentInput!: ElementRef;
@@ -31,7 +31,7 @@ export class CreateBlogModalComponent implements OnInit, OnDestroy {
               private authApiService: AuthApiService,
               private blogApiService: BlogApiService,
               private blogService: BlogService
-              ) { }
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -152,9 +152,10 @@ export class CreateBlogModalComponent implements OnInit, OnDestroy {
     this.subscriptions.add(subscription);
   }
 
- example(event: Event) {
+  example(event: Event) {
     const file = (<HTMLInputElement>event.target).files as FileList;
     const formData = new FormData();
     formData.append('file', file[0]);
   }
+
 }

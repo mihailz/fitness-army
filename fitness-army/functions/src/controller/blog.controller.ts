@@ -11,11 +11,10 @@ exports.postCreateBlogPost = (req: Request, res: Response) => {
   (async () => {
     try {
       const blogId = uuid.v4();
-      const blogsCollection = db.collection("blogs").doc(blogId);
-      console.log("postCreateBlogPost-body: ", req.body);
-      await blogsCollection.create({
+      const blogsCollection = await db.collection("blogs").doc(blogId).set({
         ...req.body.blog, id: blogId,
-      });
+      }, {merge: true});
+      console.log("postCreateBlogPost: ", blogsCollection);
       return res.status(200).send({
         blogId: blogId,
       });
@@ -31,17 +30,21 @@ exports.getBlogs = (req: Request, res: Response) => {
     try {
       const blogsCollection = db.collection("blogs");
       const category = req.query.category;
-      // const searchString = req.query.searchString;
+      const searchString = req.query.searchString;
       let blogs: BlogPostModelDto[] = [];
       const blogsSnapshot =
         (category && category.length !== 0) ?
-        await blogsCollection.where().get() :
-        await blogsCollection.where("category", "==", category).get();
+        await blogsCollection.where("category", "==", category).get() :
+        await blogsCollection.get();
       blogs = mapBlogsData(blogsSnapshot.docs);
-      // console.log("blogs: ", blogs);
+      const filteredBlogs = (searchString && searchString.length !== 0) ?
+        blogs.filter((blog: BlogPostModelDto) =>
+          blog.title.toLowerCase()
+              .includes(searchString.toString().toLowerCase())) :
+        blogs;
       return res.status(200)
           .send(
-              {data: blogs}
+              {data: filteredBlogs}
           );
     } catch (error) {
       console.log(error);
@@ -49,7 +52,6 @@ exports.getBlogs = (req: Request, res: Response) => {
     }
   })();
 };
-
 
 function mapBlogsData(documents: any): BlogPostModelDto[] {
   return documents.map((document: any) => new BlogPostModelDto(
@@ -67,8 +69,7 @@ exports.getBlogPost = (req: Request, res: Response) => {
   (async () => {
     try {
       const blogId = req.params.blog_id;
-      const blogDocument = db.collection("blogs").doc(blogId);
-      const blogDocumentRef = await blogDocument.get();
+      const blogDocumentRef = await db.collection("blogs").doc(blogId).get();
       const blogData = blogDocumentRef.data();
       return res.status(200).send({
         data: blogData,
@@ -84,8 +85,7 @@ exports.updateBlog = (req: Request, res: Response) => {
   (async () => {
     try {
       const blogId = req.params.blog_id;
-      const blogDocument = db.collection("blogs").doc(blogId);
-      await blogDocument.update({
+      await db.collection("blogs").doc(blogId).update({
         author: req.body.blog.author,
         title: req.body.blog.title,
         content: req.body.blog.content,

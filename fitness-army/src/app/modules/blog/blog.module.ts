@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {BlogsWrapperComponent} from './blogs-wrapper/blogs-wrapper.component';
 import {BlogRoutingModule} from "./blog-routing.module";
-import {CreateBlogModalComponent} from './blogs-wrapper/create-blog-modal/create-blog-modal.component';
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NzInputModule} from "ng-zorro-antd/input";
 import {NzUploadModule} from "ng-zorro-antd/upload";
@@ -21,35 +20,36 @@ import {AddParagraphModalComponent} from './add-paragraph-modal/add-paragraph-mo
 import {NzDropDownModule} from "ng-zorro-antd/dropdown";
 import {BlogsFilterComponent} from './blogs-wrapper/blogs-filter/blogs-filter.component';
 import {MaterialModule} from "../../material.module";
+import {AddBlogComponent} from './add-blog/add-blog.component';
 
 @NgModule({
   declarations: [
     BlogsWrapperComponent,
-    CreateBlogModalComponent,
     BlogComponent,
     BlogDetailsComponent,
     UpdateBlogComponent,
     AddParagraphModalComponent,
-    BlogsFilterComponent
+    BlogsFilterComponent,
+    AddBlogComponent
   ],
-    imports: [
-        CommonModule,
-        BlogRoutingModule,
-        NzFormModule,
-        NzInputModule,
-        NzUploadModule,
-        NzIconModule,
-        ReactiveFormsModule,
-        NzButtonModule,
-        ImageUploaderModule,
-        NzModalModule,
-        NzSelectModule,
-        NzSpinModule,
-        NzEmptyModule,
-        NzDropDownModule,
-        MaterialModule,
-        FormsModule
-    ]
+  imports: [
+    CommonModule,
+    BlogRoutingModule,
+    NzFormModule,
+    NzInputModule,
+    NzUploadModule,
+    NzIconModule,
+    ReactiveFormsModule,
+    NzButtonModule,
+    ImageUploaderModule,
+    NzModalModule,
+    NzSelectModule,
+    NzSpinModule,
+    NzEmptyModule,
+    NzDropDownModule,
+    MaterialModule,
+    FormsModule
+  ]
 })
 export class BlogModule {
 }

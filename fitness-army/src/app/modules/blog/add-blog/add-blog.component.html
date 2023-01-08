@@ -1,33 +1,56 @@
-<div *nzModalTitle>
-  <p class="modal-title">Create blog</p>
+<div class="container add-blog-form-container">
+  <div class="row">
+    <div class="col">
+      <h1 class="page-title text-center text-white">Create blog</h1>
+    </div>
+  </div>
+
+  <form [formGroup]="blogPostForm" class="create-blog-form">
+    <div class="mt-4">
+        <div class="mat-form-field">
+          <label class="text-white" for="title">Title</label>
+          <mat-form-field appearance="outline">
+            <input matInput id="title" formControlName="title" required>
+          </mat-form-field>
+        </div>
+        <div class="mat-form-field">
+          <label class="text-white" for="paragraphTitle">Paragraph title</label>
+          <mat-form-field appearance="outline">
+            <input matInput id="paragraphTitle" required #paragraphTitle>
+          </mat-form-field>
+        </div>
+        <div class="mat-form-field">
+          <label class="text-white" for="paragraphContent">Paragraph content</label>
+          <mat-form-field appearance="outline">
+            <textarea matInput id="paragraphContent" required #paragraphContent></textarea>
+          </mat-form-field>
+        </div>
+      <button mat-button class="add-paragraph-button"
+              (click)="addParagraphToBlogContent(paragraphTitle.value, paragraphContent.value)">Add paragraph</button>
+      </div>
+    <ng-container *ngIf="blogContent.controls.length">
+      <ng-container *ngFor="let paragraph of blogContent.controls; index as id">
+        <div class="mat-form-field">
+          <label class="text-white">Paragraph title</label>
+          <mat-form-field appearance="outline">
+            <input matInput [disabled]="!paragraph.get('isUpdating')?.value" #updatedTitle
+                   [value]="paragraph.get('title')?.value">
+          </mat-form-field>
+        </div>
+        <div class="mat-form-field">
+          <label class="text-white">Paragraph content</label>
+          <mat-form-field appearance="outline">
+            <textarea matInput required #paragraphContent [disabled]="!paragraph.get('isUpdating')?.value" #updatedContent
+                      [value]="paragraph.get('content')?.value"></textarea>
+          </mat-form-field>
+        </div>
+      </ng-container>
+    </ng-container>
+  </form>
 </div>
-<nz-spin [nzSpinning]="true" *ngIf="isCreatingBlog" [nzTip]="'Blog is creating...'"></nz-spin>
-<div *ngIf="!isCreatingBlog" class="modal-content">
+
+<div>
   <form nz-form [formGroup]="blogPostForm" class="create-blog-form">
-    <nz-form-item class="form-item">
-      <nz-form-label nzFor="title" class="form-label" [nzSpan]="24">Title</nz-form-label>
-      <nz-form-control [nzSpan]="24" nzHasFeedback nzErrorTip="Please enter an title">
-        <input class="input" nz-input id="title" type="text" formControlName="title">
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item class="form-item">
-      <nz-form-label [nzSpan]="24" nzFor="content" class="form-label content-label">Content</nz-form-label>
-      <nz-form-label [nzSpan]="24" class="paragraph-title-label">Paragraph title</nz-form-label>
-      <nz-form-control [nzSpan]="24">
-        <input #paragraphTitle class="input" nz-input type="text">
-      </nz-form-control>
-      <nz-form-label [nzSpan]="24">Paragraph content</nz-form-label>
-      <nz-form-control [nzSpan]="24">
-        <textarea #paragraphContent [nzAutosize]="true" class="input" nz-input></textarea>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control>
-        <button nz-button nzType="primary"
-                (click)="addParagraphToBlogContent(paragraphTitle.value, paragraphContent.value)">Add paragraph
-        </button>
-      </nz-form-control>
-    </nz-form-item>
     <div *ngIf="blogContent.controls.length" class="blog-content-preview-wrapper">
       <div class="blog-paragraph" *ngFor="let paragraph of blogContent.controls; index as id">
         <nz-form-item>
@@ -78,9 +101,3 @@
     </nz-form-item>
   </form>
 </div>
-
-<div *nzModalFooter>
-  <button nz-button nzType="default" (click)="closeModal()">Close</button>
-  <button nz-button nzType="primary" (click)="onCreateBlog()">Create blog</button>
-</div>
-

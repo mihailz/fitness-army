@@ -114,7 +114,7 @@ export class BlogApiService {
   }
 
   getBlogPosts(category: string, searchString: string, cb: (status: boolean) => void): void {
-    const url = `${this.baseApiHref}/api/blogs?category=${category}?searchString=${searchString}`;
+    const url = `${this.baseApiHref}/api/blogs?category=${category}&searchString=${searchString}`;
     cb(true);
     this.http.get(url)
       .pipe(
@@ -139,11 +139,12 @@ export class BlogApiService {
               blogItem.imageUrl
             )
           )
-        ),
+         ),
         catchError((error: HttpErrorResponse) => throwError(() => of(error))),
         finalize(() => cb(false)))
       .subscribe({
-        next: (blogs: Blog[]) => {
+        next: (blogs: any) => {
+          console.log('getBlogs: ', blogs)
           this.blogsSubject.next(blogs);
         },
         error: (err) => {
