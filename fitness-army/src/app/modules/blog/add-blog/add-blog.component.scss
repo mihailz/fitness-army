@@ -1,0 +1,104 @@
+@import "src/assets/css/colors";
+
+.add-blog-form-container {
+  .create-blog-form {
+    border: 1px solid gray;
+
+    .blog-image-wrapper {
+      width: 100%;
+      height: 400px;
+      padding: 12px;
+
+      img {
+        max-width: 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .add-paragraph-button {
+      background: $primary;
+      color: $color-white;
+      border: 1px solid white;
+      border-radius: 5px;
+      font-weight: bold;
+      width: 150px;
+      margin-left: 12px;
+
+      &:hover {
+        opacity: .5;
+      }
+    }
+
+    .content-items {
+      min-height: 50px;
+      max-height: 350px;
+      overflow-y: auto;
+
+      .content-item {
+        padding: 15px;
+        background: $primary;
+        border-radius: 10px;
+
+        .paragraph-delete-button {
+          border: 1px solid $color-white;
+          background-color: $primary;
+          color: $color-white;
+
+          &:hover {
+            opacity: .5;
+          }
+        }
+      }
+
+      &::-webkit-scrollbar {
+        //width: 12px;
+        background: $primary;
+        width: 10px !important; /* width of the entire scrollbar */
+      }
+
+      &::-webkit-scrollbar-track {
+        background: $primary;
+        /* color of the tracking area */
+      }
+
+      &::-webkit-scrollbar-thumb {
+        width: 15px;
+        background-color: $bg-dark; /* color of the scroll thumb */
+        /* roundness of the scroll thumb */
+      }
+    }
+
+    .create-blog-button {
+        background: $primary;
+        border: 1px solid white;
+        border-radius: 5px;
+        color: $color-white;
+        width: 150px;
+        margin-right: 12px;
+
+        &:hover {
+          opacity: .5;
+        }
+    }
+  }
+}
+
+::ng-deep .mat-expansion-panel-content {
+  &::ng-deep .mat-expansion-panel-body {
+    padding: 0;
+  }
+}
+
+mat-expansion-panel-header {
+  background: $primary;
+  color: $color-white;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid $color-white;
+
+  &:hover {
+    background: $bg-dark;
+  }
+}

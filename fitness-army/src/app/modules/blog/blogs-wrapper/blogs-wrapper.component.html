@@ -1,7 +1,7 @@
 <div class="container blogs-container pb-4">
   <fitness-army-app-blogs-filter (onBlogsFilterSubmit)="onFilterSubmit($event)"></fitness-army-app-blogs-filter>
 
-  <ng-container *ngIf="loggedInUser?.role === userRoles.ADMIN || loggedInUser?.role === userRoles.COACH">
+  <ng-container *ngIf="canSeeAddBlogButton()">
     <div class="row pt-4 d-flex justify-content-start">
       <button class="add-blog-button" mat-button (click)="navigateToAddBlogPage()">Add blog
         <mat-icon>add_circle_outline</mat-icon>
@@ -15,7 +15,7 @@
       </div>
     </ng-container>
     <ng-container *ngIf="blogs$ | async as blogs">
-      <div class="col-xs-12 col-md-6 col-lg-4 pt-4"
+      <div class="col-xs-12 col-lg-6 col-xl-4 pt-4"
            *ngFor="let blog of blogs">
         <fitness-army-app-blog [blog]="blog"></fitness-army-app-blog>
       </div>

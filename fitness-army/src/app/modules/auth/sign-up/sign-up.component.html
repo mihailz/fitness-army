@@ -1,90 +1,51 @@
-<div class="signup-form-wrapper">
-  <form class="signup-form" [formGroup]="signUpForm">
-    <div class="heading-section">
-      <h1 class="header">Create account</h1>
-      <p>Continue with</p>
-      <div class="providers-wrapper">
-        <div class="providers-list">
-          <button class="provider-button" (click)="signUpWIthGoogleProvider()">
-            <img src="./assets/images/google.png"/>
-          </button>
-          <button class="provider-button">
-            <img src="./assets/images/facebook.png"/>
-          </button>
-          <button class="provider-button">
-            <img src="./assets/images/apple-logo.png"/>
-          </button>
-        </div>
+<div class="signup-form-container">
+  <div class="sign-up-form-wrapper p-3">
+    <ng-container *ngIf="isLoading">
+      <div class="loading-indicator">
+        <mat-spinner></mat-spinner>
       </div>
-      <p class="divider">Or</p>
-    </div>
-    <div class="form-group">
-      <label for="email">Username</label>
-      <input type="text" class="form-control" id="username" placeholder="Username" formControlName="userName"/>
-      <ng-container *ngIf="signUpForm?.get('userName')?.touched && signUpForm?.get('userName')?.errors">
-        <div class="input-errors-container">
-        <span class="input-error-message" *ngIf="signUpForm?.get('userName')?.hasError('required')">
-          Username field is required!
-        </span>
-        </div>
-      </ng-container>
-    </div>
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="text" class="form-control" id="email" placeholder="Username or email" formControlName="email"/>
-      <ng-container *ngIf="signUpForm?.get('email')?.touched && signUpForm?.get('email')?.errors">
-        <div class="input-errors-container">
-        <span class="input-error-message" *ngIf="signUpForm?.get('email')?.hasError('email')">
-          This is not an valid email!
-        </span>
-          <span class="input-error-message" *ngIf="signUpForm?.get('email')?.hasError('required')">
-          Email field is required!
-        </span>
-        </div>
-      </ng-container>
-    </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
-      <ng-container *ngIf="signUpForm?.get('password')?.touched && signUpForm?.get('password')?.invalid">
-        <div class="input-errors-container">
-        <span class="input-error-message" *ngIf="signUpForm?.get('password')?.hasError('required')">
-          Password field is required!
-        </span>
-
-          <span class="input-error-message" *ngIf="signUpForm?.get('password')?.hasError('passwordInvalid')">
-          Password is not valid!
-        </span>
-        </div>
-      </ng-container>
-      <div class="input-hint">
-        Minimum 8 characters (at least 1 number, 1 lowercase letter, 1 uppercase letter, 1special character)
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="confirmPassword">Confirm password</label>
-      <input type="password" class="form-control" id="confirmPassword" placeholder="Password"
-             formControlName="confirmPassword">
-      <ng-container *ngIf="signUpForm?.get('confirmPassword')?.touched && signUpForm?.get('confirmPassword')?.invalid">
-        <div class="input-errors-container">
-        <span class="input-error-message" *ngIf="signUpForm?.get('confirmPassword')?.hasError('required')">
-          Confirm password field is required!
-        </span>
-        </div>
-      </ng-container>
-    </div>
-    <div class="image-uploader-wrapper">
-      <fitness-army-app-image-uploader (selectedImage)="onImageSelect($event)"
-                                       [controlName]="'profileImage'"></fitness-army-app-image-uploader>
-    </div>
-    <ng-container *ngIf="errorMessage">
-      <div class="input-errors-container">{{errorMessage}}</div>
     </ng-container>
-    <div class="signup-wrapper">
-      <button (click)="signup()" type="submit" class="signup-button">Create account</button>
-    </div>
-    <div class="sign-in-section">
-      <span class="description">Already a member? <a routerLink="/auth/login">Sign in</a></span>
-    </div>
-  </form>
+    <h1 class="text-white">Register</h1>
+    <form [formGroup]="signUpForm">
+      <div class="mat-form-field">
+        <label class="text-white">Username</label>
+        <mat-form-field appearance="outline">
+          <input matInput [formControl]="getFControl('userName')">
+          <mat-error *ngIf="getFControl('userName').invalid">{{getFControlErrorMessage('userName')}}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mat-form-field">
+        <label class="text-white">Email</label>
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="user@example.com" [formControl]="getFControl('email')">
+          <mat-error *ngIf="getFControl('email').invalid">{{getFControlErrorMessage('email')}}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mat-form-field">
+        <label class="text-white">Password</label>
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" formControlName="password">
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <mat-hint *ngIf="!getFControl('password')?.value">Enter your password</mat-hint>
+          <mat-error *ngIf="getFControl('password').invalid">{{getFControlErrorMessage('password')}}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mat-form-field">
+        <label class="text-white">Confirm password</label>
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" formControlName="confirmPassword">
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <mat-hint *ngIf="!getFControl('confirmPassword')?.value">Enter your password</mat-hint>
+          <mat-error *ngIf="getFControl('confirmPassword').invalid">{{getFControlErrorMessage('confirmPassword')}}</mat-error>
+        </mat-form-field>
+      </div>
+      <ng-container *ngIf="passwordsDoNotMatch">
+        <mat-error class="fs-16">Passwords do not match!</mat-error>
+      </ng-container>
+      <button mat-button class="register-button w-100 mt-3" (click)="signup()">Register</button>
+      <div class="redirect-to-login pt-3 d-flex justify-content-center">
+        <span>Go back to <a class="redirect" routerLink="/auth/login">Log In</a></span>
+      </div>
+    </form>
+  </div>
 </div>

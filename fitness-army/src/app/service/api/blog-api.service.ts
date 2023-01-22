@@ -30,7 +30,7 @@ export class BlogApiService {
 
   baseApiHref: string = '';
 
-  blogsSubject: Subject<Blog[]> = new Subject<Blog[]>();
+  blogsSubject: Subject<Blog[]> = new BehaviorSubject<Blog[]>([]);
   blogs$ = this.blogsSubject.asObservable();
 
   blogSubject: Subject<Blog> = new Subject<Blog>();
@@ -42,18 +42,29 @@ export class BlogApiService {
     this.baseApiHref = environment.applicationApi;
   }
 
-  createBlogPost(blog: Blog, imageFile: File): Observable<any> {
-    return this.http.post(`${this.baseApiHref}/api/blogs/create/${blog.author.uid}`, {
+  createBlogPost(blog: Blog, imageFile: File, cb: (status: boolean, error?: HttpErrorResponse) => void): void {
+   this.http.post(`${this.baseApiHref}/api/blogs/create/${blog.author.uid}`, {
       blog: blog
     }).pipe(
       switchMap((blog: any) => {
         return this.uploadBlogImage(imageFile, blog)
-      })
-    );
+          .pipe(
+            catchError(err => throwError(() => err))
+          )
+      }),
+     catchError(err => throwError(() => err))
+    ).subscribe({
+     next: () => {
+       cb(true);
+     },
+     error: (err: HttpErrorResponse) => {
+       console.error(err.message);
+       cb(false, err);
+     }
+   });
   }
 
-  updateBlogPost(blog: Blog, imageFile: File | null, cb: (status: boolean) => void): void {
-    cb(true);
+  updateBlogPost(blog: Blog, imageFile: File | null, cb: (status: boolean, error?: HttpErrorResponse) => void): void {
     this.uploadBlogImage(imageFile, blog)
       .pipe(
         switchMap((blogImageUrl: string) => {
@@ -63,7 +74,7 @@ export class BlogApiService {
         }),
         map((response: any) => response.blog),
         map((blogData: any) => new Blog(
-          blogData.id,
+          blog.id,
           new User(
             blogData.author.email,
             blogData.author.uid,
@@ -80,14 +91,16 @@ export class BlogApiService {
           blogData.dateCreated,
           blogData.imageUrl
         )),
-        catchError((error: HttpErrorResponse) => throwError(() => of(error.message))),
-        finalize(() => cb(false))
+        catchError((error: HttpErrorResponse) => throwError(() => error.message)),
       ).subscribe({
       next: (blog: Blog) => {
+        cb(true);
+        console.log('updatedBlog: ', blog)
         this.blogSubject.next(blog);
       },
       error: (err: HttpErrorResponse) => {
-        console.error(err)
+        console.error(err);
+        cb(false, err);
       }
     })
   }
@@ -113,9 +126,9 @@ export class BlogApiService {
     }
   }
 
-  getBlogPosts(category: string, searchString: string, cb: (status: boolean) => void): void {
+  getBlogPosts(category: string, searchString: string,
+               cb: (status: boolean, error?: HttpErrorResponse) => void): void {
     const url = `${this.baseApiHref}/api/blogs?category=${category}&searchString=${searchString}`;
-    cb(true);
     this.http.get(url)
       .pipe(
         map((response: any) => response.data
@@ -139,22 +152,22 @@ export class BlogApiService {
               blogItem.imageUrl
             )
           )
-         ),
+        ),
         catchError((error: HttpErrorResponse) => throwError(() => of(error))),
-        finalize(() => cb(false)))
+      )
       .subscribe({
-        next: (blogs: any) => {
-          console.log('getBlogs: ', blogs)
+        next: (blogs: Blog[]) => {
+          cb(true);
           this.blogsSubject.next(blogs);
         },
         error: (err) => {
           console.log(err);
+          cb(false, err);
         }
       });
   }
 
-  getBlogById(blogId: string, cb: (status: boolean) => void): void {
-    cb(true);
+  getBlogById(blogId: string, cb: (status: boolean, error?: HttpErrorResponse) => void): void {
     this.http.get(`${this.baseApiHref}/api/blogs/${blogId}`)
       .pipe(
         map((response: any) => response.data),
@@ -177,13 +190,14 @@ export class BlogApiService {
           blogData.imageUrl
         )),
         catchError((err: HttpErrorResponse) => throwError(() => of(err))),
-        finalize(() => cb(false))
       ).subscribe({
       next: (blog: Blog) => {
+        cb(true);
         this.blogSubject.next(blog);
       },
       error: (err) => {
         console.log(err);
+        cb(false, err);
       }
     });
   }

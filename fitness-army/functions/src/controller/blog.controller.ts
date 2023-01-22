@@ -85,15 +85,16 @@ exports.updateBlog = (req: Request, res: Response) => {
   (async () => {
     try {
       const blogId = req.params.blog_id;
-      await db.collection("blogs").doc(blogId).update({
+      const updatedBlog = {
         author: req.body.blog.author,
         title: req.body.blog.title,
         content: req.body.blog.content,
         category: req.body.blog.category,
         imageUrl: req.body.blog.imageUrl,
-      });
+      };
+      await db.collection("blogs").doc(blogId).update(updatedBlog);
       return res.status(200).send({
-        message: "Blog has been updated!",
+        blog: updatedBlog,
       });
     } catch (error) {
       console.log(error);

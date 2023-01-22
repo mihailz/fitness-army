@@ -1,61 +1,45 @@
 @import "src/assets/css/colors";
 
-.card {
+.blog-card {
   background: $bg-dark;
   text-decoration: none;
   color: $color-white;
   box-shadow: 0 2px 5px $color-white;
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-  position: relative;
-  top: 0;
   transition: all .1s ease-in;
+  min-height: 100%;
 
   &:hover {
     top: -2px;
     box-shadow: 0 4px 5px rgba(255, 255, 255, 0.5);
   }
 
-  article {
-    padding: 10px;
-    flex: 1;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .short-content {
-    padding: 10px 10px 0 10px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  h1 {
-    font-size: 20px;
-    margin: 0;
-  }
-
-  p {
-    flex: 1;
-    line-height: 1.4;
-  }
-
-  .thumb {
+  .blog-image-wrapper {
     width: 100%;
-    height: 300px;
+    height: 200px;
+    max-height: 200px;
 
-    img {
+    .blog-card-image {
+      object-fit: cover;
       border-top-left-radius: 5px;
       border-top-right-radius: 5px;
-      width: 100%;
-      max-width: 100%;
-      height: 100%;
-      object-fit: cover;
     }
+  }
+
+  .card-content {
+    margin-top: 70px;
+    min-height: 220px;
+    max-height: 260px;
+    position: relative;
+
+    .wrapper {
+      position: absolute;
+      width: 100%;
+      bottom: 10px;
+    }
+  }
+
+  .author {
+    font-size: 16px;
   }
 
   .wrapper {
@@ -89,3 +73,62 @@
     }
   }
 }
+
+
+//
+//.card {
+
+//  display: flex;
+//  flex-direction: column;
+//  min-height: 100%;
+//  position: relative;
+//  top: 0;
+//
+//
+//
+//
+//  article {
+//    padding: 10px;
+//    flex: 1;
+//
+//    display: flex;
+//    flex-direction: column;
+//    justify-content: space-between;
+//  }
+//
+//  .short-content {
+//    padding: 10px 10px 0 10px;
+//    flex: 1;
+//    display: flex;
+//    flex-direction: column;
+//    justify-content: space-between;
+//  }
+//
+//  h1 {
+//    font-size: 20px;
+//    margin: 0;
+//  }
+//
+//  p {
+//    flex: 1;
+//    line-height: 1.4;
+//  }
+//
+//  .thumb {
+//    width: 100%;
+//    height: 300px;
+//
+//    img {
+//      border-top-left-radius: 5px;
+//      border-top-right-radius: 5px;
+//      width: 100%;
+//      max-width: 100%;
+//      height: 100%;
+//      object-fit: cover;
+//    }
+//  }
+//
+
+//}
+
+

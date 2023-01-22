@@ -1,16 +1,16 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Blog} from "../../../model/blog";
 import {BlogType} from "../../../model/blog-type";
-import {finalize, map, Observable, Subscription, switchMap, tap} from "rxjs";
+import {map,Subscription, switchMap} from "rxjs";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {BlogApiService} from "../../../service/api/blog-api.service";
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {BlogParagraph} from "../../../model/blog-paragraph";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {AddParagraphModalComponent} from "../add-paragraph-modal/add-paragraph-modal.component";
 import {BlogService} from "../../../service/data/blog.service";
-import {update} from "@angular/fire/database";
 import {MatAccordion} from "@angular/material/expansion";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'fitness-army-app-update-blog',
@@ -26,8 +26,6 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
   blogTypes = Object.values(BlogType);
   blogImage!: File;
   uploadedImageUrl!: string | ArrayBuffer;
-  nzTipMessage: string = '';
-  contentTitles: string[] = [];
   private subscriptions: Subscription = new Subscription();
 
   constructor(private router: Router,
@@ -35,13 +33,13 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
               private blogApiService: BlogApiService,
               private fb: FormBuilder,
               private nzModalService: NzModalService,
-              private blogService: BlogService) {
+              private blogService: BlogService,
+              private toastrService: ToastrService) {
   }
 
   ngOnInit(): void {
     this.initUpdateBlogForm();
     this.fetchCurrentBlog();
-    this.listenForCreatedBlogParagraph();
   }
 
   ngOnDestroy(): void {
@@ -55,13 +53,19 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
     reader.onloadend = (e: ProgressEvent<FileReader> | null) => { // function call once readAsDataUrl is completed
       if (e?.target?.['result']) {
         this.uploadedImageUrl = e?.target?.['result'];
-        console.log('onImageSelect: ', this.uploadedImageUrl)
       }
     }
   }
 
-  getFormControl(controlName: string): AbstractControl | null {
-    return this.updateBlogForm.get(controlName) ? this.updateBlogForm.get(controlName) as AbstractControl: null;
+  getFControl(path: string): FormControl {
+    return this.updateBlogForm.get(path) as FormControl;
+  }
+
+  getFControlErrorMessage(path: string): string {
+    if (this.updateBlogForm.get(path)?.hasError('email')) {
+      return 'Email is invalid!';
+    }
+    return 'You must enter a value';
   }
 
   get blogContent(): FormArray {
@@ -70,7 +74,6 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
 
   deleteParagraph(paragraphIndex: number) {
     this.blogContent.removeAt(paragraphIndex);
-    this.contentTitles.splice(paragraphIndex, 1);
   }
 
   addParagraph(paragraph: BlogParagraph) {
@@ -83,15 +86,10 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
 
   updateBlog(): void {
     if (!this.updateBlogForm.valid) {
-      Object.values(this.updateBlogForm.controls).forEach(control => {
-        if (control.invalid) {
-          control.markAsDirty();
-          control.updateValueAndValidity({onlySelf: true});
-        }
-      });
       return;
     }
 
+    this.setLoading();
     const title = this.updateBlogForm.controls['title'].value;
     const content = this.updateBlogForm.controls['content'].value;
     const category = this.updateBlogForm.controls['category'].value;
@@ -101,8 +99,13 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
       content: content,
       category: category
     };
-    this.blogApiService.updateBlogPost(updatedBlog, this.blogImage, status => {
-      this.setLoading(status);
+    this.blogApiService.updateBlogPost(updatedBlog, this.blogImage, (status, error) => {
+      this.setLoading(false);
+      if (!status) {
+        this.toastrService.error('An unexpected error has occurred!', 'Error');
+
+      }
+      this.toastrService.success('The blog has been updated!', 'Success');
     })
   }
 
@@ -113,28 +116,27 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
     })
   }
 
-  private listenForCreatedBlogParagraph(): void {
-    const subscription = this.blogService.getBlogParagraph()
-      .subscribe({
-        next: ((blogParagraph: BlogParagraph) => {
-          this.addParagraph(blogParagraph);
-          this.contentTitles.push(blogParagraph.title);
-        })
-      });
-    this.subscriptions.add(subscription);
-  }
+  // private listenForCreatedBlogParagraph(): void {
+  //   const subscription = this.blogService.getBlogParagraph()
+  //     .subscribe({
+  //       next: ((blogParagraph: BlogParagraph) => {
+  //         this.addParagraph(blogParagraph);
+  //         this.contentTitles.push(blogParagraph.title);
+  //       })
+  //     });
+  //   this.subscriptions.add(subscription);
+  // }
 
   private fetchCurrentBlog(): void {
+    this.setLoading();
     const sub$ = this.activatedRoute.params
       .pipe(
         map((params: Params) => params['id']),
         switchMap((blogId: string) => {
-          let blogSub$: Observable<Blog> = new Observable<Blog>();
-          this.blogApiService.getBlogById(blogId, (status: boolean) => {
-            this.setLoading(status);
-            blogSub$ = this.blogApiService.blog$;
-          });
-          return blogSub$
+          this.blogApiService.getBlogById(blogId, (status: boolean, error) => {
+            this.setLoading(false);
+          })
+          return this.blogApiService.blog$;
         })
       ).subscribe({
         next: (blog: Blog) => {
@@ -163,14 +165,16 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
   }
 
   private populateUpdateBlogContentFormArray(blog: Blog): FormArray {
+    if (this.blogContent.length > 0) {
+      this.blogContent.clear();
+    }
     const contentFormArray = new FormArray([]);
     blog.content.forEach((paragraph: BlogParagraph, index: number) => {
-      let paragraphTitleFormControl = new FormControl('');
+      let paragraphTitleFormControl = new FormControl('', [Validators.required]);
       let paragraphContentFormControl = new FormControl('');
 
       paragraphTitleFormControl.setValue(paragraph.title);
       paragraphContentFormControl.setValue(paragraph.content);
-      this.contentTitles.push(paragraph.title);
 
       this.blogContent.push(new FormGroup({
         title: paragraphTitleFormControl,

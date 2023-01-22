@@ -7,6 +7,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ForgotPasswordComponent} from "./forgot-password/forgot-password.component";
 import {VerifyEmailComponent} from "./verify-email/verify-email.component";
 import {ImageUploaderModule} from "../../shared/image-uploader/image-uploader.module";
+import {MaterialModule} from "../../material.module";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {ImageUploaderModule} from "../../shared/image-uploader/image-uploader.mo
     AuthRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    ImageUploaderModule
+    ImageUploaderModule,
+    MaterialModule
   ]
 })
 export class AuthModule {

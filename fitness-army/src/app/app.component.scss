@@ -1,0 +1,109 @@
+@import "src/assets/css/colors";
+
+mat-toolbar {
+  background: $bg-dark;
+  color: $color-white;
+  height: 64px;
+  position: fixed;
+  z-index: 100;
+  width: 100% !important;
+
+  .logo-wrapper {
+    .logo-container {
+      width: 50px;
+      height: 50px;
+
+      img {
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+      }
+    }
+
+  }
+}
+
+mat-sidenav {
+  margin: 16px;
+  width: 200px;
+  border-right: none;
+  background: $bg-dark;
+  color: $color-white;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  height: calc(100% - 95px);
+  top: 65px;
+  position: fixed;
+
+  .sidenav-container {
+    position: sticky;
+    top: 20px;
+  }
+
+  .route-link {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 1rem;
+
+    mat-icon {
+      margin-right: 8px;
+    }
+
+    &:hover {
+      color: $light-blue;
+    }
+  }
+
+  .avatar {
+    margin-top: 16px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+
+  .user-name {
+    margin-top: 8px;
+    font-weight: normal;
+    color: $color-white;
+  }
+
+  .user-email {
+    margin-top: 2px;
+    font-size: 0.7rem;
+    color: $color-white;
+  }
+
+  mat-divider {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+mat-sidenav-content {
+  padding-top: 65px;
+  min-height: calc(100vh - 95px);
+}
+
+.content {
+  min-height: calc(100vh - 95px);
+  height: auto;
+  border-radius: 10px;
+  margin: 16px 16px 16px 32px;
+
+  //display: flex;
+  //justify-content: center;
+  //align-items: center;
+
+  font-size: 2rem;
+  color: white;
+  background: $color-black;
+}
+
+mat-sidenav-container {
+  height: auto;
+  background: $color-black;
+}

@@ -1,11 +1,14 @@
-<a class="card" [routerLink]="['details', blog.id]">
-  <div class="thumb">
-    <img [src]="blog.imageUrl">
+<mat-card class="blog-card">
+  <div class="blog-image-wrapper">
+    <img class="blog-card-image" mat-card-image [src]="blog.imageUrl" alt="blog_photo" style=" height: 250px">
   </div>
-  <article>
-    <h1 class="text-white">{{blog.title}}</h1>
+  <mat-card-content class="card-content">
+    <h2 class="blog-title text-white">
+      {{blog.title}}
+    </h2>
+    <a class="blog-link" [routerLink]="['details', blog.id]">Read more...</a>
     <div class="wrapper pt-4">
-      <span class="text-white">By {{blog.author.displayName}}</span>
+      <span class="text-white author">By {{blog.author.displayName}}</span>
       <div class="blog-category-wrapper">
         <div class="blog-category"
              [class.fitness]="blog.category === blogCategories.FITNESS"
@@ -15,6 +18,11 @@
         </div>
       </div>
     </div>
-  </article>
-</a>
+  </mat-card-content>
+  <!--  <mat-card-actions>-->
+  <!--    <button mat-button>LIKE</button>-->
+  <!--    <button mat-button>SHARE</button>-->
+  <!--  </mat-card-actions>-->
+</mat-card>
+
 

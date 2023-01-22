@@ -19,7 +19,6 @@ import {Router} from "@angular/router";
 export class BlogsWrapperComponent implements OnInit, OnDestroy {
 
   blogs$!: Observable<Blog[]>;
-  filteredBlogs$!: Observable<Blog[]>;
   isFetchingData: boolean = false;
   loggedInUser!: User | null;
   userRoles = UserRoles;
@@ -43,8 +42,9 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
   }
 
   fetchBlogs(category: string, searchString: string): void {
+    this.setLoading();
     this.blogApiService.getBlogPosts(category, searchString,(status: boolean) => {
-      this.setLoading(status);
+      this.setLoading(false);
       this.blogs$ = this.blogApiService.blogs$;
     });
   }
@@ -57,6 +57,11 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
 
   navigateToAddBlogPage(): void {
     this.router.navigate(['/blogs/create']);
+  }
+
+  canSeeAddBlogButton(): boolean {
+    return this.loggedInUser?.role === this.userRoles.COACH
+    || this.loggedInUser?.role === this.userRoles.ADMIN;
   }
 
   private getCurrentLoggedInUser(): void {

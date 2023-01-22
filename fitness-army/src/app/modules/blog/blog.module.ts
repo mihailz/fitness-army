@@ -21,6 +21,7 @@ import {NzDropDownModule} from "ng-zorro-antd/dropdown";
 import {BlogsFilterComponent} from './blogs-wrapper/blogs-filter/blogs-filter.component';
 import {MaterialModule} from "../../material.module";
 import {AddBlogComponent} from './add-blog/add-blog.component';
+import {AddParagraphModule} from "../../shared/add-paragraph/add-paragraph.module";
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import {AddBlogComponent} from './add-blog/add-blog.component';
     NzEmptyModule,
     NzDropDownModule,
     MaterialModule,
-    FormsModule
+    FormsModule,
+    AddParagraphModule
   ]
 })
 export class BlogModule {

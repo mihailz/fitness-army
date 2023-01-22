@@ -1,4 +1,4 @@
-<div class="home-page-container">
+<div class="home-page-container pb-3">
   <div class="hero-section">
     <div class="hero-section-content">
       <h1 class="hero-section-title">Welcome to Fitness Army</h1>
@@ -22,12 +22,12 @@
         <h2 class="pt-4 text-white">
           SAFE BODY BUILDING PROPER SOLUTIONS THAT SAVES OUR VALUABLE TIME!
         </h2>
-        <div class="pt-3">
+        <div class="pt-3 paragraph">
           We are experts in the area of fitness and nutrition. We have some of
           the best coaches in the fitness industry with a lot years of
           expertise.
         </div>
-        <div>
+        <div class="paragraph">
           We offer the best solutions for our clients needs. We adapt our
           workout programs to your needs. We help you to build your dream
           physique.
@@ -43,70 +43,39 @@
           <div class="col-12 pb-0 pb-lg-5">
             <h3 class="section-title shadow">Services</h3>
           </div>
-          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 mt-4 mt-lg-0">
-            <div class="card">
-              <img src="./assets/images/healthcare.png" class="card-img-top" alt="..." />
-              <div class="card-body">
-                <p class="card-text">
-                  We care for your health. We make sure that your body and health will
-                             be at the top level.
+          <div *ngFor="let card of cards" class="col-xs-12 col-sm-12 col-md-6 col-lg-4 mt-4 mt-lg-0">
+            <mat-card class="card d-flex justify-content-center align-items-center">
+              <img mat-card-image [src]="card.cardImageUrl" alt="service_img">
+              <mat-card-content>
+                <p class="text-black text-center">
+                  {{card.cardContent}}
                 </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 mt-4 mt-lg-0">
-            <div class="card">
-              <img src="./assets/images/dumbbell.png" class="card-img-top" alt="..." />
-              <div class="card-body">
-                <p class="card-text">
-                  We make the best exercise programs based on your desires and goals.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 mt-4 mt-lg-0">
-            <div class="card">
-              <img src="/assets/images/clock.png" class="card-img-top" alt="..." />
-              <div class="card-body">
-                <p class="card-text">
-                  We monitor your progress and give you appropriate feedback.
-                </p>
-              </div>
-            </div>
+              </mat-card-content>
+            </mat-card>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!--Gallery section-->
-  <div class="container-fluid pt-5">
-    <div class="gallery-grid-container">
-      <div class="gallery-grid-card image-1">
-        <img class="img-fluid" src="./assets/images/home-gallery-image-1.jpg" alt="">
+    <!--Gallery section-->
+    <div class="container-fluid pt-5">
+      <div class="gallery-grid-container">
+        <div class="gallery-grid-card image-1">
+          <img class="img-fluid" src="./assets/images/home-gallery-image-1.jpg" alt="">
+        </div>
+        <div class="gallery-grid-card image-2">
+          <img class="img-fluid" src="./assets/images/home-gallery-image-2.jpg" alt="">
+        </div>
+        <div class="gallery-grid-card image-3">
+          <img class="img-fluid" src="./assets/images/home-gallery-image-3.jpg" alt="">
+        </div>
+        <div class="gallery-grid-card image-4">
+          <img class="img-fluid" src="./assets/images/home-gallery-image-4.jpg" alt="">
+        </div>
+        <div class="gallery-grid-card image-5">
+          <img class="img-fluid" src="./assets/images/home-gallery-image-5.jpg" alt="">
+        </div>
       </div>
-      <div class="gallery-grid-card image-2">
-        <img class="img-fluid" src="./assets/images/home-gallery-image-2.jpg" alt="">
-      </div>
-      <div class="gallery-grid-card image-3">
-        <img class="img-fluid" src="./assets/images/home-gallery-image-3.jpg" alt="">
-      </div>
-      <div class="gallery-grid-card image-4">
-        <img class="img-fluid" src="./assets/images/home-gallery-image-4.jpg" alt="">
-      </div>
-      <div class="gallery-grid-card image-5">
-        <img class="img-fluid" src="./assets/images/home-gallery-image-5.jpg" alt="">
-      </div>
-  </div>
-  </div>
-
-  <!--Clients section-->
-  <div class="container pt-5">
-    <div class="row">
-      <div class="col-12 pb-0 pb-lg-5 d-flex justify-content-center">
-        <h3>What our clients have to say</h3>
-      </div>
-  </div>
-  <div class="row">
+    </div>
   </div>
 </div>

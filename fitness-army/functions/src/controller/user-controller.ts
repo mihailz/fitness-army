@@ -8,7 +8,7 @@ const db = admin.firestore();
 exports.postCreateUser = (req: Request, res: Response) => {
   (async () => {
     try {
-      let UID = "";
+      let UID: string;
       if (!req.body.uid) {
         const {uid} = await admin.auth().createUser({
           email: req.body.email,
@@ -114,7 +114,6 @@ exports.postUpdateUser = (req: Request, res: Response) => {
   (async () => {
     try {
       const updateUserPassword = req.query.update_password;
-
       const userId = req.params.user_id;
       const document = db.collection("users").doc(userId);
       console.log("postUpdateUser: ", req.body);

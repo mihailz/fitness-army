@@ -1,0 +1,22 @@
+<h1 mat-dialog-title class="text-white">Add paragraph</h1>
+<div mat-dialog-content>
+  <form [formGroup]="paragraphForm">
+    <div class="mat-form-field">
+      <label class="text-white" for="paragraphTitle">Paragraph title</label>
+      <mat-form-field appearance="outline">
+        <input matInput id="paragraphTitle" required formControlName="title">
+        <mat-error *ngIf="paragraphForm.get('title')?.invalid">Field is required!</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="mat-form-field">
+      <label class="text-white" for="paragraphContent">Paragraph content</label>
+      <mat-form-field appearance="outline">
+        <textarea matInput id="paragraphContent" formControlName="content"></textarea>
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+<mat-dialog-actions align="end">
+  <button mat-raised-button class="btn-add" (click)="onConfirmClick()" tabindex="1">Add</button>
+  <button mat-raised-button mat-dialog-close tabindex="-1">Cancel</button>
+</mat-dialog-actions>

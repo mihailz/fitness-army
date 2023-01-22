@@ -3,11 +3,7 @@ import { CommonModule } from '@angular/common';
 import {ImageUploaderComponent} from "./image-uploader.component";
 import {ReactiveFormsModule} from "@angular/forms";
 import {RxReactiveFormsModule} from "@rxweb/reactive-form-validators";
-import {NzFormModule} from "ng-zorro-antd/form";
-import {NzInputModule} from "ng-zorro-antd/input";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
-import {MatButtonModule} from "@angular/material/button";
+import {MaterialModule} from "../../material.module";
 
 @NgModule({
   declarations: [
@@ -17,11 +13,7 @@ import {MatButtonModule} from "@angular/material/button";
     CommonModule,
     ReactiveFormsModule,
     RxReactiveFormsModule,
-    NzFormModule,
-    NzInputModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule
+    MaterialModule
   ],
   exports: [
     ImageUploaderComponent

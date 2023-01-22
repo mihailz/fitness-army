@@ -3,11 +3,11 @@
 @import "~ng-zorro-antd/ng-zorro-antd.compact.css";
 @import '~bootstrap/dist/css/bootstrap.css';
 @import "assets/css/mat-form-field";
+@import "assets/css/mat-select";
 @import "assets/css/mat-panel";
+@import "assets/css/mat-spinner";
 @import 'material-icons/iconfont/material-icons.scss';
+@import '@angular/material/prebuilt-themes/purple-green.css';
 
-body {
-  font-family: 'Montserrat', sans-serif;
-  background: black!important;
-}
-
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

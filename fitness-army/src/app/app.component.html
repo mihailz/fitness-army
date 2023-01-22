@@ -1,1 +1,56 @@
-<fitness-army-app-layout></fitness-army-app-layout>
+<mat-toolbar>
+  <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+    <mat-icon *ngIf="!sidenav.opened">
+      menu
+    </mat-icon>
+    <mat-icon *ngIf="sidenav.opened">
+      close
+    </mat-icon>
+  </button>
+  <div class="logo-wrapper w-100 d-flex justify-content-end">
+    <div class="logo-container">
+      <img src="./assets/images/fitness-army-logo.svg" alt="logo"/>
+    </div>
+  </div>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav="matSidenav" mode="side" opened="true">
+    <div class="sidenav-container">
+      <ng-container *ngIf="user$ | async as user">
+        <img class="avatar mat-elevation-z8" [src]="user.profileImage" alt="User image"/>
+        <h4 class="user-name">{{user.displayName}}</h4>
+        <p class="user-email">{{user.email}}</p>
+      </ng-container>
+      <mat-divider></mat-divider>
+      <ng-container *ngFor="let route of routes">
+        <ng-container *ngIf="!route.actionRoute">
+          <a mat-button class="route-link" routerLinkActive="active" [routerLink]="route.link">
+            <mat-icon>{{route.icon}}</mat-icon>
+            <span>{{route.label}}</span>
+          </a>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="(user$ | async) else login">
+        <button mat-button class="route-link" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </ng-container>
+      <ng-template #login>
+        <a mat-button class="route-link" routerLink="/auth/login">
+          <mat-icon>login</mat-icon>
+          <span>Login</span>
+        </a>
+      </ng-template>
+      <mat-divider></mat-divider>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="content mat-elevation-z8">
+      <div>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

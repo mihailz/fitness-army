@@ -1,14 +1,16 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {BlogType} from "../../../model/blog-type";
 import {User} from "../../../model/user.model";
 import {finalize, Subscription} from "rxjs";
 import {Router} from "@angular/router";
-import {NzModalRef} from "ng-zorro-antd/modal";
 import {AuthApiService} from "../../../service/api/auth-api.service";
 import {BlogApiService} from "../../../service/api/blog-api.service";
 import {BlogService} from "../../../service/data/blog.service";
 import {Blog} from "../../../model/blog";
+import {MatDialog} from "@angular/material/dialog";
+import {AddParagraphComponent} from "../../../shared/add-paragraph/add-paragraph.component";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'fitness-army-app-add-blog',
@@ -20,21 +22,24 @@ export class AddBlogComponent implements OnInit {
   @ViewChild('paragraphTitle') paragraphTitleInput!: ElementRef;
   @ViewChild('paragraphContent') paragraphContentInput!: ElementRef;
   blogPostForm!: FormGroup;
+
   blogTypes = Object.values(BlogType);
   currentLoggedInUser!: User | null;
   isCreatingBlog: boolean = false;
   blogImage!: File;
+  contentTitles: string[] = [];
+  blogImageUrl!: string | ArrayBuffer;
   private subscriptions: Subscription = new Subscription();
 
   constructor(private router: Router,
-              private nzModalRef: NzModalRef,
               private authApiService: AuthApiService,
               private blogApiService: BlogApiService,
-              private blogService: BlogService
+              private toastrService: ToastrService,
+              public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
-    this.initForm();
+    this.initForms();
     this.getLoggedInUser();
   }
 
@@ -42,18 +47,10 @@ export class AddBlogComponent implements OnInit {
     this.subscriptions?.unsubscribe();
   }
 
-  onCreateBlog(): void {
-    this.isCreatingBlog = true
-    if (!this.blogPostForm.valid) {
-      Object.values(this.blogPostForm.controls).forEach(control => {
-        if (control.invalid) {
-          control.markAsDirty();
-          control.updateValueAndValidity({onlySelf: true});
-        }
-      });
+  createBlog(): void {
+    if (this.blogPostForm.invalid) {
       return;
     }
-
     const title = this.blogPostForm.get('title')?.value;
     const content = this.blogPostForm.get('content')?.value
       .map((paragraph: {title: string, content: string, isUpdating: boolean}) => {
@@ -62,73 +59,64 @@ export class AddBlogComponent implements OnInit {
           content: paragraph.content
         }
       });
+    this.setLoading();
     const category = this.blogPostForm.get('category')?.value;
-    const newBlogPost = new Blog(null, this.currentLoggedInUser!, title, content, category, new Date(Date.now()), '');
+    const newBlogPost = new Blog(null, this.currentLoggedInUser!,
+      title, content, category, new Date(Date.now()), '');
 
-    this.blogApiService.createBlogPost(newBlogPost, this.blogImage)
-      .pipe(
-        finalize(() => this.isCreatingBlog = false)
-      )
-      .subscribe({
-        next: (response) => {
-          this.blogService.setBlogCreationStatus(true);
-          this.closeModal();
-        },
-        error: (err) => {
-          console.log(err);
-          this.blogService.setBlogCreationStatus(false);
-          this.isCreatingBlog = false;
-        }
-      })
+    this.blogApiService.createBlogPost(newBlogPost, this.blogImage, (state: boolean, err) => {
+     this.setLoading(false);
+      if (!state) {
+        this.toastrService.error('An unexpected error has occurred!', 'Error');
+        return;
+      }
+      this.router.navigate(['blogs']);
+      this.toastrService.success('The blog has been created!', 'Success');
+    });
+
   }
 
-  closeModal(): void {
-    this.nzModalRef.close();
+  getFControl(path: string): FormControl {
+    return this.blogPostForm.get(path) as FormControl;
+  }
+
+  getFControlErrorMessage(path: string): string {
+    if (this.blogPostForm.get(path)?.hasError('email')) {
+      return 'Email is invalid!';
+    }
+    return 'Field is required!';
   }
 
   onImageSelect(imageFile: File): void {
     this.blogImage = imageFile;
-  }
-
-  private initForm(): void {
-    this.blogPostForm = new FormGroup({
-      title: new FormControl('', [Validators.required]),
-      content:  new FormArray([]),
-      category: new FormControl('', [Validators.required]),
-      blogImage: new FormControl('', [Validators.required]),
-    })
+    const reader = new FileReader();
+    reader.readAsDataURL(imageFile);
+    reader.onloadend = (e: ProgressEvent<FileReader> | null) => { // function call once readAsDataUrl is completed
+      if (e?.target?.['result']) {
+        this.blogImageUrl = e?.target?.['result'];
+      }
+    }
   }
 
   get blogContent(): FormArray {
     return this.blogPostForm.get('content') as FormArray;
   }
 
-  addParagraphToBlogContent(paragraphTitle: string, paragraphContent: string): void {
-    if (paragraphTitle !== '' || paragraphContent !== '') {
-      this.blogContent.push(new FormGroup({
-        title: new FormControl(paragraphTitle),
-        content: new FormControl(paragraphContent),
-        isUpdating: new FormControl(false)
-      }));
-      this.paragraphTitleInput.nativeElement.value = '';
-      this.paragraphContentInput.nativeElement.value = '';
-    }
-  }
-
   deleteBlogParagraph(paragraphIndex: number): void {
-    if (this.blogContent.length !== 1) {
-      this.blogContent.removeAt(paragraphIndex);
-    }
+    this.blogContent.removeAt(paragraphIndex);
+    this.contentTitles.splice(paragraphIndex, 1);
   }
 
   enterInEditMode(paragraphIndex: number): void {
     this.setParagraphEditMode(paragraphIndex, true);
+    this.blogContent.at(paragraphIndex).get('title')?.enable();
+    this.blogContent.at(paragraphIndex).get('content')?.enable();
   }
 
-  setParagraphEditMode(paragraphIndex: number, isEditing: boolean): void {
-    this.blogContent.controls[paragraphIndex].patchValue({
-      isUpdating: isEditing
-    })
+  exitEditMode(paragraphIndex: number): void {
+    this.setParagraphEditMode(paragraphIndex, false);
+    this.blogContent.at(paragraphIndex).get('title')?.disable();
+    this.blogContent.at(paragraphIndex).get('content')?.disable();
   }
 
   editBlogParagraph(paragraphIndex: number, updatedTitle: string, updatedContent: string): void {
@@ -136,10 +124,33 @@ export class AddBlogComponent implements OnInit {
       title: updatedTitle,
       content: updatedContent
     });
+    this.contentTitles[paragraphIndex] = updatedTitle;
   }
 
-  exitEditMode(paragraphIndex: number): void {
-    this.setParagraphEditMode(paragraphIndex, false);
+  openAddParagraphDialog() {
+    this.dialog.open(AddParagraphComponent)
+      .afterClosed()
+      .subscribe({
+        next: (fGroup: FormGroup) => {
+          console.log('afterClosed: ', fGroup);
+          this.addParagraphToBlogContent(fGroup)
+        }
+      });
+  }
+
+  private initForms(): void {
+    this.blogPostForm = new FormGroup({
+      title: new FormControl('', [Validators.required]),
+      content:  new FormArray([]),
+      category: new FormControl('', [Validators.required]),
+      blogImage: new FormControl('', [Validators.required]),
+    });
+  }
+
+  private setParagraphEditMode(paragraphIndex: number, isEditing: boolean): void {
+    this.blogContent.at(paragraphIndex).patchValue({
+      isUpdating: isEditing,
+    });
   }
 
   private getLoggedInUser(): void {
@@ -152,10 +163,17 @@ export class AddBlogComponent implements OnInit {
     this.subscriptions.add(subscription);
   }
 
-  example(event: Event) {
-    const file = (<HTMLInputElement>event.target).files as FileList;
-    const formData = new FormData();
-    formData.append('file', file[0]);
+  private addParagraphToBlogContent(form: FormGroup): void {
+    const paragraphTitle = form.get('title')?.value;
+    this.blogContent.push(form);
+    this.blogContent.controls.map((fGroup: AbstractControl) => {
+      fGroup.get('title')?.disable();
+      fGroup.get('content')?.disable();
+    });
+    this.contentTitles.push(paragraphTitle);
   }
 
+  private setLoading(state = true): void {
+    this.isCreatingBlog = state;
+  }
 }

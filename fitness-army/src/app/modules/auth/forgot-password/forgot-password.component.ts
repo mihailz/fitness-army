@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AuthApiService} from "../../../service/api/auth-api.service";
@@ -16,35 +16,46 @@ export class ForgotPasswordComponent implements OnInit {
 
   resetPasswordForm!: FormGroup;
   currentUser!: User | undefined;
+  isLoading = false;
+  hide = true;
 
   constructor(private router: Router,
               private authApiService: AuthApiService,
               private userApiService: UserApiService,
-              private toastrService: ToastrService) { }
+              private toastrService: ToastrService) {
+  }
 
   ngOnInit(): void {
     this.initForm();
     this.getCurrentUser();
   }
 
-  resetPassword(): void {
-    if (!this.resetPasswordForm.valid) {
-      return;
+  getFControl(path: string): FormControl {
+    return this.resetPasswordForm.get(path) as FormControl;
+  }
+
+  getFControlErrorMessage(path: string): string {
+    if (this.resetPasswordForm.get(path)?.hasError('passwordInvalid')) {
+      return 'Password is invalid, please enter valid password!';
     }
-    if (!this.currentUser) {
+    return 'You must enter a value';
+  }
+
+  resetPassword(): void {
+    if (!this.resetPasswordForm.valid || !this.currentUser) {
       return;
     }
     const updatedPassword = this.resetPasswordForm.get('password')?.value;
-    const user = {...this.currentUser};
     const queryParam = {'update_password': true};
-    this.userApiService.updateUser(this.currentUser, queryParam, updatedPassword)
-      .subscribe({
-        next: (response) => {
-          this.toastrService.success('The password has been updated!', 'Password updated');
-          this.router.navigate(['/auth/login']);
-        },
-        error: err => console.log(err)
-      })
+    this.userApiService.updateUser(this.currentUser, queryParam, updatedPassword, (status: boolean, error) => {
+      this.setLoading(status);
+      if (error) {
+        this.toastrService.error('Unexpected error has occurred!', 'Error');
+        return;
+      }
+      this.navigateToLogin();
+      this.toastrService.success('The password has been updated!', 'Password updated');
+    });
   }
 
   navigateToLogin(): void {
@@ -67,41 +78,12 @@ export class ForgotPasswordComponent implements OnInit {
 
   private initForm(): void {
     this.resetPasswordForm = new FormGroup({
-      password: new FormControl('', [Validators.required, this.validatePassword])
+      password: new FormControl('', [Validators.required])
     });
   }
 
-  private validatePassword(control: AbstractControl): ValidationErrors | null {
-    const password = control.value;
-    let numberOfLowerLetters = 0;
-    let numberOfCapitalLetters = 0;
-    let numberOfDigits = 0;
-    let numberOfSpecialCharacters = 0;
-
-    if (!password || password.length < 8) {
-      return {
-        'passwordInvalid': 'Password is not valid!'
-      };
-    } else {
-      password.split('').forEach((character: string) => {
-        if (character >= 'a' && character <= 'z') {
-          numberOfLowerLetters++;
-        } else if (character >= 'A' && character <= 'Z') {
-          numberOfCapitalLetters++;
-        } else if (character >= '0' && character <= '9') {
-          numberOfDigits++;
-        } else {
-          numberOfSpecialCharacters++;
-        }
-      });
-      if (numberOfLowerLetters >= 1 && numberOfCapitalLetters >= 1
-        && numberOfDigits >= 1 && numberOfSpecialCharacters >= 1) {
-        return null;
-      } else {
-        return {
-          'passwordInvalid': 'Password is not valid!'
-        };
-      }
-    }
+  private setLoading(status = true): void {
+    this.isLoading = status;
   }
 }
+

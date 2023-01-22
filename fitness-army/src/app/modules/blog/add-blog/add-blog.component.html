@@ -1,103 +1,112 @@
-<div class="container add-blog-form-container">
+<div class="container pt-5 add-blog-form-container">
+  <ng-container *ngIf="isCreatingBlog">
+    <div class="loading-indicator">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-container>
   <div class="row">
     <div class="col">
       <h1 class="page-title text-center text-white">Create blog</h1>
     </div>
   </div>
 
-  <form [formGroup]="blogPostForm" class="create-blog-form">
-    <div class="mt-4">
+  <form [formGroup]="blogPostForm" class="create-blog-form p-3">
+    <div class="row mt-4">
+      <div class="col-xs-12 col-md-6">
         <div class="mat-form-field">
           <label class="text-white" for="title">Title</label>
           <mat-form-field appearance="outline">
-            <input matInput id="title" formControlName="title" required>
+            <input matInput id="title" formControlName="title">
+            <mat-error *ngIf="getFControl('title').invalid">{{getFControlErrorMessage('title')}}</mat-error>
           </mat-form-field>
         </div>
-        <div class="mat-form-field">
-          <label class="text-white" for="paragraphTitle">Paragraph title</label>
-          <mat-form-field appearance="outline">
-            <input matInput id="paragraphTitle" required #paragraphTitle>
-          </mat-form-field>
-        </div>
-        <div class="mat-form-field">
-          <label class="text-white" for="paragraphContent">Paragraph content</label>
-          <mat-form-field appearance="outline">
-            <textarea matInput id="paragraphContent" required #paragraphContent></textarea>
-          </mat-form-field>
-        </div>
-      <button mat-button class="add-paragraph-button"
-              (click)="addParagraphToBlogContent(paragraphTitle.value, paragraphContent.value)">Add paragraph</button>
       </div>
-    <ng-container *ngIf="blogContent.controls.length">
-      <ng-container *ngFor="let paragraph of blogContent.controls; index as id">
+      <div class="col-xs-12 col-md-6">
         <div class="mat-form-field">
-          <label class="text-white">Paragraph title</label>
-          <mat-form-field appearance="outline">
-            <input matInput [disabled]="!paragraph.get('isUpdating')?.value" #updatedTitle
-                   [value]="paragraph.get('title')?.value">
+          <label class="text-white" for="title">Category</label>
+          <mat-form-field class="mat-select-dark" appearance="outline">
+            <mat-select formControlName="category">
+              <mat-option *ngFor="let type of blogTypes" [value]="type">
+                {{type}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="getFControl('category').invalid">{{getFControlErrorMessage('category')}}</mat-error>
           </mat-form-field>
-        </div>
-        <div class="mat-form-field">
-          <label class="text-white">Paragraph content</label>
-          <mat-form-field appearance="outline">
-            <textarea matInput required #paragraphContent [disabled]="!paragraph.get('isUpdating')?.value" #updatedContent
-                      [value]="paragraph.get('content')?.value"></textarea>
-          </mat-form-field>
-        </div>
-      </ng-container>
-    </ng-container>
-  </form>
-</div>
-
-<div>
-  <form nz-form [formGroup]="blogPostForm" class="create-blog-form">
-    <div *ngIf="blogContent.controls.length" class="blog-content-preview-wrapper">
-      <div class="blog-paragraph" *ngFor="let paragraph of blogContent.controls; index as id">
-        <nz-form-item>
-          <nz-form-label [nzSpan]="24">Paragraph title</nz-form-label>
-          <nz-form-control [nzSpan]="24">
-            <input [disabled]="!paragraph.get('isUpdating')?.value" #updatedTitle nz-input
-                   [value]="paragraph.get('title')?.value">
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label [nzSpan]="24">Paragraph content</nz-form-label>
-          <nz-form-control [nzSpan]="24">
-            <textarea [disabled]="!paragraph.get('isUpdating')?.value" #updatedContent nz-input
-                      [value]="paragraph.get('content')?.value"></textarea>
-          </nz-form-control>
-        </nz-form-item>
-        <div class="paragraph-action-buttons">
-          <ng-container *ngIf="!paragraph.get('isUpdating')?.value else updateBlogParagraphButtons">
-            <button nz-button nzType="primary"
-                    (click)="enterInEditMode(id)">Edit
-            </button>
-            <button nz-button nzType="default" (click)="deleteBlogParagraph(id)" class="delete-button">Delete</button>
-          </ng-container>
-          <ng-template #updateBlogParagraphButtons>
-            <button nz-button nzType="primary"
-                    (click)="editBlogParagraph(id, updatedTitle.value, updatedContent.value)">Update
-            </button>
-            <button nz-button nzType="primary" class="back-button"
-                    (click)="exitEditMode(id)">Back
-            </button>
-          </ng-template>
         </div>
       </div>
     </div>
-    <nz-form-item class="form-item">
-      <nz-form-label [nzSpan]="24" nzFor="category">Category</nz-form-label>
-      <nz-form-control [nzSpan]="24" nzHasFeedback nzErrorTip="Please pick category">
-        <nz-select formControlName="category">
-          <nz-option *ngFor="let type of blogTypes" [nzValue]="type" [nzLabel]="type"></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item class="form-item">
-      <nz-form-control>
-        <fitness-army-app-image-uploader [controlName]="'blogImage'"
-                                         (selectedImage)="onImageSelect($event)"></fitness-army-app-image-uploader>
-      </nz-form-control>
-    </nz-form-item>
+    <div class="row">
+      <div class="col">
+        <h2 class="text-white">Blog content</h2>
+      </div>
+    </div>
+    <div class="row">
+      <button mat-button class="add-paragraph-button"
+              (click)="openAddParagraphDialog()">Add paragraph
+        <mat-icon>add_circle_outline</mat-icon>
+      </button>
+    </div>
+    <ng-container *ngIf="blogContent.controls && blogContent.controls.length">
+    <div class="row">
+      <div class="content-items mt-3">
+        <mat-accordion multi>
+          <mat-expansion-panel *ngFor="let contentItem of blogContent.controls; let id = index" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{contentTitles[id]}}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div formArrayName="content">
+              <div class="content-item">
+                <div [formGroupName]="id">
+                  <div class="mat-form-field">
+                    <label class="text-white">Title</label>
+                    <mat-form-field appearance="outline">
+                      <input matInput formControlName="title" #updatedTitle>
+                    </mat-form-field>
+                  </div>
+                  <div class="mat-form-field">
+                    <label class="text-white">Content</label>
+                    <mat-form-field appearance="outline">
+                      <textarea matInput formControlName="content" #updatedContent></textarea>
+                    </mat-form-field>
+                  </div>
+                  <div class="paragraph-action-buttons">
+                    <ng-container *ngIf="!contentItem.get('isUpdating')?.value else updateBlogParagraphButtons">
+                      <button mat-button
+                              (click)="enterInEditMode(id)">Edit
+                      </button>
+                      <button mat-button (click)="deleteBlogParagraph(id)" class="delete-button">Delete</button>
+                    </ng-container>
+                    <ng-template #updateBlogParagraphButtons>
+                      <button mat-button
+                              (click)="editBlogParagraph(id, updatedTitle.value, updatedContent.value)">Update
+                      </button>
+                      <button mat-button class="back-button"
+                              (click)="exitEditMode(id)">Back
+                      </button>
+                    </ng-template>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
+    </ng-container>
+    <div class="row mt-3">
+      <fitness-army-app-image-uploader [controlName]="'blogImage'"
+                                       (selectedImage)="onImageSelect($event)"></fitness-army-app-image-uploader>
+      <ng-container *ngIf="blogImageUrl">
+        <div class="blog-image-wrapper mt-3">
+          <img [src]="blogImageUrl" alt="Blog image">
+        </div>
+      </ng-container>
+    </div>
+    <mat-divider class="mt-4 mb-3"></mat-divider>
+    <div class="row d-flex justify-content-end">
+      <button mat-button class="create-blog-button" (click)="createBlog()">Create</button>
+    </div>
   </form>
 </div>

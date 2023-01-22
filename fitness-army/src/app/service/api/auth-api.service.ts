@@ -1,7 +1,20 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, from, map, Observable, switchMap, tap} from "rxjs";
+import {
+  BehaviorSubject,
+  catchError,
+  combineLatest,
+  finalize,
+  from,
+  map,
+  Observable,
+  of,
+  pipe,
+  switchMap,
+  tap,
+  throwError
+} from "rxjs";
 import {User} from "../../model/user.model";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {Token} from "../../model/token.model";
 import {TokenService} from "../data/token.service";
@@ -11,6 +24,7 @@ import {GoogleAuthProvider} from 'firebase/auth';
 import UserCredential = firebase.auth.UserCredential;
 import {UserApiService} from "./user-api.service";
 import {UserRoles} from "../../model/roles";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +32,11 @@ import {UserRoles} from "../../model/roles";
 export class AuthApiService {
 
   baseApiHref: string = '';
-  user$ = new BehaviorSubject<User | null>(null);
+  userSubject = new BehaviorSubject<User | null>(null);
+  user$ = this.userSubject.asObservable();
 
-  constructor(private angularFireAuth: AngularFireAuth,
+  constructor(private router: Router,
+              private angularFireAuth: AngularFireAuth,
               private http: HttpClient,
               private tokenService: TokenService,
               private userApiService: UserApiService) {
@@ -29,52 +45,56 @@ export class AuthApiService {
       const user = localStorage.getItem('user');
       if (user) {
         const parsedUser = JSON.parse(user);
-        this.user$.next(parsedUser);
+        this.userSubject.next(parsedUser);
       }
     }
   }
 
-  login(email: string, password: string): Observable<User> {
-    return from(this.angularFireAuth.signInWithEmailAndPassword(email, password))
+  login(email: string, password: string, cb: (status: boolean, error?: HttpErrorResponse) => void): void {
+    from(this.angularFireAuth.signInWithEmailAndPassword(email, password))
       .pipe(
-        map((response: any) => response.user),
-        switchMap((user: any) => {
-          return from(user.getIdToken(true))
-            .pipe(
-              switchMap((idToken: any) => {
-                return this.getUserData(user.uid)
-                  .pipe(
-                    tap(() => {
-                      const token: Token = new Token(idToken);
-                      this.tokenService.userToken = token;
-                    }),
-                    map((userData: any) => {
-                      const user: User = new User(
-                        userData.email,
-                        userData.uid,
-                        userData.displayName,
-                        userData.role,
-                        userData.profileImage);
-                      this.user$.next(user);
-                      return user;
-                    })
-                  )
-              })
-            )
+        map((response: any) => {
+          return response.user
         }),
-      );
+        tap({
+          next: (userData: any) => {
+            const token = new Token(userData.getIdToken(true));
+            this.tokenService.userToken = token;
+          }
+        }),
+        map((userData: any) => userData.uid),
+        switchMap((userId: string) => {
+          return this.userApiService.getUserData(userId)
+        }),
+        catchError(err => throwError(() => err)),
+      ).subscribe({
+      next: (user: any) => {
+        cb(true);
+        this.userSubject.next(user);
+        this.saveUserInLocalStorage();
+      },
+      error: (err: HttpErrorResponse) => {
+        cb(false, err);
+      }
+    });
   }
 
-  getUserData(userId: string): Observable<any> {
-    return this.userApiService.getUserData(userId);
-  };
-
-  signup(displayName: string, email: string, password: string, role: string = 'USER', profileImageFile: File): Observable<any> {
-    return this.http.post(`${this.baseApiHref}/api/users/create`, {
+  signup(displayName: string, email: string, password: string, role = 'USER',
+         cb: (state: boolean, err?: HttpErrorResponse) => void): void {
+    this.http.post(`${this.baseApiHref}/api/users/create`, {
       displayName,
       email,
       password,
       role
+    }).pipe(
+      catchError((err: HttpErrorResponse) => throwError(() => err))
+    ).subscribe({
+      next: () => {
+        cb(true);
+      },
+      error: (err: HttpErrorResponse) => {
+        cb(false, err);
+      }
     });
   };
 
@@ -97,7 +117,7 @@ export class AuthApiService {
             response.user.displayName,
             'user'
           );
-          this.user$.next(user);
+          this.userSubject.next(user);
           return user;
         }),
         switchMap((user: User) => {
@@ -114,20 +134,33 @@ export class AuthApiService {
     return from(this.angularFireAuth.signOut())
       .pipe(
         tap(() => {
-          this.user$.next(null);
+          this.userSubject.next(null);
           this.removeUserFromLocalStorage();
           localStorage.removeItem('resetEmail');
         })
       )
   }
 
-  forgotPassword(passwordResetEmail: string): Observable<any> {
-    return from(this.angularFireAuth
+  forgotPassword(passwordResetEmail: string, cb: (status: boolean, error?: HttpErrorResponse) => void): void {
+    cb(true);
+    from(this.angularFireAuth
       .sendPasswordResetEmail(passwordResetEmail))
+      .pipe(
+        catchError(err => throwError(() => err))
+      )
+      .subscribe({
+        next: () => {
+          cb(false)
+        },
+        error: (err: HttpErrorResponse) => {
+          cb(false, err);
+        }
+      })
   }
 
 
-  saveUserInLocalStorage(user: User | null): void {
+  saveUserInLocalStorage(): void {
+    const user = this.userSubject.getValue();
     localStorage.setItem('user', JSON.stringify(user));
   }
 

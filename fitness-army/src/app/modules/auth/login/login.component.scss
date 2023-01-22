@@ -1,95 +1,93 @@
-@import "../fitness-army/src/assets/css/forms";
+@import "src/assets/css/colors";
+@import "src/assets/css/common";
 
-.login-form-wrapper {
+.login-form-container {
   display: flex;
-  justify-content: center;
   align-items: center;
-}
-.login-form {
-  @extend .form;
+  min-height: calc(100vh - 95px);
 
-  .header {
-    font-size: 26px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: bold;
-    text-transform: uppercase;
-    text-align: center;
-    color: #303030;
+  .login-form-wrapper {
+    border: 1px solid gray;
+    border-radius: 5px;
 
-    @media(min-width: 767.8px) {
-      font-size: 40px;
-    }
-  }
+    .forgot-password-link {
+      color: $light-blue;
+      font-size: 16px;
+      text-decoration: none;
 
-  .remember-me-section {
-    padding-top: 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
-    .remember-me-wrapper {
-      .remember-me {
-        font-family: 'DM Sans', sans-serif;
-        font-weight: normal;
-        font-size: 18px;
-        line-height: 26px;
-        color: #303030;
-        flex: 1;
-        display: inline-block;
-      }
-
-      input {
-        margin-left: 6px;
+      &:hover {
+        opacity: .7;
       }
     }
-
-      a {
-        flex: 1;
-        text-align: right;
-        color: #303030;
-        font-family: 'DM Sans', sans-serif;
-        font-weight: normal;
-        font-size: 16px;
-        text-decoration: underline;
-      }
-
-    @media (min-width: 767.8px) {
-      flex-direction: row;
-    }
-  }
-
-  .login-wrapper {
-    display: flex;
-    justify-content: center;
-    padding-top: 16px;
 
     .login-button {
-      @extend .action-button;
+      background-color: $primary;
+      border-radius: 5px;
+      color: $color-white;
+
+      &:hover {
+        opacity: .7;
+      }
     }
-  }
 
-  .providers-wrapper {
-    .create-account-wrapper {
-      padding-top: 16px;
+    .divider {
       display: flex;
+      align-items: baseline;
 
-      span {
-        text-align: center;
-        font-family: 'DM Sans', sans-serif;
-        font-weight: normal;
-        font-size: 18px;
-        color: #303030;
-        margin: 20px;
-        a {
-          color: #50B6FF;
-          text-decoration: underline;
-          cursor: pointer;
+      .line-wrapper {
+        flex: 1;
+        display: flex;
+
+        .line {
+          border-bottom: 1px solid gray;
+          flex: 1;
+          font-size: 16px;
+          color: gray;
         }
+      }
+
+      .break-word {
+        font-size: 16px;
+        color: gray;
+        position: relative;
+        top: 5px;
+        padding: 6px;
+      }
+    }
+
+    .outline-button {
+      border: 1px solid gray;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      .outline-button-icon {
+        width: 20px;
+        height: 20px;
+        max-width: 20px;
+        max-height: 20px;
+      }
+
+      .outline-button-label {
+        padding-left: 8px;
+      }
+
+      &:hover {
+        opacity: .7;
       }
     }
   }
 }
 
-@media (min-width: 767.8px) {
+@media(min-width: 800px) {
+  .login-form-container {
+    justify-content: center;
 
+    .login-form-wrapper {
+      width: 500px;
+
+    }
+  }
 }

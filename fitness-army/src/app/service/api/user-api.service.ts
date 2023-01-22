@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import {from, map, Observable, switchMap} from "rxjs";
+import {catchError, from, map, Observable, Subject, switchMap, throwError} from "rxjs";
 import {User} from "../../model/user.model";
 import {Params} from "@angular/router";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
@@ -29,9 +29,11 @@ export class UserApiService {
           response.user.displayName,
           response.user.role,
           response.user.profileImage
-        ))
+        )),
+        catchError(err => throwError(() => err))
       );
   };
+
 
   createUser(user: User): Observable<any> {
     return this.http.post(`${this.baseApiHref}/api/users/create`, {
@@ -54,7 +56,7 @@ export class UserApiService {
         }),
         switchMap((downloadUrl: any) => {
           imageUrl = downloadUrl;
-          return from(this.db.collection('users').doc(uid).update( { profileImage: downloadUrl }));
+          return from(this.db.collection('users').doc(uid).update({profileImage: downloadUrl}));
         }),
         map(() => imageUrl)
       )
@@ -76,22 +78,26 @@ export class UserApiService {
           )))
       );
   }
-  //
-  // getUsersByRole(): Observable<User[]> {}
 
-  updateUser(user: User, queryParam: {[param: string]: string | number | boolean}, password?: string): Observable<any> {
+  updateUser(user: User, queryParam: { [param: string]: string | number | boolean },
+             password: string, cb: (status: boolean, error?: HttpErrorResponse) => void): void {
+    cb(true);
     const params: Params = new HttpParams({
       fromObject: queryParam
     });
-    return this.http.put(`${this.baseApiHref}/api/users/update-user/${user.uid}`, {
-      displayName: user.displayName,
-      email: user.email,
-      password: password,
-      role: user.role,
-      profileImage: user.profileImage
-    }, {
-      params
-    });
+    this.http.put(`${this.baseApiHref}/api/users/update-user/${user.uid}`, {
+      ...user, password: password}, { params} )
+      .pipe(
+        catchError(err => throwError(() => err))
+      )
+      .subscribe({
+        next: () => {
+          cb(false);
+        },
+        error: (err: HttpErrorResponse) => {
+          cb(false, err)
+        }
+      });
   }
 
 }
