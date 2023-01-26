@@ -18,7 +18,14 @@
   <mat-sidenav #sidenav="matSidenav" mode="side" opened="true">
     <div class="sidenav-container">
       <ng-container *ngIf="user$ | async as user">
-        <img class="avatar mat-elevation-z8" [src]="user.profileImage" alt="User image"/>
+        <div class="profile-image-container d-flex justify-content-center">
+          <div class="profile-image-wrapper" (click)="openUpdateUserProfileImageModal(user)">
+            <img class="avatar mat-elevation-z8" [src]="user.photoURL ? user.photoURL : defaultUserProfileImage" alt="User image"/>
+            <div class="overlay">
+              <mat-icon>photo_camera</mat-icon>
+            </div>
+          </div>
+        </div>
         <h4 class="user-name">{{user.displayName}}</h4>
         <p class="user-email">{{user.email}}</p>
       </ng-container>

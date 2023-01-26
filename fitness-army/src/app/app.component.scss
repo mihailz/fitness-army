@@ -57,11 +57,43 @@ mat-sidenav {
     }
   }
 
-  .avatar {
-    margin-top: 16px;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
+  .profile-image-container {
+    width: 100%;
+
+    .profile-image-wrapper {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      position: relative;
+
+      .avatar {
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+
+      .overlay {
+        display: none;
+      }
+
+      &:hover {
+        cursor: pointer;
+
+        .overlay {
+          position: absolute;
+          background: rgba(0, 0, 0, 0.5); /* Black see-through */
+          width: 100%;
+          transition: .5s ease;
+          top: 0;
+          height: 100%;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
   }
 
   .user-name {
@@ -107,3 +139,4 @@ mat-sidenav-container {
   height: auto;
   background: $color-black;
 }
+

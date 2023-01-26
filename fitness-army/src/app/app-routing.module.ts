@@ -13,8 +13,8 @@ const routes: Routes = [
     path: 'blogs',
     loadChildren: () => import('./modules/blog/blog.module')
       .then(m => m.BlogModule),
-    // canActivate: [AuthGuard],
-    // canLoad: [AuthGuard],
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard],
   },
   {
     path: 'admin',

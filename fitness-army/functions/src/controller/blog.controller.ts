@@ -11,12 +11,14 @@ exports.postCreateBlogPost = (req: Request, res: Response) => {
   (async () => {
     try {
       const blogId = uuid.v4();
-      const blogsCollection = await db.collection("blogs").doc(blogId).set({
+      const blog = {
         ...req.body.blog, id: blogId,
-      }, {merge: true});
-      console.log("postCreateBlogPost: ", blogsCollection);
+      };
+      await db.collection("blogs")
+          .doc(blogId)
+          .set(blog, {merge: true});
       return res.status(200).send({
-        blogId: blogId,
+        blog: blog,
       });
     } catch (error) {
       console.log(error);

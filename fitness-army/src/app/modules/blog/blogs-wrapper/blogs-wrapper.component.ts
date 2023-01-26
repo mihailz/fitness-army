@@ -67,7 +67,7 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
   private getCurrentLoggedInUser(): void {
     const subscription = this.authApiService.user$
       .subscribe({
-        next: (user: User | null) => {
+        next: (user: any) => {
           this.loggedInUser = user;
         },
         error: err => console.log(err)

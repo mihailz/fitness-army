@@ -24,6 +24,10 @@ import {ChartsModule} from "ng2-charts";
 import {NzLayoutModule} from "ng-zorro-antd/layout";
 import {NzIconModule} from "ng-zorro-antd/icon";
 import {MaterialModule} from "./material.module";
+import {UpdateUserPhotoModule} from "./shared/update-user-photo/update-user-photo.module";
+import {getAuth, provideAuth} from "@angular/fire/auth";
+import {initializeApp, provideFirebaseApp} from "@angular/fire/app";
+import {getStorage, provideStorage} from "@angular/fire/storage";
 
 registerLocaleData(en);
 
@@ -35,6 +39,9 @@ registerLocaleData(en);
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    provideAuth(() => getAuth()),
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideStorage(() => getStorage()),
     ToastrModule.forRoot({
       timeOut: 3000,
       progressBar: true,
@@ -49,7 +56,8 @@ registerLocaleData(en);
     ChartsModule,
     NzLayoutModule,
     NzIconModule,
-    MaterialModule
+    MaterialModule,
+    UpdateUserPhotoModule,
   ],
   providers: [
     {

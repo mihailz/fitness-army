@@ -8,27 +8,15 @@ const db = admin.firestore();
 exports.postCreateUser = (req: Request, res: Response) => {
   (async () => {
     try {
-      let UID: string;
-      if (!req.body.uid) {
-        const {uid} = await admin.auth().createUser({
-          email: req.body.email,
-          password: req.body.password,
-          role: req.body.role,
-        });
-        UID = uid;
-        await admin.auth().setCustomUserClaims(uid, {
-          role: req.body.role,
-        });
-        await addUserToCollection(uid, req.body.email,
-            req.body.displayName, req.body.role);
-      } else {
-        UID = req.body.uid;
-        await addUserToCollection(req.body.uid, req.body.email,
-            req.body.displayName, req.body.role);
-      }
-
+      await db.collection("users").doc(req.body.uid)
+          .create({
+            uid: req.body.uid,
+            email: req.body.email,
+            displayName: req.body.displayName,
+            role: req.body.role,
+          });
       return res.status(201).send({
-        uid: UID,
+        message: "User created successfully",
       });
     } catch (error) {
       console.log(error);
@@ -36,17 +24,6 @@ exports.postCreateUser = (req: Request, res: Response) => {
     }
   })();
 };
-
-async function addUserToCollection(uid: string, email: string,
-    displayName: string, role: string) {
-  const collection = db.collection("users").doc(uid);
-  await collection.create({
-    uid: uid,
-    email: email,
-    displayName: displayName,
-    role: role,
-  });
-}
 
 exports.getUsers = (req: Request, res: Response) => {
   (async () => {
@@ -73,7 +50,7 @@ exports.getUsers = (req: Request, res: Response) => {
                   document.data().password,
                   document.data().displayName,
                   document.data().role,
-                  document.data().profileImage
+                  document.data().photoURL
               ));
             }
           });
@@ -99,7 +76,7 @@ exports.getUserById = (req: Request, res: Response) => {
           userData.password,
           userData.displayName,
           userData.role,
-          userData.profileImage
+          userData.photoURL
       );
       return res.status(200).send({
         user: user,
@@ -110,28 +87,30 @@ exports.getUserById = (req: Request, res: Response) => {
   })();
 };
 
-exports.postUpdateUser = (req: Request, res: Response) => {
+exports.getUserRole = (req: Request, res: Response) => {
   (async () => {
     try {
-      const updateUserPassword = req.query.update_password;
       const userId = req.params.user_id;
       const document = db.collection("users").doc(userId);
-      console.log("postUpdateUser: ", req.body);
-      if (updateUserPassword === "true") {
-        console.log("updatedUserPass");
-        await admin.auth().updateUser(userId, {
-          displayName: req.body.displayName,
-          email: req.body.email,
-          password: req.body.password,
-        });
-      } else {
-        await document.update({
-          displayName: req.body.displayName,
-          email: req.body.email,
-          role: req.body.role,
-          profileImage: req.body.profileImage,
-        });
-      }
+      const userDocumentSnapshot = await document.get();
+      const userData = userDocumentSnapshot.data();
+      return res.status(200).send({
+        role: userData.role,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(error);
+    }
+  })();
+};
+
+exports.postUpdateUserPassword = (req: Request, res: Response) => {
+  (async () => {
+    try {
+      const userId = req.params.user_id;
+      await admin.auth().updateUser(userId, {
+        password: req.body.password,
+      });
       return res.status(200).send({message: "User successfully updated!"});
     } catch (error) {
       console.log(error);

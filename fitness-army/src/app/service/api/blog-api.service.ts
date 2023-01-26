@@ -4,23 +4,19 @@ import {environment} from "../../../environments/environment";
 import {Blog} from "../../model/blog";
 import {
   BehaviorSubject,
-  catchError, finalize,
+  catchError,
   from,
   map,
   Observable,
   of,
-  share,
-  shareReplay,
   Subject,
   switchMap,
-  tap,
   throwError
 } from "rxjs";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {BlogParagraph} from "../../model/blog-paragraph";
 import {User} from "../../model/user.model";
-import {stat} from "fs";
 import {isNil} from "ng-zorro-antd/core/util";
 
 @Injectable({
@@ -46,6 +42,7 @@ export class BlogApiService {
    this.http.post(`${this.baseApiHref}/api/blogs/create/${blog.author.uid}`, {
       blog: blog
     }).pipe(
+      map((response: any) => response.blog),
       switchMap((blog: any) => {
         return this.uploadBlogImage(imageFile, blog)
           .pipe(
@@ -76,10 +73,9 @@ export class BlogApiService {
         map((blogData: any) => new Blog(
           blog.id,
           new User(
-            blogData.author.email,
             blogData.author.uid,
+            blogData.author.email,
             blogData.author.displayName,
-            blogData.author.role,
             blogData.author.profileImage,
           ),
           blogData.title,
@@ -136,10 +132,9 @@ export class BlogApiService {
             new Blog(
               blogItem.id,
               new User(
-                blogItem.author.email,
                 blogItem.author.uid,
+                blogItem.author.email,
                 blogItem.author.displayName,
-                blogItem.author.role,
                 blogItem.author.profileImage,
               ),
               blogItem.title,
@@ -174,10 +169,9 @@ export class BlogApiService {
         map((blogData: any) => new Blog(
           blogData.id,
           new User(
-            blogData.author.email,
             blogData.author.uid,
+            blogData.author.email,
             blogData.author.displayName,
-            blogData.author.role,
             blogData.author.profileImage,
           ),
           blogData.title,

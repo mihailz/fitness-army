@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AuthApiService} from "../../../service/api/auth-api.service";
 import {UserApiService} from "../../../service/api/user-api.service";
@@ -45,16 +45,16 @@ export class ForgotPasswordComponent implements OnInit {
     if (!this.resetPasswordForm.valid || !this.currentUser) {
       return;
     }
+    this.setLoading();
     const updatedPassword = this.resetPasswordForm.get('password')?.value;
-    const queryParam = {'update_password': true};
-    this.userApiService.updateUser(this.currentUser, queryParam, updatedPassword, (status: boolean, error) => {
-      this.setLoading(status);
-      if (error) {
-        this.toastrService.error('Unexpected error has occurred!', 'Error');
+    this.authApiService.passwordReset(this.currentUser.uid, updatedPassword, (status: boolean) => {
+      this.setLoading(false);
+      if (!status) {
+        this.toastrService.error('Password could not be reset!', 'Error');
         return;
       }
-      this.navigateToLogin();
-      this.toastrService.success('The password has been updated!', 'Password updated');
+      this.toastrService.success('Password has been reset!', 'Success');
+      this.router.navigate(['/auth/login']);
     });
   }
 

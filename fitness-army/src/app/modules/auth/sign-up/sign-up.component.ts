@@ -1,18 +1,15 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {
-  AbstractControl,
   FormControl,
   FormGroup,
-  FormGroupDirective, NgForm,
-  ValidationErrors,
+  FormGroupDirective,
   Validators
 } from "@angular/forms";
 import {AuthApiService} from "../../../service/api/auth-api.service";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import {UserApiService} from "../../../service/api/user-api.service";
-import {from, map, Subscription, switchMap, tap} from "rxjs";
-import {User} from "../../../model/user.model";
+import {from, Subscription, tap} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
@@ -64,6 +61,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     }
     if (!this.arePasswordsMatched()) {
       this.passwordsDoNotMatch = true;
+      return;
     }
     this.setLoading();
     const {userName, email, password} = this.signUpForm.value;
@@ -100,16 +98,16 @@ export class SignUpComponent implements OnInit, OnDestroy {
     return 'You must enter a value';
   }
 
-  signUpWIthGoogleProvider(): void {
-    this.authApiService.googleAuth()
-      .subscribe({
-        next: ((response) => {
-          this.toastrService.success('User logged in successfully!', 'Login success');
-          this.router.navigate(['/home']);
-        }),
-        error: err => console.log(err)
-      });
-  }
+  // signUpWIthGoogleProvider(): void {
+  //   this.authApiService.googleAuth()
+  //     .subscribe({
+  //       next: ((response) => {
+  //         this.toastrService.success('User logged in successfully!', 'Login success');
+  //         this.router.navigate(['/home']);
+  //       }),
+  //       error: err => console.log(err)
+  //     });
+  // }
 
   onImageSelect(file: File): void {
     this.profileImage = file;

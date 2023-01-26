@@ -11,6 +11,7 @@ import {
 import {map, Observable, of} from "rxjs";
 import {AuthApiService} from "../service/api/auth-api.service";
 import {User} from "../model/user.model";
+import {UserRoles} from "../model/roles";
 
 @Injectable()
 export class RoleGuard implements CanLoad, CanActivate {
@@ -32,7 +33,7 @@ export class RoleGuard implements CanLoad, CanActivate {
   private canLoadOrActivate(): Observable<boolean | UrlTree> {
     if (localStorage.getItem('user')) {
       const user = JSON.parse(localStorage.getItem('user')!);
-      if (user.role === 'ADMIN') {
+      if (user.role === UserRoles.ADMIN) {
         return of(true);
       } else {
         return of(this.router.createUrlTree(['/home']));
@@ -40,8 +41,8 @@ export class RoleGuard implements CanLoad, CanActivate {
     } else {
       return this.authApiService.user$
         .pipe(
-          map((user: User | null) => {
-            if (user && user.role === 'ADMIN') {
+          map((user: any) => {
+            if (user && user.role === UserRoles.ADMIN) {
               return true;
             } else {
               return this.router.createUrlTree(['/home']);

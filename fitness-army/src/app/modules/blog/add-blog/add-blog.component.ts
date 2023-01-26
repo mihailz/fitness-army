@@ -156,7 +156,7 @@ export class AddBlogComponent implements OnInit {
   private getLoggedInUser(): void {
     const subscription = this.authApiService.user$
       .subscribe({
-        next: (user: User | null) => {
+        next: (user: any) => {
           this.currentLoggedInUser = user;
         }
       });

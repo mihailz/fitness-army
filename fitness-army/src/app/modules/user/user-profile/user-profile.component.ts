@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {User} from "../../../model/user.model";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {Router} from "@angular/router";
 import {AuthApiService} from "../../../service/api/auth-api.service";
-import {NzTabChangeEvent} from "ng-zorro-antd/tabs";
+import firebase from "firebase/compat";
 
 @Component({
   selector: 'fitness-army-app-user-profile',
@@ -12,7 +12,7 @@ import {NzTabChangeEvent} from "ng-zorro-antd/tabs";
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
 
-  user!: User | null;
+  user$!: Observable<any>;
   private subscription: Subscription = new Subscription();
   selectedIndex = 0;
 
@@ -28,19 +28,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   private getUser(): void {
-    const subscription = this.authApiService.user$
-      .subscribe({
-        next: (user: User | null) => {
-          this.user = user;
-        },
-        error: err => {
-          console.log(err);
-        }
-      })
-    this.subscription.add(subscription);
-  }
-
-  onTabIndexChange($event: NzTabChangeEvent): void {
+    this.user$ =  this.authApiService.user$
 
   }
+
 }

@@ -1,6 +1,7 @@
 <div class="image-picker-button-wrap">
   <form *ngIf="parentFormGroup" [formGroup]="parentFormGroup">
-    <button class="image-picker-button" type="button" mat-raised-button (click)="fileInput.click()">Choose Image
+    <button class="image-picker-button" type="button" mat-raised-button (click)="fileInput.click()">
+      <mat-icon>upload</mat-icon> Chose image
     </button>
     <input hidden [writeFile]="true" #fileInput [id]="controlName" type="file" class="image-uploader"
            [formControlName]="controlName"

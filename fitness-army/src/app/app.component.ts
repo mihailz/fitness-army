@@ -6,6 +6,8 @@ import {Observable} from "rxjs";
 import {User} from "./model/user.model";
 import {APPLICATION_ROUTES} from "./mappings/routes-mapping";
 import {Router} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {UpdateUserPhotoComponent} from "./shared/update-user-photo/update-user-photo.component";
 
 @Component({
   selector: 'fitness-army-app-root',
@@ -16,10 +18,12 @@ export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSidenav) sidenav!: MatSidenav;
   user$!: Observable<User | null>;
   routes = APPLICATION_ROUTES;
+  defaultUserProfileImage = './assets/images/user_default_image.png';
 
   constructor(private router: Router,
               private observer: BreakpointObserver,
-              private authApiService: AuthApiService) {
+              private authApiService: AuthApiService,
+              public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -49,5 +53,11 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   private getCurrentLoggedInUser(): void {
     this.user$ = this.authApiService.user$;
+  }
+
+  openUpdateUserProfileImageModal(user: User): void {
+    this.dialog.open(UpdateUserPhotoComponent, {
+      data: user
+    }).afterClosed();
   }
 }

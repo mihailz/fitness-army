@@ -10,7 +10,6 @@ import {
 } from "@angular/router";
 import {map, Observable, of} from "rxjs";
 import {AuthApiService} from "../service/api/auth-api.service";
-import {User} from "../model/user.model";
 
 @Injectable()
 export class AuthGuard implements CanLoad, CanActivate, CanActivateChild {
@@ -38,7 +37,7 @@ export class AuthGuard implements CanLoad, CanActivate, CanActivateChild {
     } else {
       return this.authApiService.user$
         .pipe(
-          map((user: User | null) => {
+          map(user => {
             if (user) {
               return true;
             } else {

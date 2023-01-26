@@ -1,11 +1,11 @@
-import {AfterContentInit, AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {AfterContentInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {User} from "../../../../model/user.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserBodyStatsApiService} from "../../../../service/api/user-body-stats-api.service";
 import {ToastrService} from "ngx-toastr";
 import {UserBodyStats} from "../../../../model/user-body-stats.model";
 import {finalize, Subscription, tap} from "rxjs";
-import {Chart, ChartConfiguration, ChartData, ChartOptions} from "chart.js";
+import {ChartOptions} from "chart.js";
 import {AuthApiService} from "../../../../service/api/auth-api.service";
 
 @Component({
@@ -171,7 +171,7 @@ export class UserInfoComponent implements OnInit, OnDestroy, AfterContentInit {
   private getUser(): void {
     const sub$ = this.authApiService.user$
       .subscribe({
-        next: (user: User | null) => {
+        next: (user: any) => {
           this.user = user;
         }
       });

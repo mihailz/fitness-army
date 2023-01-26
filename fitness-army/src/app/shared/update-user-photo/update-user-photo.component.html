@@ -1,0 +1,30 @@
+<h1 class="text-white" mat-dialog-title>Change your profile picture</h1>
+
+<div mat-dialog-content>
+  <div class="dialog-content-container  pt-4">
+    <div class="action-buttons">
+      <div class="upload-picture">
+        <input (change)="onImageSelect($event)" hidden class="ng-hide" id="input-file-id" type="file" autocomplete="off" accept="image/*"/>
+        <label for="input-file-id" class="md-button md-raised md-primary">
+          <mat-icon>upload</mat-icon>
+          Upload image
+        </label>
+      </div>
+      <button class="btn-remove d-flex align-items-center mt-3"
+      (click)="clearImage()">
+        <mat-icon>delete</mat-icon>
+        Remove picture
+      </button>
+    </div>
+    <div class="profile-photo-wrapper">
+      <div class="profile-photo-container">
+        <img [src]="userProfilePhoto ? userProfilePhoto : defaultUserPhoto">
+      </div>
+    </div>
+  </div>
+</div>
+
+<mat-dialog-actions align="end" class="mt-4">
+  <button mat-raised-button class="btn-add" (click)="onSaveClick()" tabindex="1">Save</button>
+  <button mat-raised-button mat-dialog-close tabindex="-1">Close</button>
+</mat-dialog-actions>

@@ -15,10 +15,14 @@ router.get("/api/users/:user_id",
     userController.getUserById
 );
 
-router.put("/api/users/update-user/:user_id",
+router.get("/api/users/:user_id/role",
+    userController.getUserRole
+);
+
+router.put("/api/users/:user_id/password-reset",
     // isAuthenticated,
     // isAuthorized,
-    userController.postUpdateUser
+    userController.postUpdateUserPassword
 );
 
 router.delete("/api/users/delete/:user_id",

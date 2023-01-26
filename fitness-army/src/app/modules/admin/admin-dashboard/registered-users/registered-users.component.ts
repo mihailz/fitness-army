@@ -70,16 +70,16 @@ export class RegisteredUsersComponent implements OnInit {
   }
 
   onRoleChange(updatedRole: string, user: User): void {
-    const updatedUser = {...user, role: updatedRole};
-    const queryParam = {'update_password': false};
-    this.userApiService.updateUser(updatedUser, queryParam, '', (state: boolean, error) => {
-      this.setLoading(state);
-      if (error) {
-        this.toastrService.error('Unexpected error has occurred!', 'Error');
-        return;
-      }
-      this.toastrService.success('User role has been updated!', 'Role updated!');
-    });
+    // const updatedUser = {...user, role: updatedRole};
+    // const queryParam = {'update_password': false};
+    // this.userApiService.updateUser(updatedUser, queryParam, '', (state: boolean, error) => {
+    //   this.setLoading(state);
+    //   if (error) {
+    //     this.toastrService.error('Unexpected error has occurred!', 'Error');
+    //     return;
+    //   }
+    //   this.toastrService.success('User role has been updated!', 'Role updated!');
+    // });
   }
 
   private setLoading(state = true): void {

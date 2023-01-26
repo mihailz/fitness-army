@@ -5,7 +5,6 @@ import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {MatCheckboxChange} from "@angular/material/checkbox";
 import {from, Subscription, tap} from "rxjs";
-import {longHexNumber} from "docx";
 
 @Component({
   selector: 'fitness-army-app-login',
@@ -68,17 +67,15 @@ export class LoginComponent implements OnInit, OnDestroy {
       return;
     }
     this.setLoading();
+    this.authApiService.rememberMeSubject.next(this.isRememberMeChecked);
     const {email, password} = this.loginForm.value;
-    this.authApiService.login(email, password, (status: boolean, error) => {
+    this.authApiService.login(email, password, (status: boolean) => {
       this.setLoading(false);
       if (!status) {
         this.showError = true;
         return;
       }
-      if (this.isRememberMeChecked) {
-        this.authApiService.saveUserInLocalStorage()
-        this.router.navigate(['/blogs']);
-      }
+      this.router.navigate(['/blogs']);
     });
   }
 
@@ -87,15 +84,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   loginWIthGoogleProvider(): void {
-    this.authApiService.googleAuth()
-      .subscribe({
-        next: ((response) => {
-          console.log('response: ', response);
-          this.toastrService.success('User logged in successfully!', 'Login success');
-          this.router.navigate(['/blogs']);
-        }),
-        error: err => console.log(err)
-      });
+    this.setLoading();
+    this.authApiService.googleAuth((status: boolean, error) => {
+      if (!status) {
+        this.toastrService.error('An unexpected error has occurred', 'Error');
+        return;
+      }
+      this.router.navigate(['/blogs']);
+    })
   }
 
   navigateToResetPasswordPage(): void {
