@@ -2,7 +2,7 @@ import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ImageUploadService} from "../../service/api/image-upload.service";
 import {ToastrService} from "ngx-toastr";
-import {concatMap, from, switchMap, tap} from "rxjs";
+import {concatMap, from, map, switchMap, tap} from "rxjs";
 import {AuthApiService} from "../../service/api/auth-api.service";
 import {User} from "../../model/user.model";
 
@@ -35,12 +35,7 @@ export class UpdateUserPhotoComponent {
                   tap({
                     next: () => {
                       this.authApiService.userSubject.next({...this.user, photoURL: photoURL});
-                    }
-                  }),
-                  switchMap(() => this.authApiService.rememberMe$),
-                  tap({
-                    next: (rememberMe: boolean) => {
-                      if (rememberMe) {
+                      if (this.authApiService.getUserFromLocalStorage()) {
                         this.authApiService.saveUserInLocalStorage();
                       }
                     }
@@ -62,14 +57,9 @@ export class UpdateUserPhotoComponent {
               .pipe(
                 tap({
                   next: () => {
-                    this.authApiService.userSubject.next({...this.user, photoURL: ''})
-                  }
-                }),
-                switchMap(() => this.authApiService.rememberMe$),
-                tap({
-                  next: (rememberMe: boolean) => {
-                    if (rememberMe) {
-                     this.authApiService.saveUserInLocalStorage();
+                    this.authApiService.userSubject.next({...this.user, photoURL: ''});
+                    if (this.authApiService.getUserFromLocalStorage()) {
+                      this.authApiService.saveUserInLocalStorage();
                     }
                   }
                 })

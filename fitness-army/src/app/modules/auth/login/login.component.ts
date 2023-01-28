@@ -67,9 +67,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       return;
     }
     this.setLoading();
-    this.authApiService.rememberMeSubject.next(this.isRememberMeChecked);
+    const rememberMe = this.isRememberMeChecked;
     const {email, password} = this.loginForm.value;
-    this.authApiService.login(email, password, (status: boolean) => {
+    this.authApiService.login(email, password, rememberMe, (status: boolean) => {
       this.setLoading(false);
       if (!status) {
         this.showError = true;
@@ -85,7 +85,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loginWIthGoogleProvider(): void {
     this.setLoading();
-    this.authApiService.googleAuth((status: boolean, error) => {
+    const rememberMe = this.isRememberMeChecked;
+    this.authApiService.googleAuth(rememberMe,(status: boolean, error) => {
       if (!status) {
         this.toastrService.error('An unexpected error has occurred', 'Error');
         return;

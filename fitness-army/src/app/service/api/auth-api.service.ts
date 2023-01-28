@@ -3,8 +3,8 @@ import {
   BehaviorSubject,
   catchError, concatMap,
   from,
-  map,
-  Observable, of,
+  map, merge, mergeMap,
+  Observable, of, subscribeOn,
   switchMap,
   tap,
   throwError
@@ -36,9 +36,6 @@ export class AuthApiService {
   userSubject = new BehaviorSubject<User | null>(null);
   user$ = this.userSubject.asObservable();
 
-  rememberMeSubject = new BehaviorSubject<boolean>(false);
-  rememberMe$ = this.rememberMeSubject.asObservable();
-
   constructor(private router: Router,
               private angularFireAuth: AngularFireAuth,
               private http: HttpClient,
@@ -55,7 +52,7 @@ export class AuthApiService {
     }
   }
 
-  login(userName: string, password: string, cb: (status: boolean, error?: HttpErrorResponse) => void) {
+  login(userName: string, password: string, rememberMe: boolean, cb: (status: boolean, error?: HttpErrorResponse) => void) {
     from(signInWithEmailAndPassword(this.auth, userName, password))
       .pipe(
         map((userCredentials) => userCredentials.user),
@@ -67,25 +64,16 @@ export class AuthApiService {
               userData.displayName!,
               userData.photoURL!,
               role.role
-            )),
-            tap({
-              next: (user: User) => {
-                this.userSubject.next(user);
-              }
-            }),
-            switchMap(() => this.rememberMe$),
-            tap({
-              next: (rememberMe: boolean) => {
-                if (rememberMe) {
-                  this.saveUserInLocalStorage();
-                }
-              }
-            })
+            ))
           )),
       )
       .subscribe({
-        next: () => {
+        next: (user: User) => {
           cb(true);
+          this.userSubject.next(user);
+          if (rememberMe) {
+            this.saveUserInLocalStorage();
+          }
         },
         error: (error: HttpErrorResponse) => {
           cb(false);
@@ -114,7 +102,6 @@ export class AuthApiService {
         cb(false, error);
       }
     })
-
   };
 
   createAndStoreUserToFireStoreDatabase(uid: string, email: string, displayName: string, role: string): Observable<any> {
@@ -126,38 +113,57 @@ export class AuthApiService {
     });
   }
 
-  googleAuth(cb: (status: boolean, error?: HttpErrorResponse) => void): void {
-    this.authLogin(new GoogleAuthProvider())
-      .pipe(
-        tap((response: any) => {
-          from(response.user.getIdToken(true))
+  googleAuth(rememberMe: boolean, cb: (status: boolean, error?: HttpErrorResponse) => void): void {
+    this.authLogin(new GoogleAuthProvider()).pipe(
+      map((data: any) => data.user),
+      mergeMap(user => {
+        if (user) {
+          console.log('there is user', user);
+          return this.angularFireAuth.idToken
             .pipe(
-              map((idToken: any) => {
-                const token: Token = new Token(idToken);
-                this.tokenService.userToken = token;
+              map(token => {
+                return { user, token };
               })
             )
-        }),
-        map((response: any) => {
-          const user: User = new User(
-            response.user.uid,
-            response.user.email,
-            response.user.displayName,
-            response.user.photoURL,
-          );
-          return user;
-        }),
-      ).subscribe({
-      next: (user: User) => {
+        } else {
+          return of(null);
+        }
+      }),
+      switchMap((data) => {
+        if (data && data.token) {
+          const token: Token = new Token(data.token);
+          this.tokenService.userToken = token;
+
+          return this.userApiService.getUserRole(data.user.uid)
+            .pipe(
+              map((role: {role: string}) => new User(
+                data.user.uid,
+                data.user.email!,
+                data.user.displayName!,
+                data.user.photoURL!,
+                role.role
+              )),
+              catchError(error => throwError(() => error)),
+            )
+        } else {
+          return of(null);
+        }
+      })
+    ).subscribe({
+      next: (user: User | null) => {
         cb(true);
-        this.userSubject.next(user);
-        this.saveUserInLocalStorage();
+        if (user) {
+          this.userSubject.next(user);
+          if (rememberMe) {
+            this.saveUserInLocalStorage();
+          }
+        }
       },
-      error: (err: HttpErrorResponse) => {
-        console.error(err);
-        cb(false, err);
+      error: (error: HttpErrorResponse) => {
+        cb(false, error);
+        console.error(error);
       }
-    });
+    })
   }
 
   authLogin(provider: GoogleAuthProvider): Observable<any> {
