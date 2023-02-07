@@ -53,7 +53,7 @@
           <mat-expansion-panel *ngFor="let contentItem of blogContent.controls; let id = index" hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                {{contentTitles[id]}}
+                {{contentItem.get('title')?.value}}
               </mat-panel-title>
             </mat-expansion-panel-header>
             <div formArrayName="content">
@@ -72,20 +72,9 @@
                     </mat-form-field>
                   </div>
                   <div class="paragraph-action-buttons">
-                    <ng-container *ngIf="!contentItem.get('isUpdating')?.value else updateBlogParagraphButtons">
-                      <button mat-button
-                              (click)="enterInEditMode(id)">Edit
-                      </button>
-                      <button mat-button (click)="deleteBlogParagraph(id)" class="delete-button">Delete</button>
-                    </ng-container>
-                    <ng-template #updateBlogParagraphButtons>
-                      <button mat-button
-                              (click)="editBlogParagraph(id, updatedTitle.value, updatedContent.value)">Update
-                      </button>
-                      <button mat-button class="back-button"
-                              (click)="exitEditMode(id)">Back
-                      </button>
-                    </ng-template>
+                    <button mat-button class="paragraph-delete-button" (click)="deleteBlogParagraph(id)">
+                      Delete
+                    </button>
                   </div>
                 </div>
               </div>

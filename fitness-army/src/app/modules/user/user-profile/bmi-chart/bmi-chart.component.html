@@ -1,0 +1,15 @@
+<div class="chart-wrapper">
+    <canvas
+      baseChart
+      chartType="pie"
+      [width]="400"
+      [height]="400"
+      [title]="'Body mass(%)'"
+      [options]="chartOptions"
+      [data]="chartData"
+      [labels]="chartLabels"
+      [legend]="true">
+    </canvas>
+    <p class="user-bfp text-center fw-bold pt-2">Body fat
+      percentage: {{userBodyStats?.bodyFatPercentage?.bodyFatPercentage}}%</p>
+</div>

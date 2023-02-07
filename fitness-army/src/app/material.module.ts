@@ -18,6 +18,10 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatCardModule} from '@angular/material/card';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from "@angular/material/core";
+import {MatRadioModule} from '@angular/material/radio';
 
 const materialModules = [
   MatTableModule,
@@ -38,7 +42,11 @@ const materialModules = [
   MatGridListModule,
   MatCardModule,
   MatCheckboxModule,
-  MatDividerModule
+  MatDividerModule,
+  MatMenuModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatRadioModule
 ];
 
 @NgModule({

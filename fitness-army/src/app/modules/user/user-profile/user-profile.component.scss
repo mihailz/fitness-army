@@ -1,0 +1,23 @@
+@import "src/assets/css/colors";
+
+.container {
+  font-family: 'Montserrat', sans-serif;
+
+  .user-stats-container {
+    border-bottom: 1px solid $bg-dark;
+  }
+
+  .btn-update {
+    background-color: $primary;
+    border-radius: 5px;
+    color: $color-white;
+
+    &:hover {
+      opacity: .7;
+    }
+  }
+
+  @media(min-width: 768px) {
+    padding-top: 100px;
+  }
+}

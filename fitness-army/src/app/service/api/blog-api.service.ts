@@ -18,6 +18,7 @@ import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {BlogParagraph} from "../../model/blog-paragraph";
 import {User} from "../../model/user.model";
 import {isNil} from "ng-zorro-antd/core/util";
+import {ImageUploadService} from "./image-upload.service";
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,8 @@ export class BlogApiService {
 
   constructor(private http: HttpClient,
               private storage: AngularFireStorage,
-              private db: AngularFirestore) {
+              private db: AngularFirestore,
+              private imageUploadService: ImageUploadService) {
     this.baseApiHref = environment.applicationApi;
   }
 
@@ -44,10 +46,11 @@ export class BlogApiService {
     }).pipe(
       map((response: any) => response.blog),
       switchMap((blog: any) => {
-        return this.uploadBlogImage(imageFile, blog)
+        return this.imageUploadService.uploadImage(imageFile, `images/blog/${blog.id}`)
           .pipe(
-            catchError(err => throwError(() => err))
-          )
+            switchMap((blogImageUrl: string) =>
+            from(this.db.collection('blogs').doc(blog.id!).update({imageUrl: blogImageUrl}))
+          ))
       }),
      catchError(err => throwError(() => err))
     ).subscribe({
@@ -61,14 +64,12 @@ export class BlogApiService {
    });
   }
 
-  updateBlogPost(blog: Blog, imageFile: File | null, cb: (status: boolean, error?: HttpErrorResponse) => void): void {
-    this.uploadBlogImage(imageFile, blog)
+  updateBlogPost(blog: Blog, imageFile: File, cb: (status: boolean, error?: HttpErrorResponse) => void): void {
+    this.updateBlogImage(blog, imageFile, `images/blog/${blog.id}`)
       .pipe(
-        switchMap((blogImageUrl: string) => {
-          return this.http.put(`${this.baseApiHref}/api/blogs/update/${blog.id}`, {
-            blog: {...blog, imageUrl: blogImageUrl}
-          });
-        }),
+        switchMap((blogImageUrl: string) => this.http.put(`${this.baseApiHref}/api/blogs/update/${blog.id}`, {
+          blog: {...blog, imageUrl: blogImageUrl}
+        })),
         map((response: any) => response.blog),
         map((blogData: any) => new Blog(
           blog.id,
@@ -101,24 +102,11 @@ export class BlogApiService {
     })
   }
 
-  uploadBlogImage(file: File | null, blog: Blog): Observable<string> {
+  updateBlogImage(blog: Blog, file: File | null, path: string): Observable<string> {
     if (isNil(file)) {
       return of(blog.imageUrl!)
     } else {
-      const path = `${blog.id}`;
-      const ref = this.storage.ref(path);
-      let imageUrl = "";
-      return from(this.storage.upload(path, file))
-        .pipe(
-          switchMap(() => {
-            return ref.getDownloadURL();
-          }),
-          switchMap((downloadUrl: any) => {
-            imageUrl = downloadUrl;
-            return from(this.db.collection('blogs').doc(blog.id!).update({imageUrl: downloadUrl}));
-          }),
-          map(() => imageUrl)
-        )
+      return this.imageUploadService.uploadImage(file, path);
     }
   }
 

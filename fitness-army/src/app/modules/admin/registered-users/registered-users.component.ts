@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
-import {UserApiService} from "../../../../service/api/user-api.service";
-import {User} from "../../../../model/user.model";
+import {UserApiService} from "../../../service/api/user-api.service";
+import {User} from "../../../model/user.model";
 import {finalize} from "rxjs";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
@@ -70,16 +70,16 @@ export class RegisteredUsersComponent implements OnInit {
   }
 
   onRoleChange(updatedRole: string, user: User): void {
-    // const updatedUser = {...user, role: updatedRole};
-    // const queryParam = {'update_password': false};
-    // this.userApiService.updateUser(updatedUser, queryParam, '', (state: boolean, error) => {
-    //   this.setLoading(state);
-    //   if (error) {
-    //     this.toastrService.error('Unexpected error has occurred!', 'Error');
-    //     return;
-    //   }
-    //   this.toastrService.success('User role has been updated!', 'Role updated!');
-    // });
+    this.setLoading();
+    const updatedUser = {...user, role: updatedRole};
+    this.userApiService.updateUser(updatedUser, (status) => {
+      this.setLoading(false);
+      if (!status) {
+       this.toastrService.error('An unexpected error has occurred', 'Error!');
+       return;
+      }
+      this.toastrService.success('Role updated!', 'Success!');
+    })
   }
 
   private setLoading(state = true): void {

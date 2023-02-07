@@ -1,5 +1,31 @@
 <div class="container">
-  <div>
-    <router-outlet></router-outlet>
-  </div>
+  <ng-container *ngIf="isFetchingData">
+    <div class="loading-indicator">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!userBodyStats && !isFetchingData else userStats">
+    <fitness-army-app-create-user-body-stats
+      (onCreateButtonClicked)="createUserBodyStats($event)"></fitness-army-app-create-user-body-stats>
+  </ng-container>
+
 </div>
+<ng-template #userStats>
+  <ng-container *ngIf="!isFetchingData">
+    <div class="row user-stats-container pb-4">
+      <div class="col-xs-12 col-md-6 bmi-chart">
+        <fitness-army-app-bmi-chart
+          [userBodyStats]="userBodyStats" [chartLabels]="chartLabels"></fitness-army-app-bmi-chart>
+      </div>
+      <div class="col-xs-12 col-md-6 bmi-range-chart pt-5 pt-md-0">
+        <fitness-army-app-bmi-range
+          [userBodyStats]="userBodyStats"></fitness-army-app-bmi-range>
+      </div>
+    </div>
+    <div class="row pt-4">
+      <div class="col d-flex justify-content-end">
+        <button mat-button class="btn-update">Update profile</button>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

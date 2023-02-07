@@ -1,12 +1,11 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {AbstractControl, FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {BlogType} from "../../../model/blog-type";
 import {User} from "../../../model/user.model";
-import {finalize, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
 import {AuthApiService} from "../../../service/api/auth-api.service";
 import {BlogApiService} from "../../../service/api/blog-api.service";
-import {BlogService} from "../../../service/data/blog.service";
 import {Blog} from "../../../model/blog";
 import {MatDialog} from "@angular/material/dialog";
 import {AddParagraphComponent} from "../../../shared/add-paragraph/add-paragraph.component";
@@ -27,7 +26,6 @@ export class AddBlogComponent implements OnInit {
   currentLoggedInUser!: User | null;
   isCreatingBlog: boolean = false;
   blogImage!: File;
-  contentTitles: string[] = [];
   blogImageUrl!: string | ArrayBuffer;
   private subscriptions: Subscription = new Subscription();
 
@@ -104,35 +102,14 @@ export class AddBlogComponent implements OnInit {
 
   deleteBlogParagraph(paragraphIndex: number): void {
     this.blogContent.removeAt(paragraphIndex);
-    this.contentTitles.splice(paragraphIndex, 1);
   }
 
-  enterInEditMode(paragraphIndex: number): void {
-    this.setParagraphEditMode(paragraphIndex, true);
-    this.blogContent.at(paragraphIndex).get('title')?.enable();
-    this.blogContent.at(paragraphIndex).get('content')?.enable();
-  }
-
-  exitEditMode(paragraphIndex: number): void {
-    this.setParagraphEditMode(paragraphIndex, false);
-    this.blogContent.at(paragraphIndex).get('title')?.disable();
-    this.blogContent.at(paragraphIndex).get('content')?.disable();
-  }
-
-  editBlogParagraph(paragraphIndex: number, updatedTitle: string, updatedContent: string): void {
-    this.blogContent.controls[paragraphIndex].patchValue({
-      title: updatedTitle,
-      content: updatedContent
-    });
-    this.contentTitles[paragraphIndex] = updatedTitle;
-  }
 
   openAddParagraphDialog() {
     this.dialog.open(AddParagraphComponent)
       .afterClosed()
       .subscribe({
         next: (fGroup: FormGroup) => {
-          console.log('afterClosed: ', fGroup);
           this.addParagraphToBlogContent(fGroup)
         }
       });
@@ -164,13 +141,7 @@ export class AddBlogComponent implements OnInit {
   }
 
   private addParagraphToBlogContent(form: FormGroup): void {
-    const paragraphTitle = form.get('title')?.value;
     this.blogContent.push(form);
-    this.blogContent.controls.map((fGroup: AbstractControl) => {
-      fGroup.get('title')?.disable();
-      fGroup.get('content')?.disable();
-    });
-    this.contentTitles.push(paragraphTitle);
   }
 
   private setLoading(state = true): void {

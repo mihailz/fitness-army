@@ -119,6 +119,29 @@ exports.postUpdateUserPassword = (req: Request, res: Response) => {
   })();
 };
 
+exports.postUpdateUserData = (req: Request, res: Response) => {
+  (async () => {
+    try {
+      const userId = req.body.user.uid;
+      await db.collection("users").doc(userId)
+          .update({
+            displayName: req.body.user.displayName,
+            email: req.body.user.email,
+            role: req.body.user.role,
+            uid: userId,
+          });
+      return res.status(200).send({
+        message: "User updated successfully",
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({
+        error: error,
+      });
+    }
+  })();
+};
+
 exports.postDeleteUser = (req: Request, res: Response) => {
   (async () => {
     try {

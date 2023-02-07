@@ -9,6 +9,18 @@
     background-color: $color-black;
   }
 
+  &.date-picker {
+    .mat-form-field-infix {
+      display: flex;
+      padding: 6px;
+    }
+  }
+
+  &.radio-group {
+    display: flex;
+    flex-direction: column;
+  }
+
   .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
     border: 2px solid $color-white;
   }

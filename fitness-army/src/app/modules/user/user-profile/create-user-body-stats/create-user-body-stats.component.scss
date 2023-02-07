@@ -1,0 +1,33 @@
+@import "src/assets/css/colors";
+
+.create-stats-container {
+  display: flex;
+  align-items: center;
+  min-height: calc(100vh - 95px);
+
+  .create-stats-form-wrapper {
+    border: 1px solid gray;
+    border-radius: 5px;
+
+    .save-button {
+      background-color: $primary;
+      border-radius: 5px;
+      color: $color-white;
+
+      &:hover {
+        opacity: .7;
+      }
+    }
+  }
+}
+
+@media(min-width: 800px) {
+  .create-stats-container {
+    justify-content: center;
+
+    .create-stats-form-wrapper {
+      width: 500px;
+
+    }
+  }
+}

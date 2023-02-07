@@ -10,15 +10,15 @@ exports.postCreateUserBodyStats = (req: Request, res: Response) => {
       const userId = req.params.user_id;
       const document = db.collection("users").doc(userId)
           .collection("measurements").doc(userId);
-      await document.create({
-        userBodyStats: {
-          bodyStats: req.body.bodyStatsInfo,
-          bodyMassIndex: req.body.bodyMassIndexInfo,
-          bodyFatPercentage: req.body.bodyFatPercentageInfo,
-        },
-      });
+      const userBodyStats = {
+        bodyStats: req.body.bodyStatsInfo,
+        bodyMassIndex: req.body.bodyMassIndexInfo,
+        bodyFatPercentage: req.body.bodyFatPercentageInfo,
+        idealBodyWeight: req.body.idealBodyWeight,
+      };
+      await document.create(userBodyStats);
       return res.status(200).send({
-        message: "Measurement has been created successfully!",
+        data: userBodyStats,
       });
     } catch (error) {
       console.log(error);
@@ -35,11 +35,9 @@ exports.getUserBodyStats = (req: Request, res: Response) => {
           .collection("measurements").doc(userId);
       const userMeasurementsDocumentSnapshot = await document.get();
       const userMeasurementsData = userMeasurementsDocumentSnapshot.data();
-      let userMeasurementsDto = {};
-      userMeasurementsData ? userMeasurementsDto =
-        userMeasurementsData.userBodyStats : null;
+      console.log("getUserBodyStats: ", userMeasurementsData);
       return res.status(200).send({
-        userBodyStats: userMeasurementsDto,
+        userBodyStats: userMeasurementsData,
       });
     } catch (error) {
       console.log(error);
@@ -58,6 +56,7 @@ exports.postUpdateUserBodyStats = (req: Request, res: Response) => {
         bodyStats: req.body.bodyStatsInfo,
         bodyMassIndex: req.body.bodyMassIndexInfo,
         bodyFatPercentage: req.body.bodyFatPercentageInfo,
+        idealBodyWeight: req.body.idealBodyWeight,
       };
       await document.update({
         userBodyStats: updatedBodyStats,

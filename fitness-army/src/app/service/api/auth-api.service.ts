@@ -3,8 +3,8 @@ import {
   BehaviorSubject,
   catchError, concatMap,
   from,
-  map, merge, mergeMap,
-  Observable, of, subscribeOn,
+  map, mergeMap,
+  Observable, of,
   switchMap,
   tap,
   throwError
@@ -118,7 +118,6 @@ export class AuthApiService {
       map((data: any) => data.user),
       mergeMap(user => {
         if (user) {
-          console.log('there is user', user);
           return this.angularFireAuth.idToken
             .pipe(
               map(token => {
@@ -225,7 +224,6 @@ export class AuthApiService {
 
   saveUserInLocalStorage(): void {
     const user = this.userSubject.getValue();
-    console.log('saveUserInLocallStorage: ', user);
     localStorage.setItem('user', JSON.stringify(user));
   }
 

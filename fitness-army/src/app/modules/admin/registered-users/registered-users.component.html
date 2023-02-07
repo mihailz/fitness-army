@@ -1,4 +1,9 @@
 <div class="users-container">
+  <ng-container *ngIf="isFetchingData">
+    <div class="loading-indicator">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-container>
   <h1 class="text-white">Registered users</h1>
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
     <ng-container *ngFor="let column of displayedColumns">
@@ -10,7 +15,7 @@
             {{row[column]}}
           </ng-container>
           <ng-template #roleCell>
-            <div class="mat-form-field w-25">
+            <div class="mat-form-field">
               <mat-form-field class="mat-select-dark" appearance="outline">
                 <mat-select [(ngModel)]="row['role']" name="role" (selectionChange)="onSelectionChange($event, id)">
                   <mat-option *ngFor="let role of roles" [value]="role">
@@ -27,10 +32,10 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-    <ng-container>
+    <ng-container *ngIf="!isFetchingData">
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">
-          <nz-spin [nzSpinning]="true" nzTip="Loading data..." *ngIf="isFetchingData"></nz-spin>
+        <td class="mat-cell text-center" colspan="3">
+            <span class="text-white">No data...</span>
         </td>
       </tr>
     </ng-container>

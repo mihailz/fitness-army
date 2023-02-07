@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Blog} from "../../../model/blog";
 import {BlogType} from "../../../model/blog-type";
 import {map,Subscription, switchMap} from "rxjs";
@@ -6,11 +6,11 @@ import {ActivatedRoute, Params, Router} from "@angular/router";
 import {BlogApiService} from "../../../service/api/blog-api.service";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {BlogParagraph} from "../../../model/blog-paragraph";
-import {NzModalService} from "ng-zorro-antd/modal";
-import {AddParagraphModalComponent} from "../add-paragraph-modal/add-paragraph-modal.component";
 import {BlogService} from "../../../service/data/blog.service";
 import {MatAccordion} from "@angular/material/expansion";
 import {ToastrService} from "ngx-toastr";
+import {MatDialog} from "@angular/material/dialog";
+import {AddParagraphComponent} from "../../../shared/add-paragraph/add-paragraph.component";
 
 @Component({
   selector: 'fitness-army-app-update-blog',
@@ -32,9 +32,9 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
               private activatedRoute: ActivatedRoute,
               private blogApiService: BlogApiService,
               private fb: FormBuilder,
-              private nzModalService: NzModalService,
               private blogService: BlogService,
-              private toastrService: ToastrService) {
+              private toastrService: ToastrService,
+              private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -72,18 +72,6 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
     return this.updateBlogForm.controls['content'] as FormArray;
   }
 
-  deleteParagraph(paragraphIndex: number) {
-    this.blogContent.removeAt(paragraphIndex);
-  }
-
-  addParagraph(paragraph: BlogParagraph) {
-    const paragraphFormGroup = this.fb.group({
-      title: this.fb.control(paragraph.title),
-      content: this.fb.control(paragraph.content)
-    });
-    this.blogContent.push(paragraphFormGroup);
-  }
-
   updateBlog(): void {
     if (!this.updateBlogForm.valid) {
       return;
@@ -110,22 +98,20 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
   }
 
   openAddParagraphModal(): void {
-    this.nzModalService.create({
-      nzContent: AddParagraphModalComponent,
-      nzFooter: null,
-    })
+    this.dialog.open(AddParagraphComponent)
+      .afterClosed()
+      .subscribe({
+        next: (paragraphForm: FormGroup) => {
+          if (paragraphForm) {
+            this.blogContent.push(paragraphForm);
+          }
+        }
+      });
   }
 
-  // private listenForCreatedBlogParagraph(): void {
-  //   const subscription = this.blogService.getBlogParagraph()
-  //     .subscribe({
-  //       next: ((blogParagraph: BlogParagraph) => {
-  //         this.addParagraph(blogParagraph);
-  //         this.contentTitles.push(blogParagraph.title);
-  //       })
-  //     });
-  //   this.subscriptions.add(subscription);
-  // }
+  deleteParagraph(paragraphIndex: number) {
+    this.blogContent.removeAt(paragraphIndex);
+  }
 
   private fetchCurrentBlog(): void {
     this.setLoading();

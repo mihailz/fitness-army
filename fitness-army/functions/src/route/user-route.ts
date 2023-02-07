@@ -9,6 +9,10 @@ router.post("/api/users/create",
     // isAuthorized,
     userController.postCreateUser);
 
+router.post("/api/users/:user_id/update",
+    userController.postUpdateUserData
+);
+
 router.get("/api/users/:user_id",
     // isAuthenticated,
     // isAuthorized,

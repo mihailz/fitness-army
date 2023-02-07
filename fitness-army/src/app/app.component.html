@@ -20,7 +20,8 @@
       <ng-container *ngIf="user$ | async as user">
         <div class="profile-image-container d-flex justify-content-center">
           <div class="profile-image-wrapper" (click)="openUpdateUserProfileImageModal(user)">
-            <img class="avatar mat-elevation-z8" [src]="user.photoURL ? user.photoURL : defaultUserProfileImage" alt="User image"/>
+            <img class="avatar mat-elevation-z8" [src]="user.photoURL ? user.photoURL : defaultUserProfileImage"
+                 alt="User image"/>
             <div class="overlay">
               <mat-icon>photo_camera</mat-icon>
             </div>
@@ -30,14 +31,34 @@
         <p class="user-email">{{user.email}}</p>
       </ng-container>
       <mat-divider></mat-divider>
-      <ng-container *ngFor="let route of routes">
-        <ng-container *ngIf="!route.actionRoute">
-          <a mat-button class="route-link" routerLinkActive="active" [routerLink]="route.link">
-            <mat-icon>{{route.icon}}</mat-icon>
-            <span>{{route.label}}</span>
-          </a>
-        </ng-container>
-      </ng-container>
+      <a mat-button class="route-link" routerLinkActive="active" routerLink="home">
+        <mat-icon>home</mat-icon>
+        <span>Home</span>
+      </a>
+      <a mat-button class="route-link" routerLinkActive="active" routerLink="user/profile">
+        <mat-icon>person</mat-icon>
+        <span>Profile</span>
+      </a>
+      <a mat-button class="route-link" routerLinkActive="active" routerLink="blogs">
+        <mat-icon>grid_on</mat-icon>
+        <span>Blogs</span>
+      </a>
+      <button mat-button class="route-link" routerLinkActive="active"
+         [matMenuTriggerFor]="adminMenu">
+        <mat-icon>admin_panel_settings</mat-icon>
+        <span>Admin</span>
+      </button>
+
+      <mat-menu #adminMenu="matMenu" yPosition="below" xPosition="before">
+        <a mat-menu-item class="route-link" routerLinkActive="active" routerLink="admin">
+          <mat-icon>group</mat-icon>
+          <span>Users</span>
+        </a>
+        <a mat-menu-item class="route-link" routerLinkActive="active" routerLink="admin/comments">
+          <mat-icon>forum</mat-icon>
+          <span>Comments</span>
+        </a>
+      </mat-menu>
       <ng-container *ngIf="(user$ | async) else login">
         <button mat-button class="route-link" (click)="logout()">
           <mat-icon>logout</mat-icon>

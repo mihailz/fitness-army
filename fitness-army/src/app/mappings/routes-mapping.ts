@@ -4,25 +4,33 @@ export const APPLICATION_ROUTES: IRoute[] = [
   {
     label: 'Home',
     link: 'home',
-    icon: 'home',
-    actionRoute: false
+    icon: 'home'
   },
   {
     label: 'Blogs',
     link: 'blogs',
-    icon: 'grid_on',
-    actionRoute: false
+    icon: 'grid_on'
   },
   {
     label: 'Login',
     link: '/auth/login',
-    icon: 'login',
-    actionRoute: true
+    icon: 'login'
   },
   {
     label: 'Admin',
     link: '/admin',
     icon: 'admin_panel_settings',
-    actionRoute: false
+    children: [
+      {
+        label: 'Users',
+        link: '/admin',
+        icon: 'user'
+      },
+      {
+        label: 'Comments',
+        link: '/admin/comments',
+        icon: 'login'
+      }
+    ]
   }
 ];

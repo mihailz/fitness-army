@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {catchError, map, Observable, throwError} from "rxjs";
 import {User} from "../../model/user.model";
+import {update} from "@angular/fire/database";
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,21 @@ export class UserApiService {
       );
   };
 
+  updateUser(updatedUser: User, cb: (status: boolean) => void) {
+    return this.http.post(`${this.baseApiHref}/api/users/${updatedUser.uid}/update`, {
+      user: updatedUser
+    }).subscribe({
+      next: (res) => {
+        console.log('updateUser: ', res);
+        cb(true);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error);
+        cb(false);
+      }
+    })
+  }
+
   getUserRole(userId: string): Observable<any> {
     return this.http.get(`${this.baseApiHref}/api/users/${userId}/role`);
   }
@@ -44,7 +60,8 @@ export class UserApiService {
             user.uid,
             user.email,
             user.displayName,
-            user.profileImage
+            user.photoURL,
+            user.role
           )))
       );
   }

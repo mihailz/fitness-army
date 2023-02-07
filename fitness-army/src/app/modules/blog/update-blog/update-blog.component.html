@@ -35,20 +35,21 @@
           </div>
         </div>
       </div>
-        <div class="row">
-          <button mat-button class="add-paragraph-button  fs-16 d-flex align-items-center"
-                  (click)="openAddParagraphModal()">
-            Add paragraph
-            <mat-icon class="add-icon">add_circle</mat-icon>
-          </button>
-        </div>
-        <div class="row mt-2">
+      <div class="row">
+        <button mat-button class="add-paragraph-button  fs-16 d-flex align-items-center"
+                (click)="openAddParagraphModal()">
+          Add paragraph
+          <mat-icon class="add-icon">add_circle</mat-icon>
+        </button>
+      </div>
+      <div class="row mt-2">
+        <ng-container *ngIf="blogContent?.controls?.length">
           <div class="content-items">
             <mat-accordion multi class="w-100">
               <mat-expansion-panel *ngFor="let contentItem of blogContent.controls; let id = index" hideToggle>
                 <mat-expansion-panel-header>
                   <mat-panel-title>
-                    {{blogContent.at(id)?.get('title')?.value}}
+                    {{contentItem.get('title')?.value}}
                   </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div formArrayName="content">
@@ -58,7 +59,7 @@
                         <label class="text-white" for="paragraphTitle">Title</label>
                         <mat-form-field class="dark-bg" appearance="outline">
                           <input matInput id="paragraphTitle" formControlName="title">
-                          <mat-error *ngIf="blogContent.at(id)?.get('title')?.invalid">You must enter a value!
+                          <mat-error *ngIf="contentItem.get('title')?.invalid">You must enter a value!
                           </mat-error>
                         </mat-form-field>
                       </div>
@@ -68,26 +69,29 @@
                           <input matInput id="paragraphContent" formControlName="content">
                         </mat-form-field>
                       </div>
-                      <button mat-button class="paragraph-delete-button" (click)="deleteParagraph(id)">
-                        Delete
-                      </button>
+                      <div class="paragraph-action-buttons">
+                        <button mat-button class="paragraph-delete-button" (click)="deleteParagraph(id)">
+                          Delete
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </mat-expansion-panel>
             </mat-accordion>
           </div>
+        </ng-container>
+      </div>
+      <div class="row mt-3">
+        <div class="blog-image-wrapper">
+          <img [src]="uploadedImageUrl ? uploadedImageUrl : blog.imageUrl" alt="Blog image">
         </div>
-        <div class="row mt-3">
-          <div class="blog-image-wrapper">
-            <img [src]="uploadedImageUrl ? uploadedImageUrl : blog.imageUrl" alt="Blog image">
-          </div>
-          <div class="image-picker-wrapper">
-            <fitness-army-app-image-uploader [controlName]="'blogImage'"
-                                             (selectedImage)="onImageSelect($event)"></fitness-army-app-image-uploader>
-          </div>
+        <div class="image-picker-wrapper">
+          <fitness-army-app-image-uploader [controlName]="'blogImage'"
+                                           (selectedImage)="onImageSelect($event)"></fitness-army-app-image-uploader>
+        </div>
 
-        </div>
+      </div>
       <mat-divider class="divider mt-2"></mat-divider>
       <div class="row pt-3 d-flex justify-content-end">
         <button mat-button class="update-button" (click)="updateBlog()">Update</button>
