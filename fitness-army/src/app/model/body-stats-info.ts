@@ -1,11 +1,10 @@
 export class BodyStatsInfo {
-  age!: number;
-  birthDate!: string;
-  weight!: number;
-  height!: number;
-  gender!: string;
 
-  constructor(age: number, birthDate: string, weight: number, height: number, gender: string) {
+  constructor(public age: number,
+              public birthDate: string,
+              public weight: number,
+              public height: number,
+              public gender: string) {
     this.age = age;
     this.birthDate = birthDate;
     this.weight = weight;

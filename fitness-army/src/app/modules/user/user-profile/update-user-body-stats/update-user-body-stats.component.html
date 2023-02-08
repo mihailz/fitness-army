@@ -1,0 +1,54 @@
+<div class="update-stats-container">
+  <div class="update-stats-form-wrapper p-3">
+    <ng-container *ngIf="isFetchingData">
+      <div class="loading-indicator">
+        <mat-spinner></mat-spinner>
+      </div>
+    </ng-container>
+    <form [formGroup]="userBodyStatsForm" (ngSubmit)="onSubmit()">
+      <h1 class="text-white">Update stats</h1>
+      <div class="mat-form-field date-picker">
+        <label class="text-white" for="dateOfBirth">Date of birth</label>
+        <mat-form-field appearance="outline" class="example-form-field">
+          <input matInput id="dateOfBirth" formControlName="dateOfBirth" [matDatepicker]="datepicker">
+          <mat-error
+            *ngIf="getFControl('dateOfBirth').invalid">{{getFControlErrorMessage()}}</mat-error>
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+          <mat-datepicker #datepicker>
+            <mat-datepicker-actions>
+              <button mat-button matDatepickerCancel>Cancel</button>
+              <button mat-raised-button class="btn-apply" matDatepickerApply>Apply</button>
+            </mat-datepicker-actions>
+          </mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="mat-form-field">
+        <label class="text-white" for="weight">Weight</label>
+        <mat-form-field appearance="outline">
+          <input matInput id="weight" formControlName="weight">
+          <mat-error *ngIf="getFControl('weight').invalid">{{getFControlErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mat-form-field">
+        <label class="text-white" for="height">Height</label>
+        <mat-form-field appearance="outline">
+          <input matInput id="height" formControlName="height">
+          <mat-error *ngIf="getFControl('height').invalid">{{getFControlErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mat-form-field radio-group">
+        <label class="text-white pb-2" for="gender">Gender</label>
+        <mat-radio-group
+          formControlName="gender"
+          id="gender">
+          <mat-radio-button value="male">Male</mat-radio-button>
+          <mat-radio-button class="p-2" value="female">Female</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="action-buttons d-flex justify-content-end mt-3">
+        <button type="submit" mat-button color="primary" class="update-button">Update</button>
+      </div>
+    </form>
+  </div>
+</div>

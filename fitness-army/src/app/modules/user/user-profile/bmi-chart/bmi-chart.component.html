@@ -1,4 +1,5 @@
-<div class="chart-wrapper">
+<ng-container *ngIf="userBodyStats">
+  <div class="chart-wrapper">
     <canvas
       baseChart
       chartType="pie"
@@ -12,4 +13,6 @@
     </canvas>
     <p class="user-bfp text-center fw-bold pt-2">Body fat
       percentage: {{userBodyStats?.bodyFatPercentage?.bodyFatPercentage}}%</p>
-</div>
+  </div>
+</ng-container>
+

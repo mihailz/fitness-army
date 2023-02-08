@@ -5,20 +5,17 @@ import {IdealBodyWeight} from "./ideal-body-weight";
 
 export class UserBodyStats {
   bodyStats: BodyStatsInfo;
-  bodyMassIndex?: BodyMassIndexStats;
-  bodyFatPercentage?: BodyFatPercentage;
-  idealBodyWeight?: IdealBodyWeight;
+  bodyMassIndex: BodyMassIndexStats;
+  bodyFatPercentage: BodyFatPercentage;
+  idealBodyWeight: IdealBodyWeight;
 
   constructor(bodyStats: BodyStatsInfo,
-              bodyMassIndex?: BodyMassIndexStats,
-              bodyFatPercentage?: BodyFatPercentage,
-              idealBodyWeight?: IdealBodyWeight) {
+              bodyMassIndex: BodyMassIndexStats,
+              bodyFatPercentage: BodyFatPercentage,
+              idealBodyWeight: IdealBodyWeight) {
     this.bodyStats = bodyStats;
-    this.bodyMassIndex =
-      new BodyMassIndexStats(bodyMassIndex?.bmi!, bodyMassIndex?.health!, bodyMassIndex?.healthyBmiRange!);
-    this.bodyFatPercentage =
-      new BodyFatPercentage(bodyFatPercentage?.bodyFatPercentage!,
-        bodyFatPercentage?.fatMassWeight!, bodyFatPercentage?.leanMassWeight!);
-    this.idealBodyWeight = new IdealBodyWeight(idealBodyWeight?.idealWeight!);
+    this.bodyMassIndex = bodyMassIndex;
+    this.bodyFatPercentage = bodyFatPercentage;
+    this.idealBodyWeight = idealBodyWeight;
   }
 }

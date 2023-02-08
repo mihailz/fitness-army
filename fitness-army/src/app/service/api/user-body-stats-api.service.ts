@@ -28,6 +28,7 @@ export class UserBodyStatsApiService {
     const bodyMassStats$ = this.getBodyMassIndex(data.weight, data.height);
     const bodyFatPercentage$ = this.getBodyFatPercentage(data.weight, data.height, userAge, data.gender);
     const idealBodyWeight$ = this.getIdealBodyWeight(data.weight, data.height, data.gender);
+    const bodyStats = new BodyStatsInfo(userAge, data.birthDate, data.weight, data.height, data.gender);
     return forkJoin([bodyMassStats$, bodyFatPercentage$, idealBodyWeight$])
       .pipe(
         map((response: [BodyMassIndexStats, BodyFatPercentage, IdealBodyWeight]) => {
@@ -35,48 +36,46 @@ export class UserBodyStatsApiService {
           const bodyFatPercentage: BodyFatPercentage = response[1];
           const idealBodyWeight: IdealBodyWeight = response[2];
           const userBodyStats: UserBodyStats = new UserBodyStats(
-            new BodyStatsInfo(calculateUserAge(data.birthDate), data.birthDate, data.weight, data.height, data.gender),
+            bodyStats,
             bodyMassIndex,
             bodyFatPercentage,
             idealBodyWeight
           );
-          console.log('forkJoin: ', userBodyStats);
           return userBodyStats;
         }),
-        switchMap((data: UserBodyStats) => {
+        switchMap((bodyStatsData: UserBodyStats) => {
           if (!isUpdating) {
             return this.http.post(`${this.baseApiHref}/api/body-stats/create/${uid}`, {
-              bodyStatsInfo: data.bodyStats,
-              bodyMassIndexInfo: data.bodyMassIndex,
-              bodyFatPercentageInfo: data.bodyFatPercentage,
-              idealBodyWeight: data.idealBodyWeight
+              bodyStatsInfo: bodyStatsData.bodyStats,
+              bodyMassIndexInfo: bodyStatsData.bodyMassIndex,
+              bodyFatPercentageInfo: bodyStatsData.bodyFatPercentage,
+              idealBodyWeight: bodyStatsData.idealBodyWeight
             })
           } else {
+            console.log('else- data: ', bodyStatsData);
             return this.http.put(`${this.baseApiHref}/api/body-stats/update/${uid}`, {
-              bodyStatsInfo: data.bodyStats,
-              bodyMassIndexInfo: data.bodyMassIndex,
-              bodyFatPercentageInfo: data.bodyFatPercentage,
-              idealBodyWeight: data.idealBodyWeight
-            })
+              bodyStatsInfo: bodyStatsData.bodyStats,
+              bodyMassIndexInfo: bodyStatsData.bodyMassIndex,
+              bodyFatPercentageInfo: bodyStatsData.bodyFatPercentage,
+              idealBodyWeight: bodyStatsData.idealBodyWeight
+            }).pipe(
+              catchError(err => throwError(() => err))
+            )
           }
         }),
-        map((response: any) => new UserBodyStats(
-          response.data.bodyStats,
-          response.data.bodyMassIndex,
-          response.data.bodyFatPercentage,
-          response.data.idealBodyWeight
-        ))
+        map((response: any) => {
+          return new UserBodyStats(
+          response.userBodyStats.bodyStats,
+          response.userBodyStats.bodyMassIndex,
+          response.userBodyStats.bodyFatPercentage,
+          response.userBodyStats.idealBodyWeight
+        )})
       );
   }
 
   getBodyMassIndex(weight: number, height: number): Observable<BodyMassIndexStats> {
     const url = `${this.bmiApiBaseHref}/bmi?weight=${weight}&height=${height}`;
     return this.http.get(url).pipe(
-      tap({
-        next: (res) => {
-          console.log('getBodyMassIndex: ', res);
-        }
-      }),
       map((response: any) => response.info),
       map((data: any) => new BodyMassIndexStats(
         data.bmi,
@@ -111,17 +110,20 @@ export class UserBodyStatsApiService {
       )
   }
 
-  getUserBodyStats(uid: string,): Observable<UserBodyStats | null> {
+  getUserBodyStats(uid: string,): Observable<any | null> {
     return this.http.get(`${this.baseApiHref}/api/body-stats/${uid}`)
       .pipe(
         map((response: any) => {
           if (Object.keys(response).length) {
-            return new UserBodyStats(
-              response.userBodyStats.bodyStats,
-              response.userBodyStats.bodyMassIndex,
-              response.userBodyStats.bodyFatPercentage,
-              response.userBodyStats.idealBodyWeight
-            )
+            const userBodyStats =
+              new UserBodyStats(
+                response.userBodyStats.bodyStats,
+                response.userBodyStats.bodyMassIndex,
+                response.userBodyStats.bodyFatPercentage,
+                response.userBodyStats.idealBodyWeight
+              );
+            console.log('userBodyStats: ', userBodyStats);
+            return userBodyStats;
           } else {
             return null;
           }

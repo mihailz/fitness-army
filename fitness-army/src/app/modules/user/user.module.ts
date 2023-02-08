@@ -8,13 +8,15 @@ import { BmiChartComponent } from './user-profile/bmi-chart/bmi-chart.component'
 import { CreateUserBodyStatsComponent } from './user-profile/create-user-body-stats/create-user-body-stats.component';
 import {ChartsModule} from "ng2-charts";
 import { BmiRangeComponent } from './user-profile/bmi-range/bmi-range.component';
+import { UpdateUserBodyStatsComponent } from './user-profile/update-user-body-stats/update-user-body-stats.component';
 
 @NgModule({
   declarations: [
     UserProfileComponent,
     BmiChartComponent,
     CreateUserBodyStatsComponent,
-    BmiRangeComponent
+    BmiRangeComponent,
+    UpdateUserBodyStatsComponent
   ],
   imports: [
     CommonModule,

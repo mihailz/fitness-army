@@ -32,6 +32,7 @@ export class BmiChartComponent implements OnInit {
     this.chartLabels = ['Lean mass', 'Fat mass'];
     this.chartData = [this.userBodyStats?.bodyFatPercentage?.leanMassWeight,
       this.userBodyStats?.bodyFatPercentage?.fatMassWeight];
+    console.log('Chart data: ', this.chartData);
   }
 
 }

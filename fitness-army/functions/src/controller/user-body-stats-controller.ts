@@ -8,17 +8,18 @@ exports.postCreateUserBodyStats = (req: Request, res: Response) => {
   (async () => {
     try {
       const userId = req.params.user_id;
-      const document = db.collection("users").doc(userId)
-          .collection("measurements").doc(userId);
+      console.log("Req: ", req.body);
       const userBodyStats = {
         bodyStats: req.body.bodyStatsInfo,
         bodyMassIndex: req.body.bodyMassIndexInfo,
         bodyFatPercentage: req.body.bodyFatPercentageInfo,
         idealBodyWeight: req.body.idealBodyWeight,
       };
-      await document.create(userBodyStats);
+      await db.collection("users").doc(userId)
+          .collection("measurements").doc(userId)
+          .set(userBodyStats, {merge: true});
       return res.status(200).send({
-        data: userBodyStats,
+        userBodyStats: userBodyStats,
       });
     } catch (error) {
       console.log(error);
@@ -50,19 +51,18 @@ exports.postUpdateUserBodyStats = (req: Request, res: Response) => {
   (async () => {
     try {
       const userId = req.params.user_id;
-      const document = db.collection("users").doc(userId)
-          .collection("measurements").doc(userId);
+      console.log("update: ", req.body);
       const updatedBodyStats = {
         bodyStats: req.body.bodyStatsInfo,
         bodyMassIndex: req.body.bodyMassIndexInfo,
         bodyFatPercentage: req.body.bodyFatPercentageInfo,
         idealBodyWeight: req.body.idealBodyWeight,
       };
-      await document.update({
-        userBodyStats: updatedBodyStats,
-      });
+      await db.collection("users").doc(userId)
+          .collection("measurements").doc(userId)
+          .update(updatedBodyStats);
       return res.status(200).send({
-        message: "Measurement has been updated successfully!",
+        userBodyStats: updatedBodyStats,
       });
     } catch (error) {
       console.log(error);

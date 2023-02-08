@@ -2,11 +2,12 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserBodyStatsApiService} from "../../../service/api/user-body-stats-api.service";
 import {ToastrService} from "ngx-toastr";
 import {AuthApiService} from "../../../service/api/auth-api.service";
-import {map, mergeMap, of, Subscription, tap} from "rxjs";
+import {map, mergeMap, of, Subscription} from "rxjs";
 import {User} from "../../../model/user.model";
 import {UserBodyStats} from "../../../model/user-body-stats.model";
 import {FormGroup} from "@angular/forms";
 import {HttpErrorResponse} from "@angular/common/http";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'fitness-army-app-user-profile',
@@ -22,7 +23,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   chartLabels: string[] = [];
   private subscriptions: Subscription = new Subscription();
 
-  constructor(private userBodyStatsApiService: UserBodyStatsApiService,
+  constructor(private router: Router,
+              private userBodyStatsApiService: UserBodyStatsApiService,
               private toastrService: ToastrService,
               private authApiService: AuthApiService,) { }
 
@@ -106,4 +108,15 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     }
   }
 
+  navigateToUpdateProfile(): void {
+    this.router.navigate(['/user/profile/update'], {
+      queryParams: {
+        age: this.userBodyStats?.bodyStats.age,
+        weight: this.userBodyStats?.bodyStats.weight,
+        height: this.userBodyStats?.bodyStats.height,
+        gender: this.userBodyStats?.bodyStats.gender,
+        birthDate: this.userBodyStats?.bodyStats.birthDate
+      }
+    });
+  }
 }
