@@ -1,7 +1,24 @@
+@import "src/assets/css/colors";
+
 .users-container {
   table {
     width: 100%;
     overflow: auto;
+
+    .actions-container {
+      .btn-delete {
+        background-color: $danger;
+        border-radius: 5px;
+        color: $color-white;
+        height: 40px;
+        width: 80px;
+        margin-left: 15px;
+
+        &:hover {
+          opacity: .7;
+        }
+      }
+    }
   }
 
   .user-role-form-field {
@@ -14,8 +31,8 @@
   }
 
   .mat-header-cell {
-    background-color: darkblue;
-    color: white;
+    background-color: $primary;
+    color: $color-white;
     padding: 5px;
   }
 
@@ -25,13 +42,13 @@
 
   .mat-row {
     &:nth-child(even) {
-      background-color: darkblue;
-      color: white;
+      background-color: $primary;
+      color: $color-white;
     }
 
     &:nth-child(odd) {
-      background-color: black;
-      color: white;
+      background-color: $color-black;
+      color: $color-white;
     }
   }
 
@@ -41,24 +58,24 @@
   }
 
   .mat-paginator {
-    background-color: black;
+    background-color: $color-black;
     padding-top: 8px;
     padding-bottom: 8px;
 
     ::ng-deep .mat-paginator-page-size {
-      color: white;
+      color: $color-white;
     }
 
     ::ng-deep .mat-paginator-range-actions {
       .mat-paginator-range-label {
-        color: white;
+        color: $color-white;
       }
 
       .mat-icon-button {
-        background-color: darkblue;
+        background-color: $primary;
         margin: 2px;
         cursor: pointer;
-        color: white;
+        color: $color-white;
       }
     }
   }

@@ -8,11 +8,13 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSelectChange} from "@angular/material/select";
+import {UserRoles} from "../../../model/roles";
+import {HttpErrorResponse} from "@angular/common/http";
 
 enum TableHeaderColumn {
   'displayName' = 'Username',
   'email' = 'Email',
-  'role' = 'Role',
+  'role' = 'Actions',
 }
 
 type IUserColumn = {
@@ -32,7 +34,7 @@ export class RegisteredUsersComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   users: User[] = [];
   isFetchingData: boolean = false;
-  roles = ['ADMIN', 'COACH', 'USER'];
+  roles = Object.values(UserRoles);
   displayedColumns: ITableColumns[] = ['displayName', 'email', 'role'];
   tableHeaderColumn = TableHeaderColumn as IUserColumn;
   dataSource: MatTableDataSource<IUserColumn> = new MatTableDataSource();
@@ -75,8 +77,8 @@ export class RegisteredUsersComponent implements OnInit {
     this.userApiService.updateUser(updatedUser, (status) => {
       this.setLoading(false);
       if (!status) {
-       this.toastrService.error('An unexpected error has occurred', 'Error!');
-       return;
+        this.toastrService.error('An unexpected error has occurred', 'Error!');
+        return;
       }
       this.toastrService.success('Role updated!', 'Success!');
     })
@@ -84,5 +86,22 @@ export class RegisteredUsersComponent implements OnInit {
 
   private setLoading(state = true): void {
     this.isFetchingData = state;
+  }
+
+  deleteUser(user: User): void {
+    this.setLoading();
+    this.userApiService.deleteUser(user.uid)
+      .subscribe({
+        next: (users: User[]) => {
+          this.setLoading(false);
+          this.dataSource = new MatTableDataSource(users);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.setLoading(false);
+          console.log(error);
+          this.toastrService.error('An error has occurred!', 'Error');
+        }
+      })
+
   }
 }

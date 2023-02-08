@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import {catchError, map, Observable, throwError} from "rxjs";
+import {catchError, concatMap, map, Observable, switchMap, throwError} from "rxjs";
 import {User} from "../../model/user.model";
-import {update} from "@angular/fire/database";
+import {ImageUploadService} from "./image-upload.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,8 @@ export class UserApiService {
 
   baseApiHref: string = '';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private imageUploadService: ImageUploadService) {
     this.baseApiHref = environment.applicationApi;
   }
 
@@ -63,6 +64,20 @@ export class UserApiService {
             user.photoURL,
             user.role
           )))
+      );
+  }
+
+  deleteUser(uid: string): Observable<User[]> {
+    return this.http.delete(`${this.baseApiHref}/api/users/delete/${uid}`)
+      .pipe(
+        concatMap(() =>
+          this.imageUploadService.deleteImage(uid, `images/profile/${uid}`)
+            .pipe(
+              switchMap(() => this.getUsers()),
+              catchError(error => throwError(() => error))
+            )
+        ),
+        catchError(error => throwError(() => error))
       );
   }
 
