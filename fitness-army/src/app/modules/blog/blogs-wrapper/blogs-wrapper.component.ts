@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NzModalService} from "ng-zorro-antd/modal";
 import {BlogApiService} from "../../../service/api/blog-api.service";
 import {Blog} from "../../../model/blog";
 import {Observable, Subscription} from "rxjs";
@@ -25,7 +24,6 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
 
   constructor(private router: Router,
-              private nzModalService: NzModalService,
               private blogApiService: BlogApiService,
               private authApiService: AuthApiService,
               private blogService: BlogService) {

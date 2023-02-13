@@ -1,0 +1,23 @@
+<h1 mat-dialog-title class="text-white">Add ingredient</h1>
+<div mat-dialog-content>
+  <form [formGroup]="ingredientForm">
+    <div class="mat-form-field">
+      <label class="text-white" for="name">Name</label>
+      <mat-form-field appearance="outline">
+        <input matInput id="name" required formControlName="name">
+        <mat-error *ngIf="ingredientForm.get('name')?.invalid">Field is required!</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="mat-form-field">
+      <label class="text-white" for="amount">Amount</label>
+      <mat-form-field appearance="outline">
+        <input matInput id="amount" required formControlName="amount">
+        <mat-error *ngIf="ingredientForm.get('amount')?.invalid">Field is required!</mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+<mat-dialog-actions align="end">
+  <button mat-raised-button class="btn-add" (click)="onConfirmClick()" tabindex="1">Add</button>
+  <button mat-raised-button mat-dialog-close tabindex="-1">Cancel</button>
+</mat-dialog-actions>

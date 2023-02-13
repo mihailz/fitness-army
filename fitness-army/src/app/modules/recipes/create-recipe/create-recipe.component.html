@@ -1,0 +1,149 @@
+<div class="container pt-5 add-recipe-form-container">
+  <ng-container *ngIf="isFetchingData">
+    <div class="loading-indicator">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-container>
+  <div class="row">
+    <div class="col">
+      <h1 class="page-title text-center text-white">Create recipe</h1>
+    </div>
+  </div>
+
+  <form [formGroup]="recipeForm" class="create-recipe-form p-3">
+    <div class="row mt-4">
+      <div class="col-xs-12 col-md-6">
+        <div class="mat-form-field">
+          <label class="text-white" for="title">Title</label>
+          <mat-form-field appearance="outline">
+            <input matInput id="title" formControlName="title">
+            <mat-error *ngIf="getFControl('title').invalid">{{getFControlErrorMessage('title')}}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <div class="mat-form-field">
+          <label class="text-white" for="type">Type</label>
+          <mat-form-field class="mat-select-dark" appearance="outline">
+            <mat-select id="type" formControlName="type">
+              <mat-option *ngFor="let type of recipeTypes" [value]="type">
+                {{type}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="getFControl('type').invalid">{{getFControlErrorMessage('type')}}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <div class="mat-form-field">
+          <label class="text-white" for="level">Level</label>
+          <mat-form-field class="mat-select-dark" appearance="outline">
+            <mat-select id="level" formControlName="level">
+              <mat-option *ngFor="let level of recipeLevels" [value]="level">
+                {{level}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="getFControl('level').invalid">{{getFControlErrorMessage('level')}}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <div class="mat-form-field">
+          <label class="text-white" for="totalMinutesNeeded">Total minutes</label>
+          <mat-form-field appearance="outline">
+            <input type="number" matInput id="totalMinutesNeeded" formControlName="totalMinutesNeeded">
+            <mat-error *ngIf="getFControl('totalMinutesNeeded').invalid">{{getFControlErrorMessage('totalMinutesNeeded')}}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <button mat-button class="add-ingredient-button" (click)="openAddIngredientDialog()">
+          Add ingredient <mat-icon>add_circle_outline</mat-icon>
+        </button>
+        <ng-container *ngIf="ingredients.controls && ingredients.controls.length">
+          <div class="row">
+            <div class="ingredients-wrapper mt-3">
+              <mat-accordion multi>
+                <mat-expansion-panel *ngFor="let contentItem of ingredients.controls; let id = index" hideToggle>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      {{contentItem.get('name')?.value}}
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div formArrayName="ingredients">
+                    <div class="ingredient-item">
+                      <div [formGroupName]="id">
+                        <div class="mat-form-field">
+                          <label class="text-white">Name</label>
+                          <mat-form-field appearance="outline">
+                            <input matInput formControlName="name">
+                          </mat-form-field>
+                        </div>
+                        <div class="mat-form-field">
+                          <label class="text-white">Amount</label>
+                          <mat-form-field appearance="outline">
+                            <input matInput formControlName="amount">
+                          </mat-form-field>
+                        </div>
+                        <div class="paragraph-action-buttons">
+                          <button mat-button class="delete-ingredient-btn" (click)="deleteIngredient(id)">
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="col-xs-12 col-md-6 pt-4 pt-md-0">
+        <button mat-button class="add-step-button" (click)="openAddStepDialog()">
+          Add step <mat-icon>add_circle_outline</mat-icon></button>
+
+        <ng-container *ngIf="steps.controls && steps.controls.length">
+          <div class="pt-4" formArrayName="steps">
+            <ng-container *ngFor="let step of steps.controls; let id = index">
+              <div [formGroupName]="id">
+                <div class="mat-form-field">
+                  <label class="text-white">Step {{ id + 1}}</label>
+                  <mat-form-field appearance="outline">
+                    <textarea matInput formControlName="step"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="col-12 pt-4">
+        <div class="mat-form-field">
+          <label class="text-white" for="rating">Rating</label>
+          <mat-form-field appearance="outline">
+            <input type="number" matInput id="rating" formControlName="rating">
+            <mat-error *ngIf="getFControl('rating').invalid">{{getFControlErrorMessage('rating')}}</mat-error>
+            <mat-hint>Enter a number between 1 - 5</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <fitness-army-app-image-uploader [controlName]="'recipeImage'"
+                                       (selectedImage)="onImageSelect($event)"></fitness-army-app-image-uploader>
+      <ng-container *ngIf="recipeImageUrl">
+        <div class="recipe-image-wrapper mt-3">
+          <img [src]="recipeImageUrl" alt="Recipe image">
+        </div>
+      </ng-container>
+    </div>
+    <mat-divider class="mt-4 mb-3"></mat-divider>
+    <div class="row d-flex justify-content-end">
+      <button mat-button class="create-recipe-button" (click)="createRecipe()">Create</button>
+    </div>
+  </form>
+</div>

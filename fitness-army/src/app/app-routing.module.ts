@@ -17,10 +17,17 @@ const routes: Routes = [
     canLoad: [AuthGuard],
   },
   {
+    path: 'recipes',
+    loadChildren: () => import('./modules/recipes/recipes.module')
+      .then(m => m.RecipesModule),
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard],
+  },
+  {
     path: 'admin',
     loadChildren: () => import('./modules/admin/admin.module')
       .then(m => m.AdminModule),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
     canLoad: [AuthGuard, RoleGuard]
   },
   {

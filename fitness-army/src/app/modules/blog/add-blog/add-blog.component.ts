@@ -18,10 +18,7 @@ import {ToastrService} from "ngx-toastr";
 })
 export class AddBlogComponent implements OnInit {
 
-  @ViewChild('paragraphTitle') paragraphTitleInput!: ElementRef;
-  @ViewChild('paragraphContent') paragraphContentInput!: ElementRef;
   blogPostForm!: FormGroup;
-
   blogTypes = Object.values(BlogType);
   currentLoggedInUser!: User | null;
   isCreatingBlog: boolean = false;
@@ -121,12 +118,6 @@ export class AddBlogComponent implements OnInit {
       content:  new FormArray([]),
       category: new FormControl('', [Validators.required]),
       blogImage: new FormControl('', [Validators.required]),
-    });
-  }
-
-  private setParagraphEditMode(paragraphIndex: number, isEditing: boolean): void {
-    this.blogContent.at(paragraphIndex).patchValue({
-      isUpdating: isEditing,
     });
   }
 
