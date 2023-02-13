@@ -9,6 +9,9 @@ import {Subscription} from "rxjs";
 import {Recipe} from "../../../model/recipe";
 import {AuthApiService} from "../../../service/api/auth-api.service";
 import {User} from "../../../model/user.model";
+import {RecipeApiService} from "../../../service/api/recipe-api.service";
+import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'fitness-army-app-create-recipe',
@@ -27,7 +30,10 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
 
   constructor(public dialog: MatDialog,
-              private authApiService: AuthApiService) { }
+              private authApiService: AuthApiService,
+              private recipesApiService: RecipeApiService,
+              private router: Router,
+              private toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.initRecipeForm();
@@ -130,7 +136,7 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
     this.subscriptions.add(subscription);
   }
 
-  createRecipe() {
+  createRecipe(): void {
     this.setLoading();
     const {
       title,
@@ -154,5 +160,14 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
         rating,
         this.currentLoggedInUser!);
 
+    this.recipesApiService.createRecipe(newRecipe, this.recipeImage, (status) => {
+      this.setLoading(false);
+      if (!status) {
+        this.toastrService.error('An error has occurred!', 'Error');
+        return;
+      }
+      this.toastrService.success('Recipe created!', 'Success');
+      this.router.navigate(['/recipes']);
+    })
   }
 }
