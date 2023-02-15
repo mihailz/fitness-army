@@ -13,7 +13,45 @@
             <img [src]="recipe?.author?.photoURL" alt="Author photo">
           </div>
         </div>
-
+      </div>
+      <div class="row" style="padding-top: 85px">
+        <div class="col d-flex justify-content-center">
+          <h5 class="recipe-author text-white">Recipe by {{ recipe.author.displayName}}</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col d-flex justify-content-center">
+          <h1 class="recipe-title text-white">{{recipe.title}}</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col d-flex justify-content-center">
+          <fitness-army-app-star-rating
+            [rating]="recipe.rating"
+            [starCount]="5"
+            [color]="starColor"
+          ></fitness-army-app-star-rating>
+        </div>
+      </div>
+      <div class="row info mt-4">
+        <div class="col-4 recipe-level">
+          <div class="text-white pt-5 pb-5 d-flex flex-column">
+            <span class="level">Level: <b>{{ recipe.level}}</b></span>
+            <span class="time-label pt-3">Total: <b>{{ recipe.totalMinutesNeeded}}</b></span>
+          </div>
+        </div>
+        <div class="col-4 time-needed">
+          <div class="text-white pt-5 pb-5  d-flex flex-column">
+            <span class="prep-time">Prep: <b>{{ recipe.preparationTime}}</b></span>
+            <span class="cook-time pt-3">Cook: <b>{{ recipe.cookTime}}</b></span>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="servings text-white pt-5 pb-5  d-flex flex-column">
+            <span class="servings-label">Yield: <b>{{ recipe.servings}}</b></span>
+            <span class="nutrition-info pt-3">Nutrition info</span>
+          </div>
+        </div>
       </div>
     </div>
   </ng-container>

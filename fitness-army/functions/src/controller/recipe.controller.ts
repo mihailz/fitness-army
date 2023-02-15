@@ -43,6 +43,8 @@ function mapRecipesData(documents: any): RecipeModelDto[] {
       document.data().type,
       document.data().level,
       document.data().totalMinutesNeeded,
+      document.data().preparationTime,
+      document.data().cookTime,
       document.data().ingredients,
       document.data().steps,
       document.data().recipeImage,

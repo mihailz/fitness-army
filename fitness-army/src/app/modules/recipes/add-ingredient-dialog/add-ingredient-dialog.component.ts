@@ -27,7 +27,7 @@ export class AddIngredientDialogComponent implements OnInit {
   private initIngredientForm(): void {
     this.ingredientForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
-      amount: new FormControl('', [Validators.required])
+      amount: new FormControl('')
     });
   }
 

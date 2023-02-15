@@ -1,13 +1,13 @@
 export class NutritionInfo {
 
-  constructor(public calories: number,
-              public totalFat: number,
-              public saturatedFat: number,
-              public cholesterol: number,
-              public sodium: number,
-              public carbohydrates: number,
-              public dietaryFiber: number,
-              public sugar: number) {
+  constructor(public calories: string,
+              public totalFat: string,
+              public saturatedFat: string,
+              public cholesterol: string,
+              public sodium: string,
+              public carbohydrates: string,
+              public dietaryFiber: string,
+              public sugar: string) {
     this.calories = calories;
     this.totalFat = totalFat;
     this.saturatedFat = saturatedFat;

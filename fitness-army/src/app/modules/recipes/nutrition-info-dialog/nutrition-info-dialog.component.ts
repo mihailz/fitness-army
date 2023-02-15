@@ -34,7 +34,7 @@ export class NutritionInfoDialogComponent implements OnInit {
       carbohydrates: new FormControl('', [Validators.required]),
       dietaryFiber: new FormControl('', [Validators.required]),
       sugar: new FormControl('', [Validators.required]),
+      protein: new FormControl('', [Validators.required]),
     });
   }
-
 }

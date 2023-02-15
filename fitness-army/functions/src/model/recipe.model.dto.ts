@@ -8,6 +8,8 @@ export class RecipeModelDto {
               public type: string,
               public level: string,
               public totalMinutesNeeded: number,
+              public preparationTime: string,
+              public cookTime: string,
               public ingredients: IngredientModelDto[],
               public steps: string[],
               public recipeImage: string,

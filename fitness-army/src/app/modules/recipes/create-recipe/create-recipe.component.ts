@@ -1,5 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
+import {
+  AbstractControl,
+  FormArray,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  Validator,
+  Validators
+} from "@angular/forms";
 import {RecipeType} from "../../../model/recipe-type";
 import {RecipeLevel} from "../../../model/recipe-level";
 import {MatDialog} from "@angular/material/dialog";
@@ -82,7 +90,9 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
   }
 
   openAddStepDialog(): void {
-    this.dialog.open(AddStepDialogComponent)
+    this.dialog.open(AddStepDialogComponent, {
+      width: '400px'
+    })
       .afterClosed()
       .subscribe({
         next: (fGroup: FormGroup) => {
@@ -125,6 +135,8 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
       type,
       level,
       totalMinutesNeeded,
+      preparationTime,
+      cookTime,
       ingredients,
       steps,
       rating,
@@ -138,6 +150,8 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
         type,
         level,
         totalMinutesNeeded,
+        preparationTime,
+        cookTime,
         ingredients,
         steps,
         '',
@@ -163,6 +177,8 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
       type: new FormControl('', [Validators.required]),
       level: new FormControl('', [Validators.required]),
       totalMinutesNeeded: new FormControl('', [Validators.required]),
+      preparationTime: new FormControl('', [Validators.required]),
+      cookTime: new FormControl('', [Validators.required]),
       ingredients: new FormArray([]),
       steps: new FormArray([]),
       recipeImage: new FormControl('', [Validators.required]),
@@ -177,6 +193,7 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
         carbohydrates: new FormControl('', [Validators.required]),
         dietaryFiber: new FormControl('', [Validators.required]),
         sugar: new FormControl('', [Validators.required]),
+        protein: new FormControl('', [Validators.required]),
       })
     })
   }

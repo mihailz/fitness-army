@@ -73,6 +73,8 @@ export class RecipeApiService {
               recipeItem.type,
               recipeItem.level,
               recipeItem.totalMinutesNeeded,
+              recipeItem.preparationTime,
+              recipeItem.cookTime,
               recipeItem.ingredients.map((ingredientItem: any) =>
                 new Ingredient(
                   ingredientItem.name,
@@ -129,6 +131,8 @@ export class RecipeApiService {
           recipeItem.type,
           recipeItem.level,
           recipeItem.totalMinutesNeeded,
+          recipeItem.preparationTime,
+          recipeItem.cookTime,
           recipeItem.ingredients.map((ingredientItem: any) =>
             new Ingredient(
               ingredientItem.name,

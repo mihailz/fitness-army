@@ -8,12 +8,14 @@ export class Recipe {
               public title: string,
               public type: string,
               public level: string,
-              public totalMinutesNeeded: number,
+              public totalMinutesNeeded: string,
+              public preparationTime: string,
+              public cookTime: string,
               public ingredients: Ingredient[],
               public steps: string[],
               public recipeImage: string,
               public rating: number,
-              public servings: number,
+              public servings: string,
               public author: User,
               public nutritionInfo: NutritionInfo) {
     this.id = id;
@@ -21,6 +23,8 @@ export class Recipe {
     this.type = type;
     this.level = level;
     this.totalMinutesNeeded = totalMinutesNeeded;
+    this.preparationTime = preparationTime;
+    this.cookTime = cookTime;
     this.ingredients = ingredients;
     this.steps = steps;
     this.recipeImage = recipeImage;

@@ -7,7 +7,6 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 })
 export class StarRatingComponent implements OnInit {
 
-  @Input() disableClick = true;
   @Input() rating: number = 0;
   @Input() starCount!: number;
   @Input() color: StarRatingColor = StarRatingColor.accent;

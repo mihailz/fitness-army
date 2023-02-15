@@ -5,6 +5,7 @@ import {map, Observable, Subscription, tap} from "rxjs";
 import {RecipeType} from "../../../model/recipe-type";
 import {RecipeLevel} from "../../../model/recipe-level";
 import {Recipe} from "../../../model/recipe";
+import {StarRatingColor} from "../star-rating/star-rating.component";
 
 @Component({
   selector: 'fitness-army-app-recipe-details',
@@ -17,6 +18,7 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
   recipeTypes = RecipeType;
   recipeLevel = RecipeLevel;
   isFetchingData: boolean = false;
+  starColor = StarRatingColor.warn;
   private subscriptions: Subscription = new Subscription();
 
   constructor(private router: Router,

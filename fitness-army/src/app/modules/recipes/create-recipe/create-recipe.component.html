@@ -49,10 +49,28 @@
       </div>
       <div class="col-xs-12 col-md-6">
         <div class="mat-form-field">
-          <label class="text-white" for="totalMinutesNeeded">Total minutes</label>
+          <label class="text-white" for="totalMinutesNeeded">Total time</label>
           <mat-form-field appearance="outline">
             <input type="number" matInput id="totalMinutesNeeded" formControlName="totalMinutesNeeded">
             <mat-error *ngIf="getFControl('totalMinutesNeeded').invalid">{{getFControlErrorMessage('totalMinutesNeeded')}}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <div class="mat-form-field">
+          <label class="text-white" for="preparationTime">Preparation time</label>
+          <mat-form-field appearance="outline">
+            <input type="number" matInput id="preparationTime" formControlName="preparationTime">
+            <mat-error *ngIf="getFControl('preparationTime').invalid">{{getFControlErrorMessage('preparationTime')}}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <div class="mat-form-field">
+          <label class="text-white" for="cookTime">Cook time</label>
+          <mat-form-field appearance="outline">
+            <input type="number" matInput id="cookTime" formControlName="cookTime">
+            <mat-error *ngIf="getFControl('cookTime').invalid">{{getFControlErrorMessage('cookTime')}}</mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -135,7 +153,7 @@
         <div class="mat-form-field">
           <label class="text-white" for="servings">Servings</label>
           <mat-form-field appearance="outline">
-            <input type="number" matInput id="servings" formControlName="servings">
+            <input matInput id="servings" formControlName="servings">
             <mat-error *ngIf="getFControl('servings').invalid">{{getFControlErrorMessage('servings')}}</mat-error>
           </mat-form-field>
         </div>
