@@ -12,6 +12,7 @@ export class RecipeModelDto {
               public steps: string[],
               public recipeImage: string,
               public rating: number,
+              public servings: number,
               public author: UserModelDto,
               public nutritionInfo: NutritionInfoModelDto) {
   }

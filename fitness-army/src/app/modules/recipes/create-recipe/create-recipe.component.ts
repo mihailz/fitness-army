@@ -128,6 +128,7 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
       ingredients,
       steps,
       rating,
+      servings,
       nutritionInfo
     } = this.recipeForm.value;
 
@@ -141,6 +142,7 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
         steps,
         '',
         rating,
+        servings,
         this.currentLoggedInUser!,
         nutritionInfo);
 
@@ -165,6 +167,7 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
       steps: new FormArray([]),
       recipeImage: new FormControl('', [Validators.required]),
       rating: new FormControl('', [Validators.required, this.ratingValidator]),
+      servings: new FormControl('', [Validators.required]),
       nutritionInfo: new FormGroup({
         calories: new FormControl('', [Validators.required]),
         totalFat: new FormControl('', [Validators.required]),

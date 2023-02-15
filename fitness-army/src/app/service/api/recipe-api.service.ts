@@ -23,6 +23,12 @@ export class RecipeApiService {
   recipeSubject: Subject<Recipe> = new Subject<Recipe>();
   recipe$ = this.recipeSubject.asObservable();
 
+  recipesIdsSubject = new BehaviorSubject<string[]>([]);
+  recipesIds$ = this.recipesIdsSubject.asObservable();
+
+  currentRecipeIdSubject: Subject<string | null> = new Subject<string | null>();
+  currentRecipeId$ = this.currentRecipeIdSubject.asObservable();
+
   constructor(private http: HttpClient,
               private storage: AngularFireStorage,
               private db: AngularFirestore,
@@ -75,11 +81,12 @@ export class RecipeApiService {
               recipeItem.steps.map((step: any) => step.step),
               recipeItem.recipeImage,
               recipeItem.rating,
+              recipeItem.servings,
               new User(
                 recipeItem.author.uid,
                 recipeItem.author.email,
                 recipeItem.author.displayName,
-                recipeItem.author.profileImage,
+                recipeItem.author.photoURL,
               ),
               new NutritionInfo(
                 recipeItem.nutritionInfo.calories,
@@ -98,8 +105,10 @@ export class RecipeApiService {
       )
       .subscribe({
         next: (recipes: Recipe[]) => {
+          const recipeIds = recipes.map((recipe: Recipe) => recipe.id!);
           cb(true);
           this.recipesSubscription.next(recipes);
+          this.recipesIdsSubject.next(recipeIds);
           console.log('getRecipes: ', recipes);
         },
         error: (error: HttpErrorResponse) => {
@@ -128,11 +137,12 @@ export class RecipeApiService {
           recipeItem.steps.map((step: any) => step.step),
           recipeItem.recipeImage,
           recipeItem.rating,
+          recipeItem.servings,
           new User(
             recipeItem.author.uid,
             recipeItem.author.email,
             recipeItem.author.displayName,
-            recipeItem.author.profileImage,
+            recipeItem.author.photoURL,
           ),
           new NutritionInfo(
             recipeItem.nutritionInfo.calories,
@@ -149,7 +159,9 @@ export class RecipeApiService {
       ).subscribe({
       next: (recipe: Recipe) => {
         cb(true);
+        console.log('recipe: ', recipe);
         this.recipeSubject.next(recipe);
+        this.currentRecipeIdSubject.next(recipe.id);
       },
       error: (error: HttpErrorResponse) => {
         cb(false);

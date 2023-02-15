@@ -13,6 +13,7 @@ export class Recipe {
               public steps: string[],
               public recipeImage: string,
               public rating: number,
+              public servings: number,
               public author: User,
               public nutritionInfo: NutritionInfo) {
     this.id = id;
@@ -24,6 +25,7 @@ export class Recipe {
     this.steps = steps;
     this.recipeImage = recipeImage;
     this.rating = rating;
+    this.servings = servings;
     this.author = author;
     this.nutritionInfo = nutritionInfo;
   }

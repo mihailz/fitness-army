@@ -5,8 +5,17 @@
     </div>
   </ng-container>
   <ng-container *ngIf="(recipe$ | async) as recipe">
-  <p class="text-white">{{recipe.rating}}</p>
+    <div class="container p-2">
+      <div class="row">
+        <div class="recipe-image-wrapper">
+          <img [src]="recipe.recipeImage" alt="Recipe image">
+          <div class="recipe-author-img-wrapper">
+            <img [src]="recipe?.author?.photoURL" alt="Author photo">
+          </div>
+        </div>
 
+      </div>
+    </div>
   </ng-container>
 </div>
 
