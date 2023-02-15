@@ -13,6 +13,7 @@ import { AddStepDialogComponent } from './add-step-dialog/add-step-dialog.compon
 import {ImageUploaderModule} from "../../shared/image-uploader/image-uploader.module";
 import { RecipesFilterComponent } from './recipes-wrapper/recipes-filter/recipes-filter.component';
 import { StarRatingComponent } from './star-rating/star-rating.component';
+import { NutritionInfoDialogComponent } from './nutrition-info-dialog/nutrition-info-dialog.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { StarRatingComponent } from './star-rating/star-rating.component';
     AddIngredientDialogComponent,
     AddStepDialogComponent,
     RecipesFilterComponent,
-    StarRatingComponent
+    StarRatingComponent,
+    NutritionInfoDialogComponent
   ],
   imports: [
     CommonModule,

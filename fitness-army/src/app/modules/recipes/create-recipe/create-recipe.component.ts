@@ -12,6 +12,7 @@ import {User} from "../../../model/user.model";
 import {RecipeApiService} from "../../../service/api/recipe-api.service";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
+import {NutritionInfoDialogComponent} from "../nutrition-info-dialog/nutrition-info-dialog.component";
 
 @Component({
   selector: 'fitness-army-app-create-recipe',
@@ -33,7 +34,8 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
               private authApiService: AuthApiService,
               private recipesApiService: RecipeApiService,
               private router: Router,
-              private toastrService: ToastrService) { }
+              private toastrService: ToastrService) {
+  }
 
   ngOnInit(): void {
     this.initRecipeForm();
@@ -91,6 +93,20 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
       });
   }
 
+  openAddNutritionInfoDialog(): void {
+    this.dialog.open(NutritionInfoDialogComponent, {
+      width: '600px'
+    })
+      .afterClosed()
+      .subscribe({
+        next: (fGroup: FormGroup) => {
+          if (fGroup) {
+            this.recipeForm.get('nutritionInfo')?.patchValue(fGroup.getRawValue());
+          }
+        }
+      });
+  }
+
   onImageSelect(imageFile: File): void {
     this.recipeImage = imageFile;
     const reader = new FileReader();
@@ -111,7 +127,8 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
       totalMinutesNeeded,
       ingredients,
       steps,
-      rating
+      rating,
+      nutritionInfo
     } = this.recipeForm.value;
 
     const newRecipe =
@@ -124,7 +141,8 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
         steps,
         '',
         rating,
-        this.currentLoggedInUser!);
+        this.currentLoggedInUser!,
+        nutritionInfo);
 
     this.recipesApiService.createRecipe(newRecipe, this.recipeImage, (status) => {
       this.setLoading(false);
@@ -147,12 +165,22 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
       steps: new FormArray([]),
       recipeImage: new FormControl('', [Validators.required]),
       rating: new FormControl('', [Validators.required, this.ratingValidator]),
+      nutritionInfo: new FormGroup({
+        calories: new FormControl('', [Validators.required]),
+        totalFat: new FormControl('', [Validators.required]),
+        saturatedFat: new FormControl('', [Validators.required]),
+        cholesterol: new FormControl('', [Validators.required]),
+        sodium: new FormControl('', [Validators.required]),
+        carbohydrates: new FormControl('', [Validators.required]),
+        dietaryFiber: new FormControl('', [Validators.required]),
+        sugar: new FormControl('', [Validators.required]),
+      })
     })
   }
 
   private ratingValidator(control: AbstractControl): ValidationErrors | null {
     const rating = control.value;
-    return (rating >0 && rating <= 5) ? null : {
+    return (rating > 0 && rating <= 5) ? null : {
       'invalidRating': 'Invalid rating'
     }
   }

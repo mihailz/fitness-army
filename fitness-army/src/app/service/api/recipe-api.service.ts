@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, catchError, from, map, of, switchMap, throwError} from "rxjs";
+import {BehaviorSubject, catchError, from, map, of, Subject, switchMap, throwError} from "rxjs";
 import {Recipe} from "../../model/recipe";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
@@ -8,6 +8,7 @@ import {ImageUploadService} from "./image-upload.service";
 import {environment} from "../../../environments/environment";
 import {Ingredient} from "../../model/ingredient";
 import {User} from "../../model/user.model";
+import {NutritionInfo} from "../../model/nutrition-info";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,9 @@ export class RecipeApiService {
 
   recipesSubscription = new BehaviorSubject<Recipe[]>([]);
   recipes$ = this.recipesSubscription.asObservable();
+
+  recipeSubject: Subject<Recipe> = new Subject<Recipe>();
+  recipe$ = this.recipeSubject.asObservable();
 
   constructor(private http: HttpClient,
               private storage: AngularFireStorage,
@@ -77,6 +81,16 @@ export class RecipeApiService {
                 recipeItem.author.displayName,
                 recipeItem.author.profileImage,
               ),
+              new NutritionInfo(
+                recipeItem.nutritionInfo.calories,
+                recipeItem.nutritionInfo.totalFat,
+                recipeItem.nutritionInfo.saturatedFat,
+                recipeItem.nutritionInfo.cholesterol,
+                recipeItem.nutritionInfo.sodium,
+                recipeItem.nutritionInfo.carbohydrates,
+                recipeItem.nutritionInfo.dietaryFiber,
+                recipeItem.nutritionInfo.sugar,
+              )
             )
           )
         ),
@@ -93,5 +107,54 @@ export class RecipeApiService {
           console.log(error);
         }
       })
+  }
+
+  getRecipeById(recipeId: string, cb: (status: boolean) => void): void {
+    const url = `${this.baseApiHref}/api/recipes/${recipeId}`;
+    this.http.get(url)
+      .pipe(
+        map((response: any) => response.data),
+        map((recipeItem: any) => new Recipe(
+          recipeItem.id,
+          recipeItem.title,
+          recipeItem.type,
+          recipeItem.level,
+          recipeItem.totalMinutesNeeded,
+          recipeItem.ingredients.map((ingredientItem: any) =>
+            new Ingredient(
+              ingredientItem.name,
+              ingredientItem.amount
+            )),
+          recipeItem.steps.map((step: any) => step.step),
+          recipeItem.recipeImage,
+          recipeItem.rating,
+          new User(
+            recipeItem.author.uid,
+            recipeItem.author.email,
+            recipeItem.author.displayName,
+            recipeItem.author.profileImage,
+          ),
+          new NutritionInfo(
+            recipeItem.nutritionInfo.calories,
+            recipeItem.nutritionInfo.totalFat,
+            recipeItem.nutritionInfo.saturatedFat,
+            recipeItem.nutritionInfo.cholesterol,
+            recipeItem.nutritionInfo.sodium,
+            recipeItem.nutritionInfo.carbohydrates,
+            recipeItem.nutritionInfo.dietaryFiber,
+            recipeItem.nutritionInfo.sugar,
+          )
+        )),
+        catchError((err: HttpErrorResponse) => throwError(() => of(err))),
+      ).subscribe({
+      next: (recipe: Recipe) => {
+        cb(true);
+        this.recipeSubject.next(recipe);
+      },
+      error: (error: HttpErrorResponse) => {
+        cb(false);
+        console.log(error);
+      }
+    })
   }
 }

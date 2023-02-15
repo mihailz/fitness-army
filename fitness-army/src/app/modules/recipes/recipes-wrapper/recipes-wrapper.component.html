@@ -16,7 +16,7 @@
     </ng-container>
     <ng-container *ngIf="recipes$ | async as recipes">
       <div class="col-xs-12 col-lg-6 col-xl-4 pt-4"
-           *ngFor="let recipe of recipes">
+           *ngFor="let recipe of recipes" (click)="goToRecipeDetailsPage(recipe)">
         <fitness-army-app-recipe-card [recipe]="recipe"></fitness-army-app-recipe-card>
       </div>
     </ng-container>

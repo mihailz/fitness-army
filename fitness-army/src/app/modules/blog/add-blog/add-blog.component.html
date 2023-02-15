@@ -36,15 +36,12 @@
       </div>
     </div>
     <div class="row">
-      <div class="col">
-        <h2 class="text-white">Blog content</h2>
+      <div class="col-12">
+        <button mat-button class="add-paragraph-button"
+                (click)="openAddParagraphDialog()">Add paragraph
+          <mat-icon>add_circle_outline</mat-icon>
+        </button>
       </div>
-    </div>
-    <div class="row">
-      <button mat-button class="add-paragraph-button"
-              (click)="openAddParagraphDialog()">Add paragraph
-        <mat-icon>add_circle_outline</mat-icon>
-      </button>
     </div>
     <ng-container *ngIf="blogContent.controls && blogContent.controls.length">
     <div class="row">

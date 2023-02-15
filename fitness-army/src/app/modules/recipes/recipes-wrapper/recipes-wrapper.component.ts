@@ -57,6 +57,12 @@ export class RecipesWrapperComponent implements OnInit, OnDestroy {
       || this.loggedInUser?.role === this.userRoles.ADMIN;
   }
 
+  goToRecipeDetailsPage(recipe: Recipe): void {
+    if (recipe) {
+      this.router.navigate([`/recipes/details/${recipe.id}`]);
+    }
+  }
+
   private getCurrentLoggedInUser(): void {
     const subscription = this.authApiService.user$
       .subscribe({

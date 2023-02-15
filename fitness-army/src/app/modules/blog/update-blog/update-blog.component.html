@@ -36,11 +36,13 @@
         </div>
       </div>
       <div class="row">
-        <button mat-button class="add-paragraph-button  fs-16 d-flex align-items-center"
-                (click)="openAddParagraphModal()">
-          Add paragraph
-          <mat-icon class="add-icon">add_circle</mat-icon>
-        </button>
+        <div class="col">
+          <button mat-button class="add-paragraph-button  fs-16 d-flex align-items-center"
+                  (click)="openAddParagraphModal()">
+            Add paragraph
+            <mat-icon class="add-icon">add_circle</mat-icon>
+          </button>
+        </div>
       </div>
       <div class="row mt-2">
         <ng-container *ngIf="blogContent?.controls?.length">

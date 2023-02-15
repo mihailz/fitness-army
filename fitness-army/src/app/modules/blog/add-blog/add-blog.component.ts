@@ -107,7 +107,9 @@ export class AddBlogComponent implements OnInit {
       .afterClosed()
       .subscribe({
         next: (fGroup: FormGroup) => {
-          this.addParagraphToBlogContent(fGroup)
+          if (fGroup) {
+            this.addParagraphToBlogContent(fGroup);
+          }
         }
       });
   }

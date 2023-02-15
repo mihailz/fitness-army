@@ -1,0 +1,83 @@
+<h1 mat-dialog-title class="text-white">Nutrition info</h1>
+<div mat-dialog-content>
+  <form [formGroup]="nutritionInfoForm">
+    <div class="row">
+      <div class="col-xs-12 col-md-6">
+        <div class="mat-form-field">
+          <label class="text-white" for="calories">Calories</label>
+          <mat-form-field appearance="outline">
+            <input type="number" matInput id="calories" required formControlName="calories">
+            <mat-error *ngIf="nutritionInfoForm.get('calories')?.invalid">Field is required!</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <div class="mat-form-field">
+          <label class="text-white" for="totalFat">Total Fat</label>
+          <mat-form-field appearance="outline">
+            <input type="number" matInput id="totalFat" required formControlName="totalFat">
+            <mat-error *ngIf="nutritionInfoForm.get('totalFat')?.invalid">Field is required!</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <div class="mat-form-field">
+          <label class="text-white" for="saturatedFat">Saturated Fat</label>
+          <mat-form-field appearance="outline">
+            <input type="number" matInput id="saturatedFat" required formControlName="saturatedFat">
+            <mat-error *ngIf="nutritionInfoForm.get('saturatedFat')?.invalid">Field is required!</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <div class="mat-form-field">
+          <label class="text-white" for="cholesterol">Cholesterol</label>
+          <mat-form-field appearance="outline">
+            <input type="number" matInput id="cholesterol" required formControlName="cholesterol">
+            <mat-error *ngIf="nutritionInfoForm.get('cholesterol')?.invalid">Field is required!</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <div class="mat-form-field">
+          <label class="text-white" for="sodium">Sodium</label>
+          <mat-form-field appearance="outline">
+            <input type="number" matInput id="sodium" required formControlName="sodium">
+            <mat-error *ngIf="nutritionInfoForm.get('sodium')?.invalid">Field is required!</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <div class="mat-form-field">
+          <label class="text-white" for="carbohydrates">Carbohydrates</label>
+          <mat-form-field appearance="outline">
+            <input type="number" matInput id="carbohydrates" required formControlName="carbohydrates">
+            <mat-error *ngIf="nutritionInfoForm.get('carbohydrates')?.invalid">Field is required!</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <div class="mat-form-field">
+          <label class="text-white" for="dietaryFiber">Dietary fiber</label>
+          <mat-form-field appearance="outline">
+            <input type="number" matInput id="dietaryFiber" required formControlName="dietaryFiber">
+            <mat-error *ngIf="nutritionInfoForm.get('dietaryFiber')?.invalid">Field is required!</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <div class="mat-form-field">
+          <label class="text-white" for="sugar">Sugar</label>
+          <mat-form-field appearance="outline">
+            <input type="number" matInput id="sugar" required formControlName="sugar">
+            <mat-error *ngIf="nutritionInfoForm.get('sugar')?.invalid">Field is required!</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<mat-dialog-actions align="end">
+  <button mat-raised-button class="btn-add" (click)="onConfirmClick()" tabindex="1">Add</button>
+  <button mat-raised-button mat-dialog-close tabindex="-1">Cancel</button>
+</mat-dialog-actions>

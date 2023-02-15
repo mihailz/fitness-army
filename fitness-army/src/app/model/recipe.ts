@@ -1,5 +1,6 @@
 import {Ingredient} from "./ingredient";
 import {User} from "./user.model";
+import {NutritionInfo} from "./nutrition-info";
 
 export class Recipe {
 
@@ -12,7 +13,8 @@ export class Recipe {
               public steps: string[],
               public recipeImage: string,
               public rating: number,
-              public author: User) {
+              public author: User,
+              public nutritionInfo: NutritionInfo) {
     this.id = id;
     this.title = title;
     this.type = type;
@@ -23,5 +25,6 @@ export class Recipe {
     this.recipeImage = recipeImage;
     this.rating = rating;
     this.author = author;
+    this.nutritionInfo = nutritionInfo;
   }
 }

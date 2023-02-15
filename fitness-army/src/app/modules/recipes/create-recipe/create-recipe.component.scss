@@ -17,12 +17,13 @@
       }
     }
 
-    .add-ingredient-button, .add-step-button {
+    .add-ingredient-button, .add-step-button, .add-nutrition-info-btn {
       background: $primary;
       color: $color-white;
       border-radius: 5px;
       font-weight: bold;
-      width: 150px;
+      height: 60px;
+      width: 100%;
 
       &:hover {
         opacity: .5;

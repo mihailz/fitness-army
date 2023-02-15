@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {Route, RouterModule} from "@angular/router";
 import {RecipesWrapperComponent} from "./recipes-wrapper/recipes-wrapper.component";
 import {CreateRecipeComponent} from "./create-recipe/create-recipe.component";
+import {RecipeDetailsComponent} from "./recipe-details/recipe-details.component";
 
 const routes: Route[] = [
   {
@@ -12,6 +13,10 @@ const routes: Route[] = [
   {
     path: 'create',
     component: CreateRecipeComponent
+  },
+  {
+    path: 'details/:id',
+    component: RecipeDetailsComponent
   }
 ]
 

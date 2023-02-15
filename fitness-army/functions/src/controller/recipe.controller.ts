@@ -47,7 +47,8 @@ function mapRecipesData(documents: any): RecipeModelDto[] {
       document.data().steps,
       document.data().recipeImage,
       document.data().rating,
-      document.data().author
+      document.data().author,
+      document.data().nutritionInfo
   ));
 }
 

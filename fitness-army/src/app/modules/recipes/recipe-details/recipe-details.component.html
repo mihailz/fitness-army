@@ -1,1 +1,21 @@
-<p>recipe-details works!</p>
+<div class="blog-details-wrapper text-white">
+  <ng-container *ngIf="isFetchingData">
+    <div class="loading-indicator">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="(recipe$ | async) as recipe">
+  <p class="text-white">{{recipe.rating}}</p>
+
+  </ng-container>
+</div>
+
+
+
+
+
+
+
+
+
+
