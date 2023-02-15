@@ -11,6 +11,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { AddIngredientDialogComponent } from './add-ingredient-dialog/add-ingredient-dialog.component';
 import { AddStepDialogComponent } from './add-step-dialog/add-step-dialog.component';
 import {ImageUploaderModule} from "../../shared/image-uploader/image-uploader.module";
+import { RecipesFilterComponent } from './recipes-wrapper/recipes-filter/recipes-filter.component';
+import { StarRatingComponent } from './star-rating/star-rating.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import {ImageUploaderModule} from "../../shared/image-uploader/image-uploader.mo
     CreateRecipeComponent,
     RecipeDetailsComponent,
     AddIngredientDialogComponent,
-    AddStepDialogComponent
+    AddStepDialogComponent,
+    RecipesFilterComponent,
+    StarRatingComponent
   ],
   imports: [
     CommonModule,

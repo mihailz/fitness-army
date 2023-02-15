@@ -1,11 +1,13 @@
-import { Injectable } from '@angular/core';
-import {BehaviorSubject, catchError, from, map, switchMap, throwError} from "rxjs";
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, catchError, from, map, of, switchMap, throwError} from "rxjs";
 import {Recipe} from "../../model/recipe";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {ImageUploadService} from "./image-upload.service";
 import {environment} from "../../../environments/environment";
+import {Ingredient} from "../../model/ingredient";
+import {User} from "../../model/user.model";
 
 @Injectable({
   providedIn: 'root'
@@ -46,5 +48,50 @@ export class RecipeApiService {
         cb(false, err);
       }
     });
+  }
+
+  getRecipes(type: string, searchString: string,
+             cb: (status: boolean) => void): void {
+    const url = `${this.baseApiHref}/api/recipes?type=${type}&searchString=${searchString}`;
+    this.http.get(url)
+      .pipe(
+        map((response: any) => response.data
+          .map((recipeItem: any) =>
+            new Recipe(
+              recipeItem.id,
+              recipeItem.title,
+              recipeItem.type,
+              recipeItem.level,
+              recipeItem.totalMinutesNeeded,
+              recipeItem.ingredients.map((ingredientItem: any) =>
+                new Ingredient(
+                  ingredientItem.name,
+                  ingredientItem.amount
+                )),
+              recipeItem.steps.map((step: any) => step.step),
+              recipeItem.recipeImage,
+              recipeItem.rating,
+              new User(
+                recipeItem.author.uid,
+                recipeItem.author.email,
+                recipeItem.author.displayName,
+                recipeItem.author.profileImage,
+              ),
+            )
+          )
+        ),
+        catchError((error: HttpErrorResponse) => throwError(() => of(error))),
+      )
+      .subscribe({
+        next: (recipes: Recipe[]) => {
+          cb(true);
+          this.recipesSubscription.next(recipes);
+          console.log('getRecipes: ', recipes);
+        },
+        error: (error: HttpErrorResponse) => {
+          cb(false);
+          console.log(error);
+        }
+      })
   }
 }

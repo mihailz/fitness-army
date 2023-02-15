@@ -1,1 +1,11 @@
-<p>recipe-card works!</p>
+<mat-card class="recipe-card">
+  <img mat-card-image [src]="recipe.recipeImage" alt="Recipe image">
+  <mat-card-content>
+    <h3 class="card-title text-white">{{recipe.title}}</h3>
+    <div class="rating">
+        <fitness-army-app-star-rating [rating]="rating" [starCount]="5"
+                                      [color]="starColor"
+                                      (ratingUpdated)="onRatingChanged($event)"></fitness-army-app-star-rating>
+    </div>
+  </mat-card-content>
+</mat-card>

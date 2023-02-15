@@ -1,0 +1,34 @@
+@import "src/assets/css/colors";
+
+.container {
+  padding-top: 30px;
+
+  .add-recipe-button {
+    background: $primary;
+    color: $color-white;
+    font-weight: bolder;
+    width: 150px;
+    margin-left: 14px;
+
+    &:hover {
+      opacity: .5;
+    }
+  }
+
+  .blogs-container {
+    display: table;
+  }
+
+  .no-data-container {
+    color: $color-white;
+
+    .no-data-icon {
+      font-size: 70px;
+      width: 100%;
+      display: contents;
+    }
+  }
+}
+
+
+

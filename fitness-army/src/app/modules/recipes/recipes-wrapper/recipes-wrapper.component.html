@@ -1,1 +1,32 @@
-<p>recipes-wrapper works!</p>
+<div class="container blogs-container pb-4">
+  <fitness-army-app-recipes-filter (onRecipesFilterSubmit)="onFilterSubmit($event)"></fitness-army-app-recipes-filter>
+
+  <ng-container *ngIf="canSeeAddRecipeButton()">
+    <div class="row pt-4 d-flex justify-content-start">
+      <button class="add-recipe-button" mat-button (click)="navigateCreateRecipePage()">Add recipe
+        <mat-icon>add_circle_outline</mat-icon>
+      </button>
+    </div>
+  </ng-container>
+  <div class="row pt-4">
+    <ng-container *ngIf="isFetchingData">
+      <div class="loading-indicator">
+        <mat-spinner></mat-spinner>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="recipes$ | async as recipes">
+      <div class="col-xs-12 col-lg-6 col-xl-4 pt-4"
+           *ngFor="let recipe of recipes" (click)="navigateToRecipeDetails()">
+        <fitness-army-app-recipe-card [recipe]="recipe"></fitness-army-app-recipe-card>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="!(recipes$ | async) && !isFetchingData">
+      <div class="col-12 pt-5">
+        <div class="no-data-container d-flex flex-column align-items-center">
+          <mat-icon class="no-data-icon">error</mat-icon>
+          <h2 class="no-data-message text-white w-100 text-center">No data found!</h2>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

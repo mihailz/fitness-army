@@ -4,7 +4,6 @@ import {Blog} from "../../../model/blog";
 import {Observable, Subscription} from "rxjs";
 import {AuthApiService} from "../../../service/api/auth-api.service";
 import {User} from "../../../model/user.model";
-import {BlogService} from "../../../service/data/blog.service";
 import {UserRoles} from "../../../model/roles";
 import {BlogsFilter} from "../../../model/types/blogs-filter-type";
 import {BlogFilterCategories} from "../../../model/blog-type";
@@ -25,13 +24,11 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private blogApiService: BlogApiService,
-              private authApiService: AuthApiService,
-              private blogService: BlogService) {
+              private authApiService: AuthApiService) {
   }
 
   ngOnInit(): void {
     this.getCurrentLoggedInUser();
-    this.listenForBlogCreationStatus();
     this.fetchBlogs('', '');
   }
 
@@ -71,18 +68,6 @@ export class BlogsWrapperComponent implements OnInit, OnDestroy {
         error: err => console.log(err)
       });
 
-    this.subscriptions.add(subscription);
-  }
-
-  private listenForBlogCreationStatus(): void {
-    const subscription = this.blogService.getBlogCreationStatus()
-      .subscribe({
-        next: (status: boolean) => {
-          if (status) {
-            this.fetchBlogs('', '');
-          }
-        }
-      });
     this.subscriptions.add(subscription);
   }
 

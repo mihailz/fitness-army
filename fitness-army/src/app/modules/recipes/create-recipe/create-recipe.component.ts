@@ -102,40 +102,6 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
     }
   }
 
-  private initRecipeForm(): void {
-    this.recipeForm = new FormGroup({
-      title: new FormControl('', [Validators.required]),
-      type: new FormControl('', [Validators.required]),
-      level: new FormControl('', [Validators.required]),
-      totalMinutesNeeded: new FormControl('', [Validators.required]),
-      ingredients: new FormArray([]),
-      steps: new FormArray([]),
-      recipeImage: new FormControl('', [Validators.required]),
-      rating: new FormControl('', [Validators.required, this.ratingValidator]),
-    })
-  }
-
-  private ratingValidator(control: AbstractControl): ValidationErrors | null {
-    const rating = control.value;
-    return (rating >0 && rating <= 5) ? null : {
-      'invalidRating': 'Invalid rating'
-    }
-  }
-
-  private setLoading(status = false): void {
-    this.isFetchingData = status;
-  }
-
-  private getLoggedInUser(): void {
-    const subscription = this.authApiService.user$
-      .subscribe({
-        next: (user: any) => {
-          this.currentLoggedInUser = user;
-        }
-      });
-    this.subscriptions.add(subscription);
-  }
-
   createRecipe(): void {
     this.setLoading();
     const {
@@ -169,5 +135,39 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
       this.toastrService.success('Recipe created!', 'Success');
       this.router.navigate(['/recipes']);
     })
+  }
+
+  private initRecipeForm(): void {
+    this.recipeForm = new FormGroup({
+      title: new FormControl('', [Validators.required]),
+      type: new FormControl('', [Validators.required]),
+      level: new FormControl('', [Validators.required]),
+      totalMinutesNeeded: new FormControl('', [Validators.required]),
+      ingredients: new FormArray([]),
+      steps: new FormArray([]),
+      recipeImage: new FormControl('', [Validators.required]),
+      rating: new FormControl('', [Validators.required, this.ratingValidator]),
+    })
+  }
+
+  private ratingValidator(control: AbstractControl): ValidationErrors | null {
+    const rating = control.value;
+    return (rating >0 && rating <= 5) ? null : {
+      'invalidRating': 'Invalid rating'
+    }
+  }
+
+  private setLoading(status = true): void {
+    this.isFetchingData = status;
+  }
+
+  private getLoggedInUser(): void {
+    const subscription = this.authApiService.user$
+      .subscribe({
+        next: (user: any) => {
+          this.currentLoggedInUser = user;
+        }
+      });
+    this.subscriptions.add(subscription);
   }
 }

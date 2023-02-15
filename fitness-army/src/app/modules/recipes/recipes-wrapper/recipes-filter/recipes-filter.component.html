@@ -1,0 +1,28 @@
+<div class="row recipes-filter-container d-flex align-items-baseline">
+  <div class="col-xs-12 col-md-5">
+    <div class="mat-form-field">
+      <mat-form-field appearance="outline">
+        <input type="text" placeholder="Search recipes here..." matInput (change)="searchRecipes($event)">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-5">
+    <div class="mat-form-field">
+      <mat-form-field class="mat-select-dark" appearance="outline">
+        <mat-select id="blogCategory" [(value)]="selectedType"
+                    (selectionChange)="onTypeSelectionChange($event)">
+          <mat-option *ngFor="let type of recipeTypes" [value]="type">
+            {{type}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-2 pt-1">
+    <button (click)="onFilterClick()" class="filter-button" mat-button>Filter <mat-icon>filter_list</mat-icon></button>
+  </div>
+</div>
+
+
+

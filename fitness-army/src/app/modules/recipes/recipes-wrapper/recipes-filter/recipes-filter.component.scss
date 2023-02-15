@@ -1,0 +1,15 @@
+@import "src/assets/css/colors";
+
+.recipes-filter-container {
+  border-bottom: 2px solid $color-white;
+  .filter-button {
+    background: $primary;
+    color: $color-white;
+    height: 45px;
+
+    &:hover {
+      opacity: .5;
+    }
+  }
+}
+
