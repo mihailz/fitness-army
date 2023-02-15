@@ -9,4 +9,7 @@ recipeRouter.post("/api/recipes/create",
 recipeRouter.get("/api/recipes",
   recipeController.getRecipes);
 
+recipeRouter.get("/api/recipes/:recipe_id",
+  recipeController.getRecipe);
+
 module.exports = recipeRouter;

@@ -68,3 +68,20 @@ exports.postCreateRecipe = (req: Request, res: Response) => {
     }
   })();
 };
+
+exports.getRecipe = (req: Request, res: Response) => {
+  (async () => {
+    try {
+      const recipeId = req.params.recipe_id;
+      const recipeDocumentRef = await
+      db.collection("recipes").doc(recipeId).get();
+      const recipeData = recipeDocumentRef.data();
+      return res.status(200).send({
+        data: recipeData,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(error);
+    }
+  })();
+};
