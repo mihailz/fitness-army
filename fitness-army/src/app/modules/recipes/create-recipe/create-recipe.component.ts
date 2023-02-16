@@ -36,6 +36,7 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
   recipeImage!: File;
   currentLoggedInUser!: User | null;
   recipeImageUrl!: string | ArrayBuffer;
+  showNutritionInfo: boolean = false;
   private subscriptions: Subscription = new Subscription();
 
   constructor(public dialog: MatDialog,
@@ -112,6 +113,7 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
         next: (fGroup: FormGroup) => {
           if (fGroup) {
             this.recipeForm.get('nutritionInfo')?.patchValue(fGroup.getRawValue());
+            this.showNutritionInfo = true;
           }
         }
       });
