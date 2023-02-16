@@ -6,6 +6,7 @@ export class NutritionInfoModelDto {
               public sodium: string,
               public carbohydrates: string,
               public dietaryFiber: string,
+              public protein: string,
               public sugar: string) {
   }
 }

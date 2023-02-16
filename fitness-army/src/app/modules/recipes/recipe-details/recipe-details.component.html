@@ -21,7 +21,7 @@
       </div>
       <div class="row">
         <div class="col d-flex justify-content-center">
-          <h1 class="recipe-title text-white">{{recipe.title}}</h1>
+          <h1 class="recipe-title text-white text-center">{{recipe.title}}</h1>
         </div>
       </div>
       <div class="row">
@@ -34,29 +34,97 @@
         </div>
       </div>
       <div class="row info mt-4">
-        <div class="col-4 recipe-level">
-          <div class="text-white pt-5 pb-5 d-flex flex-column">
+        <div class="col-xs-12 col-md-4 recipe-level">
+          <div class="text-white pt-3 pt-md-5 pb-3 pb-md-5 d-flex flex-column
+           align-items-center align-items-md-start">
             <span class="level">Level: <b>{{ recipe.level}}</b></span>
             <span class="time-label pt-3">Total: <b>{{ recipe.totalMinutesNeeded}}</b></span>
           </div>
         </div>
-        <div class="col-4 time-needed">
-          <div class="text-white pt-5 pb-5  d-flex flex-column">
+        <div class="col-xs-12 col-md-4 time-needed">
+          <div class="text-white pt-3 pt-md-5 pb-3 pb-md-5 d-flex flex-column
+           align-items-center align-items-md-start">
             <span class="prep-time">Prep: <b>{{ recipe.preparationTime}}</b></span>
             <span class="cook-time pt-3">Cook: <b>{{ recipe.cookTime}}</b></span>
           </div>
         </div>
-        <div class="col-4">
-          <div class="servings text-white pt-5 pb-5  d-flex flex-column">
+        <div class="col-xs-12 col-md-4">
+          <div
+            class="servings text-white pt-3 pt-md-5 pb-3 pb-md-5  d-flex flex-column
+             align-items-center align-items-md-start">
             <span class="servings-label">Yield: <b>{{ recipe.servings}}</b></span>
-            <span class="nutrition-info pt-3">Nutrition info</span>
+            <span class="nutrition-info pt-3" [mtxTooltip]="nutritionInfo" mtxTooltipPosition="below">Nutrition info</span>
+            <ng-template #nutritionInfo>
+              <div class="nutrition-info-container">
+                <div class="header">
+                  <p>Nutritional Analysis</p>
+                  <p>Per serving</p>
+                </div>
+
+                <div class="content">
+                  <div class="nutrition-info-item">
+                    <p class="label">Calories</p>
+                    <p class="value">{{recipe.nutritionInfo.calories}}</p>
+                  </div>
+                  <div class="nutrition-info-item">
+                    <p class="label">Total fat</p>
+                    <p class="value">{{recipe.nutritionInfo.totalFat}}</p>
+                  </div>
+                  <div class="nutrition-info-item">
+                    <p class="label">Saturated fat</p>
+                    <p class="value">{{recipe.nutritionInfo.saturatedFat}}</p>
+                  </div>
+                  <div class="nutrition-info-item">
+                    <p class="label">Cholesterol</p>
+                    <p class="value">{{recipe.nutritionInfo.cholesterol}}</p>
+                  </div>
+                  <div class="nutrition-info-item">
+                    <p class="label">Sodium</p>
+                    <p class="value">{{recipe.nutritionInfo.sodium}}</p>
+                  </div>
+                  <div class="nutrition-info-item">
+                    <p class="label">Carbohydrates</p>
+                    <p class="value">{{recipe.nutritionInfo.carbohydrates}}</p>
+                  </div>
+                  <div class="nutrition-info-item">
+                    <p class="label">Dietary Fiber</p>
+                    <p class="value">{{recipe.nutritionInfo.dietaryFiber}}</p>
+                  </div>
+                  <div class="nutrition-info-item">
+                    <p class="label">Protein</p>
+                    <p class="value">{{recipe.nutritionInfo.protein}}</p>
+                  </div>
+                  <div class="nutrition-info-item">
+                    <p class="label">Sugar</p>
+                    <p class="value">{{recipe.nutritionInfo.sugar}}</p>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+      <div class="row cooking-process">
+        <div class="col-xs-12 col-md-6 pt-5">
+          <h1 class="text-white title">Ingredients: </h1>
+          <div class="ingredients pt-3">
+            <p class="ingredient-item" *ngFor="let ingredient of recipe.ingredients">
+              {{ingredient.amount + ' ' + ingredient.name}}
+            </p>
+          </div>
+        </div>
+        <div class="col-xs-12 col-md-6 pt-5">
+          <h1 class="title text-white">Directions: </h1>
+          <div class="steps pt-3">
+            <ol type="1">
+              <li *ngFor="let step of recipe.steps" class="step"><span>{{step}}</span></li>
+            </ol>
           </div>
         </div>
       </div>
     </div>
   </ng-container>
 </div>
-
 
 
 

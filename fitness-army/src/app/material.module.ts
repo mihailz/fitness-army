@@ -23,6 +23,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from "@angular/material/core";
 import {MatRadioModule} from '@angular/material/radio';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MtxTooltipModule} from "@ng-matero/extensions/tooltip";
 
 const materialModules = [
   MatTableModule,
@@ -48,7 +49,8 @@ const materialModules = [
   MatDatepickerModule,
   MatNativeDateModule,
   MatRadioModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MtxTooltipModule
 ];
 
 @NgModule({

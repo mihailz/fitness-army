@@ -7,6 +7,7 @@ export class NutritionInfo {
               public sodium: string,
               public carbohydrates: string,
               public dietaryFiber: string,
+              public protein: string,
               public sugar: string) {
     this.calories = calories;
     this.totalFat = totalFat;
@@ -15,6 +16,7 @@ export class NutritionInfo {
     this.sodium = sodium;
     this.carbohydrates = carbohydrates;
     this.dietaryFiber = dietaryFiber;
+    this.protein = protein;
     this.sugar = sugar;
   }
 }

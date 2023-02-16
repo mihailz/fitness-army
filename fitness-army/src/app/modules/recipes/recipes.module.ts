@@ -14,6 +14,7 @@ import {ImageUploaderModule} from "../../shared/image-uploader/image-uploader.mo
 import { RecipesFilterComponent } from './recipes-wrapper/recipes-filter/recipes-filter.component';
 import { StarRatingComponent } from './star-rating/star-rating.component';
 import { NutritionInfoDialogComponent } from './nutrition-info-dialog/nutrition-info-dialog.component';
+import {MtxPopoverModule} from "@ng-matero/extensions/popover";
 
 @NgModule({
   declarations: [
@@ -28,12 +29,13 @@ import { NutritionInfoDialogComponent } from './nutrition-info-dialog/nutrition-
     StarRatingComponent,
     NutritionInfoDialogComponent
   ],
-  imports: [
-    CommonModule,
-    RecipesRoutingModule,
-    MaterialModule,
-    ReactiveFormsModule,
-    ImageUploaderModule
-  ]
+    imports: [
+        CommonModule,
+        RecipesRoutingModule,
+        MaterialModule,
+        ReactiveFormsModule,
+        ImageUploaderModule,
+        MtxPopoverModule
+    ]
 })
 export class RecipesModule { }

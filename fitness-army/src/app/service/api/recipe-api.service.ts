@@ -98,6 +98,7 @@ export class RecipeApiService {
                 recipeItem.nutritionInfo.sodium,
                 recipeItem.nutritionInfo.carbohydrates,
                 recipeItem.nutritionInfo.dietaryFiber,
+                recipeItem.nutritionInfo.protein,
                 recipeItem.nutritionInfo.sugar,
               )
             )
@@ -156,6 +157,7 @@ export class RecipeApiService {
             recipeItem.nutritionInfo.sodium,
             recipeItem.nutritionInfo.carbohydrates,
             recipeItem.nutritionInfo.dietaryFiber,
+            recipeItem.nutritionInfo.protein,
             recipeItem.nutritionInfo.sugar,
           )
         )),

@@ -53,6 +53,10 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
     this.subscriptions.add(sub$);
   }
 
+  private initNutritionInfoData() {
+
+  }
+
   private setLoading(status = true): void {
     this.isFetchingData = status;
   }
