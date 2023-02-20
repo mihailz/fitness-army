@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, catchError, from, map, of, Subject, switchMap, throwError} from "rxjs";
+import {BehaviorSubject, catchError, from, map, Observable, of, Subject, switchMap, tap, throwError} from "rxjs";
 import {Recipe} from "../../model/recipe";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
@@ -9,6 +9,8 @@ import {environment} from "../../../environments/environment";
 import {Ingredient} from "../../model/ingredient";
 import {User} from "../../model/user.model";
 import {NutritionInfo} from "../../model/nutrition-info";
+import {Blog} from "../../model/blog";
+import {isNil} from "ng-zorro-antd/core/util";
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +24,6 @@ export class RecipeApiService {
 
   recipeSubject: Subject<Recipe> = new Subject<Recipe>();
   recipe$ = this.recipeSubject.asObservable();
-
-  recipesIdsSubject = new BehaviorSubject<string[]>([]);
-  recipesIds$ = this.recipesIdsSubject.asObservable();
-
-  currentRecipeIdSubject: Subject<string | null> = new Subject<string | null>();
-  currentRecipeId$ = this.currentRecipeIdSubject.asObservable();
 
   constructor(private http: HttpClient,
               private storage: AngularFireStorage,
@@ -111,7 +107,6 @@ export class RecipeApiService {
           const recipeIds = recipes.map((recipe: Recipe) => recipe.id!);
           cb(true);
           this.recipesSubscription.next(recipes);
-          this.recipesIdsSubject.next(recipeIds);
           console.log('getRecipes: ', recipes);
         },
         error: (error: HttpErrorResponse) => {
@@ -167,12 +162,77 @@ export class RecipeApiService {
         cb(true);
         console.log('recipe: ', recipe);
         this.recipeSubject.next(recipe);
-        this.currentRecipeIdSubject.next(recipe.id);
       },
       error: (error: HttpErrorResponse) => {
         cb(false);
         console.log(error);
       }
     })
+  }
+
+  updateRecipe(recipe: Recipe, imageFile: File | null, cb: (status: boolean) => void): void {
+    this.updateRecipeImage(recipe, imageFile, `images/recipes/${recipe.id}`)
+      .pipe(
+        switchMap((recipeImageUrl: string) => {
+          return this.http.put(`${this.baseApiHref}/api/recipes/${recipe.id}/update`, {
+          recipe: {...recipe, recipeImage: recipeImageUrl}
+        })}),
+        map((response: any) => response.recipe),
+        map((recipeItem: any) => new Recipe(
+          recipeItem.id,
+          recipeItem.title,
+          recipeItem.type,
+          recipeItem.level,
+          recipeItem.totalMinutesNeeded,
+          recipeItem.preparationTime,
+          recipeItem.cookTime,
+          recipeItem.ingredients.map((ingredientItem: any) =>
+            new Ingredient(
+              ingredientItem.name,
+              ingredientItem.amount
+            )),
+          recipeItem.steps.map((step: any) => step.step),
+          recipeItem.recipeImage,
+          recipeItem.rating,
+          recipeItem.servings,
+          new User(
+            recipeItem.author.uid,
+            recipeItem.author.email,
+            recipeItem.author.displayName,
+            recipeItem.author.photoURL,
+          ),
+          new NutritionInfo(
+            recipeItem.nutritionInfo.calories,
+            recipeItem.nutritionInfo.totalFat,
+            recipeItem.nutritionInfo.saturatedFat,
+            recipeItem.nutritionInfo.cholesterol,
+            recipeItem.nutritionInfo.sodium,
+            recipeItem.nutritionInfo.carbohydrates,
+            recipeItem.nutritionInfo.dietaryFiber,
+            recipeItem.nutritionInfo.protein,
+            recipeItem.nutritionInfo.sugar,
+          )
+        )),
+        catchError((error: HttpErrorResponse) => throwError(() => error.message)),
+      ).subscribe({
+      next: (recipe: Recipe) => {
+        cb(true);
+        console.log('Updated recipe: ', recipe);
+        this.recipeSubject.next(recipe);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(err);
+        cb(false);
+      }
+    })
+  }
+
+  updateRecipeImage(recipe: Recipe, file: File | null, path: string): Observable<string> {
+    if (isNil(file)) {
+      console.log('file null: ', recipe.recipeImage);
+      return of(recipe.recipeImage)
+    } else {
+      return this.imageUploadService.uploadImage(file, path);
+    }
   }
 }

@@ -5,7 +5,7 @@
     </div>
   </ng-container>
   <ng-container *ngIf="(recipe$ | async) as recipe">
-    <div class="container p-2">
+    <div class="container pb-md-2 p-2">
       <div class="row">
         <div class="recipe-image-wrapper">
           <img [src]="recipe.recipeImage" alt="Recipe image">
@@ -121,6 +121,11 @@
             </ol>
           </div>
         </div>
+      </div>
+      <div class="row d-flex justify-content-end p-3">
+        <button class="go-to-update-recipe-button text-uppercase fw-bolder" mat-button
+                (click)="navigateToUpdateRecipe(recipe)">Update
+        </button>
       </div>
     </div>
   </ng-container>

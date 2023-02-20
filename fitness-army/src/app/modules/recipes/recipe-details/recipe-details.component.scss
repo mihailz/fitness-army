@@ -89,6 +89,17 @@
       }
     }
   }
+
+  .go-to-update-recipe-button {
+    width: 150px;
+    background: darkblue;
+    border: none;
+    color: white;
+
+    &:hover {
+      opacity: .5;
+    }
+  }
 }
 
 ::ng-deep .mtx-tooltip {

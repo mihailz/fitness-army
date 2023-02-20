@@ -89,3 +89,33 @@ exports.getRecipe = (req: Request, res: Response) => {
     }
   })();
 };
+
+exports.postUpdateRecipe = (req: Request, res: Response) => {
+  (async () => {
+    try {
+      const recipeId = req.params.recipe_id;
+      const updatedRecipe = {
+        title: req.body.recipe.title,
+        type: req.body.recipe.type,
+        level: req.body.recipe.level,
+        totalMinutesNeeded: req.body.recipe.totalMinutesNeeded,
+        preparationTime: req.body.recipe.preparationTime,
+        cookTime: req.body.recipe.cookTime,
+        ingredients: req.body.recipe.ingredients,
+        steps: req.body.recipe.steps,
+        recipeImage: req.body.recipe.recipeImage,
+        rating: req.body.recipe.rating,
+        servings: req.body.recipe.servings,
+        author: req.body.recipe.author,
+        nutritionInfo: req.body.recipe.nutritionInfo,
+      };
+      await db.collection("recipes").doc(recipeId)
+          .update(updatedRecipe);
+      return res.status(200).send({
+        recipe: updatedRecipe,
+      });
+    } catch (error) {
+      return res.status(500).send(error);
+    }
+  })();
+};

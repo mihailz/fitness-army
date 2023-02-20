@@ -4,6 +4,7 @@ import {Route, RouterModule} from "@angular/router";
 import {RecipesWrapperComponent} from "./recipes-wrapper/recipes-wrapper.component";
 import {CreateRecipeComponent} from "./create-recipe/create-recipe.component";
 import {RecipeDetailsComponent} from "./recipe-details/recipe-details.component";
+import {UpdateRecipeComponent} from "./update-recipe/update-recipe.component";
 
 const routes: Route[] = [
   {
@@ -17,6 +18,10 @@ const routes: Route[] = [
   {
     path: 'details/:id',
     component: RecipeDetailsComponent
+  },
+  {
+    path: 'update/:id',
+    component: UpdateRecipeComponent
   }
 ]
 

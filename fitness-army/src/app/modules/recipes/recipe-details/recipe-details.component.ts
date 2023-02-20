@@ -53,12 +53,11 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
     this.subscriptions.add(sub$);
   }
 
-  private initNutritionInfoData() {
-
-  }
-
   private setLoading(status = true): void {
     this.isFetchingData = status;
   }
 
+  navigateToUpdateRecipe(recipe: Recipe): void {
+    this.router.navigate([`/recipes/update/${recipe.id}`]);
+  }
 }
