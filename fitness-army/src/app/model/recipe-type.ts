@@ -4,5 +4,6 @@ export enum RecipeType {
   SANDWICH = 'SANDWICH',
   WRAP = 'WRAP',
   PASTA = 'PASTA',
-  MEAT = 'MEAT'
+  MEAT = 'MEAT',
+  ALL = 'ALL'
 }
