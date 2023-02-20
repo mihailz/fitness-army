@@ -55,7 +55,8 @@
             class="servings text-white pt-3 pt-md-5 pb-3 pb-md-5  d-flex flex-column
              align-items-center align-items-md-start">
             <span class="servings-label">Yield: <b>{{ recipe.servings}}</b></span>
-            <span class="nutrition-info pt-3" [mtxTooltip]="nutritionInfo" mtxTooltipPosition="below">Nutrition info</span>
+            <span class="nutrition-info pt-3" [mtxTooltip]="nutritionInfo"
+                  mtxTooltipPosition="below">Nutrition info</span>
             <ng-template #nutritionInfo>
               <div class="nutrition-info-container">
                 <div class="header">
@@ -129,25 +130,44 @@
                 (click)="navigateToUpdateRecipe(recipe)">Update
         </button>
       </div>
-    </div>
-    <div class="row">
-      <div class="col p-3">
-        <ng-container *ngIf="(rating$ | async) as rating">
-        <h3 class="text-white reviews-number">{{rating.total + ' reviews' }}</h3>
-        <fitness-army-app-star-rating [starCount]="5" [rating]="rating.rating"
-                                      [color]="starColor"></fitness-army-app-star-rating>
+      <div class="row">
+        <div class="col p-3">
+          <ng-container *ngIf="(rating$ | async) as rating">
+            <h3 class="text-white reviews-number">{{rating.total + ' reviews' }}</h3>
+            <fitness-army-app-star-rating [starCount]="5" [rating]="rating.rating"
+                                          [color]="starColor"></fitness-army-app-star-rating>
+          </ng-container>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <fitness-army-app-create-review [recipeId]="recipe.id!"
+                                          (reviewCreated)="onReviewCreate($event, recipe)"></fitness-army-app-create-review>
+        </div>
+      </div>
+      <section class="reviews-section pt-5">
+        <ng-container *ngIf="(reviews$ | async) as reviews">
+          <div class="reviews-container d-flex flex-column">
+            <div class="review pb-2 d-flex pt-4" *ngFor="let review of reviews">
+              <div class="user-photo-wrapper">
+                <img class="user-photo" [src]="loggedInUser?.photoURL" alt="User photo">
+              </div>
+              <div class="content">
+                <div class="header d-flex flex-column flex-md-row">
+                  <span class="reviewer-name">{{review.author.displayName}}</span>
+                  <span class="date-posted">{{review.dateCreated | date}}</span>
+                </div>
+                <div class="review-description">
+                  <fitness-army-app-star-rating [starCount]="5" [rating]="review.rating"
+                                                [color]="starColor"></fitness-army-app-star-rating>
+                  <p class="description">{{review.content}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </ng-container>
-      </div>
+      </section>
     </div>
-    <div class="row">
-      <div class="col">
-        <fitness-army-app-create-review [recipeId]="recipe.id!"
-                                        (reviewCreated)="onReviewCreate($event, recipe)"></fitness-army-app-create-review>
-      </div>
-    </div>
-    <section class="reviews-section">
-      <fitness-army-app-recipe-reviews></fitness-army-app-recipe-reviews>
-    </section>
   </ng-container>
 </div>
 

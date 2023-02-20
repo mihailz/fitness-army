@@ -10,6 +10,8 @@ import {Review} from "../../../model/review";
 import {ReviewApiService} from "../../../service/api/review-api.service";
 import {ToastrService} from "ngx-toastr";
 import {HttpErrorResponse} from "@angular/common/http";
+import {User} from "../../../model/user.model";
+import {AuthApiService} from "../../../service/api/auth-api.service";
 
 @Component({
   selector: 'fitness-army-app-recipe-details',
@@ -25,6 +27,7 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
   recipeLevel = RecipeLevel;
   isFetchingData: boolean = false;
   starColor = StarRatingColor.warn;
+  loggedInUser!: User | null;
   private subscriptions: Subscription = new Subscription();
 
   constructor(private router: Router,
@@ -32,11 +35,13 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
               private recipeApiService: RecipeApiService,
               private reviewApiService: ReviewApiService,
               private toastrService: ToastrService,
+              private authApiService: AuthApiService,
               private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
     this.fetchCurrentRecipe();
+    this.getCurrentLoggedInUser();
   }
 
   ngOnDestroy(): void {
@@ -87,5 +92,17 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
           this.setLoading(false);
         }
       })
+  }
+
+  private getCurrentLoggedInUser(): void {
+    const subscription = this.authApiService.user$
+      .subscribe({
+        next: (user: any) => {
+          this.loggedInUser = user;
+        },
+        error: err => console.log(err)
+      });
+
+    this.subscriptions.add(subscription);
   }
 }

@@ -5,9 +5,6 @@ import {User} from "../../../model/user.model";
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {StarRatingColor} from "../star-rating/star-rating.component";
 import {Review} from "../../../model/review";
-import {ReviewApiService} from "../../../service/api/review-api.service";
-import {ToastrService} from "ngx-toastr";
-
 @Component({
   selector: 'fitness-army-app-create-review',
   templateUrl: './create-review.component.html',
@@ -17,16 +14,14 @@ export class CreateReviewComponent implements OnInit, OnDestroy {
 
   @Input() recipeId!: string;
   @Output() reviewCreated = new EventEmitter<Review>();
-  loggedInUser!: User | null;
+  @Input() loggedInUser!: User | null;
   reviewForm!: FormGroup;
   starColor:StarRatingColor = StarRatingColor.warn;
   rating!: number;
   isFetchingData = false;
   private subscriptions = new Subscription();
 
-  constructor(private authApiService: AuthApiService,
-              private reviewApiService: ReviewApiService,
-              private toastrService: ToastrService) { }
+  constructor(private authApiService: AuthApiService) { }
 
   ngOnInit(): void {
     this.rating = 0;

@@ -13,6 +13,7 @@ export class RecipeReviewsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log('reviews: ', this.reviews);
   }
 
 }
