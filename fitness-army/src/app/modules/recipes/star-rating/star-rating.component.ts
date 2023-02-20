@@ -39,5 +39,6 @@ export class StarRatingComponent implements OnInit {
 export enum StarRatingColor {
   primary = "primary",
   accent = "accent",
-  warn = "warn"
+  warn = "warn",
+  blue = "blue"
 }

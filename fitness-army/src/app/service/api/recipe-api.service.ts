@@ -1,5 +1,17 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, catchError, from, map, Observable, of, Subject, switchMap, tap, throwError} from "rxjs";
+import {
+  BehaviorSubject,
+  catchError,
+  from,
+  map,
+  mergeMap,
+  Observable,
+  of,
+  Subject,
+  switchMap,
+  tap,
+  throwError
+} from "rxjs";
 import {Recipe} from "../../model/recipe";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
@@ -11,6 +23,7 @@ import {User} from "../../model/user.model";
 import {NutritionInfo} from "../../model/nutrition-info";
 import {Blog} from "../../model/blog";
 import {isNil} from "ng-zorro-antd/core/util";
+import {ReviewApiService} from "./review-api.service";
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +41,8 @@ export class RecipeApiService {
   constructor(private http: HttpClient,
               private storage: AngularFireStorage,
               private db: AngularFirestore,
-              private imageUploadService: ImageUploadService) {
+              private imageUploadService: ImageUploadService,
+              private reviewApiService: ReviewApiService) {
     this.baseApiHref = environment.applicationApi;
   }
 
@@ -76,7 +90,7 @@ export class RecipeApiService {
                   ingredientItem.name,
                   ingredientItem.amount
                 )),
-              recipeItem.steps.map((step: any) => step.step),
+              recipeItem.steps.map((step: any) => step),
               recipeItem.recipeImage,
               recipeItem.rating,
               recipeItem.servings,
@@ -104,10 +118,8 @@ export class RecipeApiService {
       )
       .subscribe({
         next: (recipes: Recipe[]) => {
-          const recipeIds = recipes.map((recipe: Recipe) => recipe.id!);
           cb(true);
           this.recipesSubscription.next(recipes);
-          console.log('getRecipes: ', recipes);
         },
         error: (error: HttpErrorResponse) => {
           cb(false);
@@ -156,11 +168,13 @@ export class RecipeApiService {
             recipeItem.nutritionInfo.sugar,
           )
         )),
+        tap(() => {
+          this.reviewApiService.getReviews(recipeId);
+        }),
         catchError((err: HttpErrorResponse) => throwError(() => of(err))),
       ).subscribe({
       next: (recipe: Recipe) => {
         cb(true);
-        console.log('recipe: ', recipe);
         this.recipeSubject.next(recipe);
       },
       error: (error: HttpErrorResponse) => {
@@ -191,7 +205,7 @@ export class RecipeApiService {
               ingredientItem.name,
               ingredientItem.amount
             )),
-          recipeItem.steps.map((step: any) => step.step),
+          recipeItem.steps.map((step: any) => step),
           recipeItem.recipeImage,
           recipeItem.rating,
           recipeItem.servings,
@@ -217,7 +231,6 @@ export class RecipeApiService {
       ).subscribe({
       next: (recipe: Recipe) => {
         cb(true);
-        console.log('Updated recipe: ', recipe);
         this.recipeSubject.next(recipe);
       },
       error: (err: HttpErrorResponse) => {
@@ -229,7 +242,6 @@ export class RecipeApiService {
 
   updateRecipeImage(recipe: Recipe, file: File | null, path: string): Observable<string> {
     if (isNil(file)) {
-      console.log('file null: ', recipe.recipeImage);
       return of(recipe.recipeImage)
     } else {
       return this.imageUploadService.uploadImage(file, path);

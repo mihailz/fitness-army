@@ -6,6 +6,10 @@ import {RecipeType} from "../../../model/recipe-type";
 import {RecipeLevel} from "../../../model/recipe-level";
 import {Recipe} from "../../../model/recipe";
 import {StarRatingColor} from "../star-rating/star-rating.component";
+import {Review} from "../../../model/review";
+import {ReviewApiService} from "../../../service/api/review-api.service";
+import {ToastrService} from "ngx-toastr";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'fitness-army-app-recipe-details',
@@ -15,6 +19,8 @@ import {StarRatingColor} from "../star-rating/star-rating.component";
 export class RecipeDetailsComponent implements OnInit, OnDestroy {
 
   recipe$!: Observable<Recipe>;
+  reviews$!: Observable<Review[]>;
+  rating$!: Observable<{total: number, rating: number}>
   recipeTypes = RecipeType;
   recipeLevel = RecipeLevel;
   isFetchingData: boolean = false;
@@ -24,7 +30,10 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
               private recipeApiService: RecipeApiService,
-              private cdr: ChangeDetectorRef) { }
+              private reviewApiService: ReviewApiService,
+              private toastrService: ToastrService,
+              private cdr: ChangeDetectorRef) {
+  }
 
   ngOnInit(): void {
     this.fetchCurrentRecipe();
@@ -44,6 +53,8 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
             this.recipeApiService.getRecipeById(recipeId, (status: boolean) => {
               this.setLoading(false);
               this.recipe$ = this.recipeApiService.recipe$;
+              this.reviews$ = this.reviewApiService.reviews$;
+              this.rating$ = this.reviewApiService.rating$;
               this.cdr.markForCheck();
               this.cdr.detectChanges();
             })
@@ -53,11 +64,28 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
     this.subscriptions.add(sub$);
   }
 
+
   private setLoading(status = true): void {
     this.isFetchingData = status;
   }
 
   navigateToUpdateRecipe(recipe: Recipe): void {
     this.router.navigate([`/recipes/update/${recipe.id}`]);
+  }
+
+  onReviewCreate(review: Review, recipe: Recipe): void {
+    this.setLoading();
+    this.reviewApiService.createReview(recipe.id!, review)
+      .subscribe({
+        next: (review: Review) => {
+          this.setLoading(false);
+          this.fetchCurrentRecipe();
+          console.log(review);
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err);
+          this.setLoading(false);
+        }
+      })
   }
 }

@@ -1,0 +1,85 @@
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {AuthApiService} from "../../../service/api/auth-api.service";
+import {Subscription} from "rxjs";
+import {User} from "../../../model/user.model";
+import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
+import {StarRatingColor} from "../star-rating/star-rating.component";
+import {Review} from "../../../model/review";
+import {ReviewApiService} from "../../../service/api/review-api.service";
+import {ToastrService} from "ngx-toastr";
+
+@Component({
+  selector: 'fitness-army-app-create-review',
+  templateUrl: './create-review.component.html',
+  styleUrls: ['./create-review.component.scss']
+})
+export class CreateReviewComponent implements OnInit, OnDestroy {
+
+  @Input() recipeId!: string;
+  @Output() reviewCreated = new EventEmitter<Review>();
+  loggedInUser!: User | null;
+  reviewForm!: FormGroup;
+  starColor:StarRatingColor = StarRatingColor.warn;
+  rating!: number;
+  isFetchingData = false;
+  private subscriptions = new Subscription();
+
+  constructor(private authApiService: AuthApiService,
+              private reviewApiService: ReviewApiService,
+              private toastrService: ToastrService) { }
+
+  ngOnInit(): void {
+    this.rating = 0;
+    this.getCurrentLoggedInUser();
+    this.initReviewForm();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions?.unsubscribe();
+  }
+
+  onRatingChanged(rating: number): void {
+    this.rating = rating;
+  }
+
+  onPostReview(): void {
+    this.setLoading();
+    const review = new Review(
+      null,
+      this.loggedInUser!,
+      new Date().toDateString(),
+      this.rating,
+      this.reviewForm.get('content')?.value,
+      0
+    );
+    this.reviewCreated.emit(review);
+    this.reviewForm.reset();
+    this.rating = 0;
+  }
+
+  private getCurrentLoggedInUser(): void {
+    const subscription = this.authApiService.user$
+      .subscribe({
+        next: (user: any) => {
+          this.loggedInUser = user;
+        },
+        error: err => console.log(err)
+      });
+
+    this.subscriptions.add(subscription);
+  }
+
+  private initReviewForm(): void {
+    this.reviewForm = new FormGroup({
+      content: new FormControl('', [Validators.required])
+    });
+  }
+
+  private setLoading(status = true): void {
+    this.isFetchingData = status;
+  }
+
+  resetForm(formDirective: FormGroupDirective): void {
+    formDirective.resetForm();
+  }
+}

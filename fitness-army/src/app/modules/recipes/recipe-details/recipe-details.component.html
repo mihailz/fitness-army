@@ -26,11 +26,13 @@
       </div>
       <div class="row">
         <div class="col d-flex justify-content-center">
-          <fitness-army-app-star-rating
-            [rating]="recipe.rating"
-            [starCount]="5"
-            [color]="starColor"
-          ></fitness-army-app-star-rating>
+          <ng-container *ngIf="rating$ | async as rating">
+            <fitness-army-app-star-rating
+              [rating]="rating.rating"
+              [starCount]="5"
+              [color]="starColor"
+            ></fitness-army-app-star-rating>
+          </ng-container>
         </div>
       </div>
       <div class="row info mt-4">
@@ -128,6 +130,24 @@
         </button>
       </div>
     </div>
+    <div class="row">
+      <div class="col p-3">
+        <ng-container *ngIf="(rating$ | async) as rating">
+        <h3 class="text-white reviews-number">{{rating.total + ' reviews' }}</h3>
+        <fitness-army-app-star-rating [starCount]="5" [rating]="rating.rating"
+                                      [color]="starColor"></fitness-army-app-star-rating>
+        </ng-container>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <fitness-army-app-create-review [recipeId]="recipe.id!"
+                                        (reviewCreated)="onReviewCreate($event, recipe)"></fitness-army-app-create-review>
+      </div>
+    </div>
+    <section class="reviews-section">
+      <fitness-army-app-recipe-reviews></fitness-army-app-recipe-reviews>
+    </section>
   </ng-container>
 </div>
 

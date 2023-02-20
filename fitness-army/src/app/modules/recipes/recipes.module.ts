@@ -15,6 +15,9 @@ import { RecipesFilterComponent } from './recipes-wrapper/recipes-filter/recipes
 import { StarRatingComponent } from './star-rating/star-rating.component';
 import { NutritionInfoDialogComponent } from './nutrition-info-dialog/nutrition-info-dialog.component';
 import {MtxPopoverModule} from "@ng-matero/extensions/popover";
+import { RecipeReviewsComponent } from './recipe-reviews/recipe-reviews.component';
+import { RecipeReviewComponent } from './recipe-reviews/recipe-review/recipe-review.component';
+import { CreateReviewComponent } from './create-review/create-review.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,10 @@ import {MtxPopoverModule} from "@ng-matero/extensions/popover";
     AddStepDialogComponent,
     RecipesFilterComponent,
     StarRatingComponent,
-    NutritionInfoDialogComponent
+    NutritionInfoDialogComponent,
+    RecipeReviewsComponent,
+    RecipeReviewComponent,
+    CreateReviewComponent
   ],
     imports: [
         CommonModule,

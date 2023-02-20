@@ -1,0 +1,31 @@
+<div class="create-review-container">
+  <div class="left">
+    <div class="user-photo-wrapper">
+      <img class="user-photo" [src]="loggedInUser?.photoURL" alt="User photo">
+    </div>
+  </div>
+  <div class="right">
+    <form [formGroup]="reviewForm" #formDirective="ngForm" (ngSubmit)="resetForm(formDirective)">
+    <div class="mat-form-field">
+      <label class="text-white" for="content">Content</label>
+      <mat-form-field appearance="outline">
+        <textarea matInput id="content" formControlName="content"></textarea>
+        <mat-error *ngIf="reviewForm.get('content')?.invalid">Field is required!</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="rating d-flex flex-column flex-md-row justify-content-between">
+      <div class="stars">
+        <span class="text-white rating-label">Your rating: </span>
+        <fitness-army-app-star-rating [rating]="rating"
+                                      [starCount]="5"
+                                      [color]="starColor"
+                                      (ratingUpdated)="onRatingChanged($event)"
+        ></fitness-army-app-star-rating>
+      </div>
+      <button mat-button class="post-review-btn" (click)="onPostReview()">Post review</button>
+    </div>
+    </form>
+  </div>
+
+</div>
+
