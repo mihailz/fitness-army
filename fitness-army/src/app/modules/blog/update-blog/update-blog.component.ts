@@ -73,10 +73,6 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
   }
 
   updateBlog(): void {
-    if (!this.updateBlogForm.valid) {
-      return;
-    }
-
     this.setLoading();
     const title = this.updateBlogForm.controls['title'].value;
     const content = this.updateBlogForm.controls['content'].value;

@@ -97,13 +97,19 @@ export class AddBlogComponent implements OnInit {
     return this.blogPostForm.get('content') as FormArray;
   }
 
+  getBlogParagraphs(index: number): FormArray {
+    return this.blogContent.at(index).get('content') as FormArray;
+  }
+
   deleteBlogParagraph(paragraphIndex: number): void {
     this.blogContent.removeAt(paragraphIndex);
   }
 
 
   openAddParagraphDialog() {
-    this.dialog.open(AddParagraphComponent)
+    this.dialog.open(AddParagraphComponent, {
+      width: "700px"
+    })
       .afterClosed()
       .subscribe({
         next: (fGroup: FormGroup) => {

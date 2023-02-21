@@ -1,6 +1,6 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 
 @Component({
   selector: 'fitness-army-app-add-paragraph',
@@ -9,6 +9,8 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 })
 export class AddParagraphComponent implements OnInit {
   paragraphForm!: FormGroup;
+  paragraphContent!: FormGroup;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
     private dialogRef: MatDialogRef<AddParagraphComponent>) {
@@ -16,6 +18,11 @@ export class AddParagraphComponent implements OnInit {
 
   ngOnInit(): void {
     this.initAddParagraphForm();
+    this.initParagraphContentForm();
+  }
+
+  get content(): FormArray {
+    return this.paragraphForm.get('content') as FormArray;
   }
 
   onConfirmClick(): void {
@@ -29,9 +36,23 @@ export class AddParagraphComponent implements OnInit {
   private initAddParagraphForm(): void {
     this.paragraphForm = new FormGroup({
       title: new FormControl(''),
-      content: new FormControl(''),
+      content: new FormArray([]),
       isUpdating: new FormControl(false)
     });
   }
 
+  private initParagraphContentForm(): void {
+    this.paragraphContent = new FormGroup({
+      text: new FormControl('', [Validators.required])
+    })
+  }
+
+  onAddParagraph(): void {
+    this.content.push(this.paragraphContent);
+    console.log(this.content)
+  }
+
+  resetForm(formDirective: FormGroupDirective): void {
+    // formDirective.resetForm();
+  }
 }

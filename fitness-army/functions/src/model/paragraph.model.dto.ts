@@ -1,4 +1,4 @@
-export class BlogParagraph {
+export class ParagraphModelDto {
   title: string;
   content: string[];
   editMode: boolean;

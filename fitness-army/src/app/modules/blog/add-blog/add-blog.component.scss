@@ -51,6 +51,10 @@
         }
       }
 
+      .content-label {
+        border-bottom: 1px solid $dark-gray;
+      }
+
       &::-webkit-scrollbar {
         //width: 12px;
         background: $primary;

@@ -202,13 +202,6 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
     })
   }
 
-  private ratingValidator(control: AbstractControl): ValidationErrors | null {
-    const rating = control.value;
-    return (rating > 0 && rating <= 5) ? null : {
-      'invalidRating': 'Invalid rating'
-    }
-  }
-
   private setLoading(status = true): void {
     this.isFetchingData = status;
   }

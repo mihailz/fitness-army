@@ -1,19 +1,40 @@
-<h1 mat-dialog-title class="text-white">Add paragraph</h1>
+<h1 mat-dialog-title class="text-white">Add content</h1>
 <div mat-dialog-content>
   <form [formGroup]="paragraphForm">
     <div class="mat-form-field">
       <label class="text-white" for="paragraphTitle">Paragraph title</label>
       <mat-form-field appearance="outline">
         <input matInput id="paragraphTitle" formControlName="title">
-        <mat-hint>If you add a title only it will be showed as a section subtitle!</mat-hint>
       </mat-form-field>
     </div>
-    <div class="mat-form-field">
-      <label class="text-white" for="paragraphContent">Paragraph content</label>
-      <mat-form-field appearance="outline">
-        <textarea matInput id="paragraphContent" formControlName="content"></textarea>
-      </mat-form-field>
-    </div>
+    <form [formGroup]="paragraphContent" #formDirective="ngForm" (ngSubmit)="resetForm(formDirective)">
+      <div class="mat-form-field">
+        <label class="text-white">Paragraph content</label>
+        <mat-form-field appearance="outline">
+          <textarea formControlName="text" matInput></textarea>
+        </mat-form-field>
+      </div>
+      <div class="col d-flex justify-content-end">
+        <button type="submit" mat-button class="add-content-btn" (click)="onAddParagraph()">
+          Add paragraph
+          <mat-icon>add_circle_outline</mat-icon>
+        </button>
+      </div>
+    </form>
+    <ng-container *ngIf="content.controls && content.controls.length">
+        <h3 class="text-white content-label pb-2">Content</h3>
+        <div class="pt-4" formArrayName="content">
+          <ng-container *ngFor="let paragraph of content.controls; let id = index">
+            <div [formGroupName]="id">
+              <div class="mat-form-field">
+                <mat-form-field appearance="outline">
+                  <textarea matInput formControlName="text"></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+    </ng-container>
   </form>
 </div>
 <mat-dialog-actions align="end">

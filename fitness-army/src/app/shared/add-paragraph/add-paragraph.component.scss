@@ -4,3 +4,19 @@
   background-color: $primary;
 }
 
+.add-content-btn {
+  background: $primary;
+  color: $color-white;
+  border-radius: 5px;
+  font-weight: bold;
+  width: 150px;
+  height: 40px;
+
+  &:hover {
+    opacity: .5;
+  }
+}
+
+.content-label {
+  border-bottom: 1px solid $darker-gray;
+}
