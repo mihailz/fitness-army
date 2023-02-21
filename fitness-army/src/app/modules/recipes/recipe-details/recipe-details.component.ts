@@ -12,6 +12,7 @@ import {ToastrService} from "ngx-toastr";
 import {HttpErrorResponse} from "@angular/common/http";
 import {User} from "../../../model/user.model";
 import {AuthApiService} from "../../../service/api/auth-api.service";
+import {UserRoles} from "../../../model/roles";
 
 @Component({
   selector: 'fitness-army-app-recipe-details',
@@ -78,6 +79,10 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
     this.router.navigate([`/recipes/update/${recipe.id}`]);
   }
 
+  hasRole(): boolean {
+    return this.loggedInUser?.role === UserRoles.ADMIN || this.loggedInUser?.role === UserRoles.COACH;
+  }
+
   onReviewCreate(review: Review, recipe: Recipe): void {
     this.setLoading();
     this.reviewApiService.createReview(recipe.id!, review)
@@ -104,5 +109,17 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
       });
 
     this.subscriptions.add(subscription);
+  }
+
+  deleteRecipe(recipe: Recipe): void {
+    this.setLoading();
+    this.recipeApiService.deleteRecipe(recipe.id!, (status: boolean) => {
+      this.setLoading(false);
+      if (!status) {
+        this.toastrService.error("An error has occurred!", "Error");
+        return;
+      }
+      this.router.navigate(['/recipes']);
+    })
   }
 }

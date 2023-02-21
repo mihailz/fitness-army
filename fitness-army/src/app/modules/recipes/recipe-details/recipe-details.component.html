@@ -125,11 +125,15 @@
           </div>
         </div>
       </div>
-      <div class="row d-flex justify-content-end p-3">
-        <button class="go-to-update-recipe-button text-uppercase fw-bolder" mat-button
-                (click)="navigateToUpdateRecipe(recipe)">Update
-        </button>
-      </div>
+      <ng-container *ngIf="hasRole">
+        <div class="row d-flex justify-content-end p-3">
+          <button class="delete-recipe-btn text-uppercase fw-bolder mat-button m-1"
+          (click)="deleteRecipe(recipe)">Delete</button>
+          <button class="go-to-update-recipe-button text-uppercase fw-bolder m-1" mat-button
+                  (click)="navigateToUpdateRecipe(recipe)">Update
+          </button>
+        </div>
+      </ng-container>
       <div class="row">
         <div class="col p-3">
           <ng-container *ngIf="(rating$ | async) as rating">
@@ -142,6 +146,7 @@
       <div class="row">
         <div class="col">
           <fitness-army-app-create-review [recipeId]="recipe.id!"
+                                          [loggedInUser]="loggedInUser"
                                           (reviewCreated)="onReviewCreate($event, recipe)"></fitness-army-app-create-review>
         </div>
       </div>

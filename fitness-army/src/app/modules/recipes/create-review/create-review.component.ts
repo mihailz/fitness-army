@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {AuthApiService} from "../../../service/api/auth-api.service";
 import {Subscription} from "rxjs";
 import {User} from "../../../model/user.model";
 import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
@@ -21,11 +20,10 @@ export class CreateReviewComponent implements OnInit, OnDestroy {
   isFetchingData = false;
   private subscriptions = new Subscription();
 
-  constructor(private authApiService: AuthApiService) { }
+  constructor() { }
 
   ngOnInit(): void {
     this.rating = 0;
-    this.getCurrentLoggedInUser();
     this.initReviewForm();
   }
 
@@ -52,17 +50,6 @@ export class CreateReviewComponent implements OnInit, OnDestroy {
     this.rating = 0;
   }
 
-  private getCurrentLoggedInUser(): void {
-    const subscription = this.authApiService.user$
-      .subscribe({
-        next: (user: any) => {
-          this.loggedInUser = user;
-        },
-        error: err => console.log(err)
-      });
-
-    this.subscriptions.add(subscription);
-  }
 
   private initReviewForm(): void {
     this.reviewForm = new FormGroup({

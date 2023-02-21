@@ -15,4 +15,7 @@ recipeRouter.get("/api/recipes/:recipe_id",
 recipeRouter.put("/api/recipes/:recipe_id/update",
     recipeController.postUpdateRecipe);
 
+recipeRouter.delete("/api/recipes/:recipe_id/delete",
+    recipeController.deleteRecipe);
+
 module.exports = recipeRouter;

@@ -119,3 +119,19 @@ exports.postUpdateRecipe = (req: Request, res: Response) => {
     }
   })();
 };
+
+exports.deleteRecipe = (req: Request, res: Response) => {
+  (async () => {
+    try {
+      const recipeId = req.params.recipe_id;
+      await db.collection("recipes").doc(recipeId)
+          .delete();
+      return res.status(200).send({
+        message: "Recipe has been deleted",
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(error);
+    }
+  })();
+};

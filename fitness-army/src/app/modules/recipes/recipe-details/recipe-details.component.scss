@@ -95,9 +95,20 @@
 
   .go-to-update-recipe-button {
     width: 150px;
-    background: darkblue;
+    background: $primary;
     border: none;
-    color: white;
+    color: $color-white;
+
+    &:hover {
+      opacity: .5;
+    }
+  }
+
+  .delete-recipe-btn {
+    width: 150px;
+    background: $danger;
+    border: none;
+    color: $color-white;
 
     &:hover {
       opacity: .5;

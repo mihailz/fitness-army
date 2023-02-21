@@ -70,3 +70,36 @@ function mapReviewData(documents: any): ReviewModelDto[] {
       document.data().likes,
   ));
 }
+
+exports.deleteReview = (req: Request, res: Response) => {
+  (async () => {
+    try {
+      const reviewId = req.params.review_id;
+      await db.collection("reviews").doc(reviewId)
+          .delete();
+      return res.status(200).send({
+        message: "Review has been deleted",
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(error);
+    }
+  })();
+};
+
+exports.deleteRecipeReviews = (req: Request, res: Response) => {
+  (async () => {
+    try {
+      const recipeId = req.params.recipe_id;
+      await db.collection("recipes")
+          .doc(recipeId).collection("reviews")
+          .delete();
+      return res.status(200).send({
+        message: "Reviews has been deleted",
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(error);
+    }
+  })();
+};

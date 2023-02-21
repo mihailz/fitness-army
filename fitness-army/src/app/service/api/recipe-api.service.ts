@@ -247,4 +247,20 @@ export class RecipeApiService {
       return this.imageUploadService.uploadImage(file, path);
     }
   }
+
+  deleteRecipe(recipeId: string, cb: (status: boolean) => void): void {
+    const url = `${this.baseApiHref}/api/recipes/${recipeId}/delete`;
+    this.http.delete(url)
+      .pipe(
+        catchError((error: HttpErrorResponse) => throwError(() => error.message)),
+      ).subscribe({
+      next: () => {
+        cb(true);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error);
+        cb(false);
+      }
+    })
+  }
 }
