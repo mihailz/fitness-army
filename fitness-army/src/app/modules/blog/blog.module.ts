@@ -7,7 +7,6 @@ import {ImageUploaderModule} from "../../shared/image-uploader/image-uploader.mo
 import {BlogComponent} from './blogs-wrapper/blog/blog.component';
 import {BlogDetailsComponent} from './blog-details/blog-details.component';
 import {UpdateBlogComponent} from './update-blog/update-blog.component';
-import {AddParagraphModalComponent} from './add-paragraph-modal/add-paragraph-modal.component';
 import {BlogsFilterComponent} from './blogs-wrapper/blogs-filter/blogs-filter.component';
 import {MaterialModule} from "../../material.module";
 import {AddBlogComponent} from './add-blog/add-blog.component';
@@ -19,7 +18,6 @@ import {AddParagraphModule} from "../../shared/add-paragraph/add-paragraph.modul
     BlogComponent,
     BlogDetailsComponent,
     UpdateBlogComponent,
-    AddParagraphModalComponent,
     BlogsFilterComponent,
     AddBlogComponent
   ],

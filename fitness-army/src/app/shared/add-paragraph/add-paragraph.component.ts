@@ -19,7 +19,11 @@ export class AddParagraphComponent implements OnInit {
   }
 
   onConfirmClick(): void {
-    this.dialogRef.close(this.paragraphForm);
+    if (this.paragraphForm.invalid) {
+      this.dialogRef.close();
+    } else {
+      this.dialogRef.close(this.paragraphForm);
+    }
   }
 
   private initAddParagraphForm(): void {

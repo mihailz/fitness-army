@@ -36,59 +36,59 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-12">
+      <div class="col-xs-12 col-md-6">
         <button mat-button class="add-paragraph-button"
                 (click)="openAddParagraphDialog()">Add paragraph
           <mat-icon>add_circle_outline</mat-icon>
         </button>
-      </div>
-    </div>
-    <ng-container *ngIf="blogContent.controls && blogContent.controls.length">
-    <div class="row">
-      <div class="content-items mt-3">
-        <mat-accordion multi>
-          <mat-expansion-panel *ngFor="let contentItem of blogContent.controls; let id = index" hideToggle>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                {{contentItem.get('title')?.value}}
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div formArrayName="content">
-              <div class="content-item">
-                <div [formGroupName]="id">
-                  <div class="mat-form-field">
-                    <label class="text-white">Title</label>
-                    <mat-form-field appearance="outline">
-                      <input matInput formControlName="title">
-                    </mat-form-field>
+        <ng-container *ngIf="blogContent.controls && blogContent.controls.length">
+          <div class="row">
+            <div class="content-items mt-3">
+              <mat-accordion multi>
+                <mat-expansion-panel *ngFor="let contentItem of blogContent.controls; let id = index" hideToggle>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      {{contentItem.get('title')?.value}}
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div formArrayName="content">
+                    <div class="content-item">
+                      <div [formGroupName]="id">
+                        <div class="mat-form-field">
+                          <label class="text-white">Title</label>
+                          <mat-form-field appearance="outline">
+                            <input matInput formControlName="title">
+                          </mat-form-field>
+                        </div>
+                        <div class="mat-form-field">
+                          <label class="text-white">Content</label>
+                          <mat-form-field appearance="outline">
+                            <textarea matInput formControlName="content"></textarea>
+                          </mat-form-field>
+                        </div>
+                        <div class="paragraph-action-buttons">
+                          <button mat-button class="paragraph-delete-button" (click)="deleteBlogParagraph(id)">
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="mat-form-field">
-                    <label class="text-white">Content</label>
-                    <mat-form-field appearance="outline">
-                      <textarea matInput formControlName="content"></textarea>
-                    </mat-form-field>
-                  </div>
-                  <div class="paragraph-action-buttons">
-                    <button mat-button class="paragraph-delete-button" (click)="deleteBlogParagraph(id)">
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              </div>
+                </mat-expansion-panel>
+              </mat-accordion>
             </div>
-          </mat-expansion-panel>
-        </mat-accordion>
+          </div>
+        </ng-container>
       </div>
-    </div>
-    </ng-container>
-    <div class="row mt-3">
-      <fitness-army-app-image-uploader [controlName]="'blogImage'"
-                                       (selectedImage)="onImageSelect($event)"></fitness-army-app-image-uploader>
-      <ng-container *ngIf="blogImageUrl">
-        <div class="blog-image-wrapper mt-3">
-          <img [src]="blogImageUrl" alt="Blog image">
-        </div>
-      </ng-container>
+      <div class="col-xs-12 col-md-6">
+        <fitness-army-app-image-uploader [controlName]="'blogImage'"
+                                         (selectedImage)="onImageSelect($event)"></fitness-army-app-image-uploader>
+        <ng-container *ngIf="blogImageUrl">
+          <div class="blog-image-wrapper mt-3">
+            <img [src]="blogImageUrl" alt="Blog image">
+          </div>
+        </ng-container>
+      </div>
     </div>
     <mat-divider class="mt-4 mb-3"></mat-divider>
     <div class="row d-flex justify-content-end">

@@ -8,6 +8,6 @@ blogsRouter.post("/api/blogs/create/:author_id", blogController.postCreateBlogPo
 blogsRouter.get("/api/blogs", blogController.getBlogs);
 blogsRouter.get("/api/blogs/:blog_id", blogController.getBlogPost);
 blogsRouter.put("/api/blogs/update/:blog_id", blogController.updateBlog);
-blogsRouter.delete("/api/blogs/delete/:blog_id", blogController.deleteBlog);
+blogsRouter.delete("/api/blogs/:blog_id/delete", blogController.deleteBlog);
 
 module.exports = blogsRouter;

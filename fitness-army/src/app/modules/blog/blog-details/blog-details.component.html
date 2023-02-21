@@ -52,11 +52,15 @@
         </div>
       </div>
 
-      <div class="row d-flex justify-content-center justify-content-lg-end p-3">
-        <button class="go-to-update-blog-button text-uppercase fw-bolder" mat-button
-                (click)="navigateToUpdateBlogPage(blog)">Update
-        </button>
-      </div>
+      <ng-container *ngIf="hasRole">
+        <div class="row d-flex justify-content-end">
+          <button class="delete-blog-post text-uppercase fw-bolder m-2" mat-button
+          (click)="deleteBlog(blog)">Delete</button>
+          <button class="go-to-update-blog-button text-uppercase fw-bolder m-2" mat-button
+                  (click)="navigateToUpdateBlogPage(blog)">Update
+          </button>
+        </div>
+      </ng-container>
     </div>
   </ng-container>
 </div>

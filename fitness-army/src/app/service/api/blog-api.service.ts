@@ -183,4 +183,20 @@ export class BlogApiService {
       }
     });
   }
+
+  deleteBlog(blogId: string, cb: (status: boolean) => void): void {
+    const url = `${this.baseApiHref}/api/blogs/${blogId}/delete`;
+    this.http.delete(url)
+      .pipe(
+        catchError((err: HttpErrorResponse) => throwError(() => of(err))),
+      ).subscribe({
+      next: () => {
+        cb(true);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error);
+        cb(false);
+      }
+    })
+  }
 }
