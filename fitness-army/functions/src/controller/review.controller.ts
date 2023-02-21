@@ -12,10 +12,25 @@ exports.postCreateReview = (req: Request, res: Response) => {
     try {
       const recipeId = req.params.recipe_id;
       const reviewUid = uuid.v4();
-      const review = {...req.body, id: reviewUid};
-      await db.collection("recipes")
-          .doc(recipeId).collection("reviews").doc(reviewUid)
-          .set(review, {merge: true});
+      const author = req.body.author;
+      let review = {};
+      const reviewsSnapshot = await db.collection("recipes")
+          .doc(recipeId).collection("reviews").get();
+      const reviewsDocs = reviewsSnapshot.docs;
+      const existingReviewForCurrentUser = reviewsDocs.find((document: any) =>
+        document.data().author.email === author.email);
+      if (existingReviewForCurrentUser) {
+        const existingReviewId = existingReviewForCurrentUser.data().id;
+        review = {...req.body, id: existingReviewId};
+        await db.collection("recipes")
+            .doc(recipeId).collection("reviews").doc(existingReviewId)
+            .update(review);
+      } else {
+        review = {...req.body, id: reviewUid};
+        await db.collection("recipes")
+            .doc(recipeId).collection("reviews").doc(reviewUid)
+            .set(review, {merge: true});
+      }
       return res.status(200).send({
         review: review,
       });

@@ -150,7 +150,7 @@
           <div class="reviews-container d-flex flex-column">
             <div class="review pb-2 d-flex pt-4" *ngFor="let review of reviews">
               <div class="user-photo-wrapper">
-                <img class="user-photo" [src]="loggedInUser?.photoURL" alt="User photo">
+                <img class="user-photo" [src]="review?.author?.photoURL" alt="User photo">
               </div>
               <div class="content">
                 <div class="header d-flex flex-column flex-md-row">
