@@ -138,8 +138,11 @@
         <div class="col p-3">
           <ng-container *ngIf="(rating$ | async) as rating">
             <h3 class="text-white reviews-number">{{rating.total + ' reviews' }}</h3>
-            <fitness-army-app-star-rating [starCount]="5" [rating]="rating.rating"
-                                          [color]="starColor"></fitness-army-app-star-rating>
+            <div style="width: 240px">
+              <fitness-army-app-star-rating [starCount]="5" [rating]="rating.rating"
+                                            [color]="starColor"></fitness-army-app-star-rating>
+            </div>
+
           </ng-container>
         </div>
       </div>

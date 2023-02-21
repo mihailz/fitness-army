@@ -2,7 +2,6 @@
 @import "src/assets/css/common";
 
 .container {
-  padding-top: 30px;
   min-height: 100vh;
   font-family: 'Montserrat', sans-serif;
 }
@@ -64,10 +63,36 @@
 
 .image-section {
   max-width: 100%;
+  height: 300px;
+  position: relative;
 
   img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: bottom;
+    border-radius: 10px;
   }
+  .blog-author-image-wrapper {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    bottom: -50px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 4px solid $color-white;
+    }
+  }
+}
+
+.blog-info {
+  padding-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .go-to-update-blog-button {
@@ -91,5 +116,34 @@
       opacity: .5;
     }
 
+}
+
+@media (min-width: 767.8px) {
+  .image-section {
+    max-width: 100%;
+    height: 500px;
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: bottom;
+      border-radius: 10px;
+    }
+    .blog-author-image-wrapper {
+      width: 130px;
+      height: 130px;
+      position: absolute;
+      bottom: -65px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 4px solid $color-white;
+      }
+    }
+  }
 }
 

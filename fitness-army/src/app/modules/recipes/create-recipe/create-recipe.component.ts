@@ -131,6 +131,10 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
   }
 
   createRecipe(): void {
+    if (this.recipeForm.invalid) {
+      return;
+    }
+
     this.setLoading();
     const {
       title,

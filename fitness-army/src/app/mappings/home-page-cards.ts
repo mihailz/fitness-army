@@ -7,11 +7,11 @@ export const HOME_PAGE_CARDS: ICard[] = [
       '                             be at the top level.'
   },
   {
-    cardImageUrl: './assets/images/dumbbell.png',
-    cardContent: ' We make the best exercise programs based on your desires and goals.'
+    cardImageUrl: './assets/images/recipe.png',
+    cardContent: ' We offer you a lot of healthy recipes to help you build your dream physique.'
   },
   {
-    cardImageUrl: './assets/images/clock.png',
-    cardContent: 'We monitor your progress and give you appropriate feedback.'
+    cardImageUrl: './assets/images/blog.png',
+    cardContent: 'We offer a lot of valuable resources to read and educate.'
   }
 ];

@@ -2,12 +2,12 @@
   <div class="blog-image-wrapper">
     <img class="blog-card-image" mat-card-image [src]="blog.imageUrl" alt="blog_photo" style=" height: 250px">
   </div>
-  <mat-card-content class="card-content">
+  <mat-card-content class="card-content pt-3">
     <h2 class="blog-title text-white">
       {{blog.title}}
     </h2>
     <a class="blog-link" [routerLink]="['details', blog.id]">Read more...</a>
-    <div class="wrapper pt-4">
+    <div class="wrapper">
       <span class="text-white author">By {{blog.author.displayName}}</span>
       <div class="blog-category-wrapper">
         <div class="blog-category"

@@ -28,7 +28,7 @@ export class AddParagraphComponent implements OnInit {
 
   private initAddParagraphForm(): void {
     this.paragraphForm = new FormGroup({
-      title: new FormControl('', [Validators.required]),
+      title: new FormControl(''),
       content: new FormControl(''),
       isUpdating: new FormControl(false)
     });

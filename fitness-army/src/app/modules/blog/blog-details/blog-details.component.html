@@ -6,31 +6,27 @@
   </ng-container>
   <ng-container *ngIf="(blog$ | async) as blog">
     <div class="container blog-details-container pb-4">
-      <div class="row d-flex justify-content-start">
-        <div class="col-12">
-            <button class="back-button" (click)="navigateToBlogsPage()">
-              <mat-icon>arrow_back</mat-icon>
-              Go to blogs
-            </button>
-        </div>
-      </div>
-      <div class="row d-flex justify-content-center pt-3">
-          <span class="blog-category d-flex justify-content-center"
-                [class.fitness]="blog.category === blogCategories.FITNESS"
-                [class.motivation]="blog.category === blogCategories.MOTIVATION"
-                [class.food]="blog.category === blogCategories.FOOD">
-            {{blog.category}}
-          </span>
-        <h1 class="blog-title fs-28 text-white pt-3">{{blog.title}}</h1>
-        <div class="d-flex justify-content-center created-by">
-          <span class="fs-20">Posted on  <span class="date-posted">{{blog.dateCreated | date}}</span> | by&nbsp;</span>
-          <span class="blog-author fw-bolder fs-20">{{blog.author.displayName}}</span>
+      <div class="row">
+        <div class="image-section d-flex justify-content-center">
+          <img class="blog-image" [src]="blog.imageUrl" alt="">
+          <div class="blog-author-image-wrapper">
+            <img class="author-image" [src]="blog.author.photoURL">
+          </div>
         </div>
       </div>
 
-      <div class="row pt-3">
-        <div class="image-section">
-          <img class="blog-image" [src]="blog.imageUrl" alt="">
+      <div class="row blog-info">
+        <span class="blog-category d-flex justify-content-center"
+              [class.fitness]="blog.category === blogCategories.FITNESS"
+              [class.motivation]="blog.category === blogCategories.MOTIVATION"
+              [class.food]="blog.category === blogCategories.FOOD">
+            {{blog.category}}
+        </span>
+        <h1 class="blog-title fs-28 text-white pt-3">{{blog.title}}</h1>
+        <div class="d-flex justify-content-center created-by">
+          <div class="fs-20 text-center">Posted on  <span class="date-posted">{{blog.dateCreated | date}}</span>  | by
+            <span class="blog-author fw-bolder fs-20">{{blog.author.displayName}}</span>
+          </div>
         </div>
       </div>
 
@@ -55,7 +51,8 @@
       <ng-container *ngIf="hasRole">
         <div class="row d-flex justify-content-end">
           <button class="delete-blog-post text-uppercase fw-bolder m-2" mat-button
-          (click)="deleteBlog(blog)">Delete</button>
+                  (click)="deleteBlog(blog)">Delete
+          </button>
           <button class="go-to-update-blog-button text-uppercase fw-bolder m-2" mat-button
                   (click)="navigateToUpdateBlogPage(blog)">Update
           </button>

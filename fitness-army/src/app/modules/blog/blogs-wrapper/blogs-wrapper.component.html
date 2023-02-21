@@ -15,10 +15,10 @@
       </div>
     </ng-container>
     <ng-container *ngIf="blogs$ | async as blogs">
-      <div class="col-xs-12 col-lg-6 col-xl-4 pt-4"
-           *ngFor="let blog of blogs">
-        <fitness-army-app-blog [blog]="blog"></fitness-army-app-blog>
-      </div>
+        <div class="col-xs-12 col-lg-6 col-xl-4 pt-4"
+             *ngFor="let blog of blogs">
+          <fitness-army-app-blog [blog]="blog"></fitness-army-app-blog>
+        </div>
     </ng-container>
     <ng-container *ngIf="!(blogs$ | async) && !isFetchingData">
       <div class="col-12 pt-5">

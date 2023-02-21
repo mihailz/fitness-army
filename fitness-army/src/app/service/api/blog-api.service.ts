@@ -123,7 +123,7 @@ export class BlogApiService {
                 blogItem.author.uid,
                 blogItem.author.email,
                 blogItem.author.displayName,
-                blogItem.author.profileImage,
+                blogItem.author.photoURL,
               ),
               blogItem.title,
               blogItem.content.map((blogParagraph: any) => new BlogParagraph(
@@ -160,7 +160,7 @@ export class BlogApiService {
             blogData.author.uid,
             blogData.author.email,
             blogData.author.displayName,
-            blogData.author.profileImage,
+            blogData.author.photoURL,
           ),
           blogData.title,
           blogData.content.map((blogParagraph: any) => new BlogParagraph(
