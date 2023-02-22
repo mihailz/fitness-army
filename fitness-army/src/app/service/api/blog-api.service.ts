@@ -77,7 +77,7 @@ export class BlogApiService {
             blogData.author.uid,
             blogData.author.email,
             blogData.author.displayName,
-            blogData.author.profileImage,
+            blogData.author.photoURL,
           ),
           blogData.title,
           blogData.content.map((blogParagraph: any) => new BlogParagraph(
