@@ -58,10 +58,6 @@
           <mat-icon>group</mat-icon>
           <span>Users</span>
         </a>
-        <a mat-menu-item class="route-link" routerLinkActive="active" routerLink="admin/comments">
-          <mat-icon>forum</mat-icon>
-          <span>Comments</span>
-        </a>
       </mat-menu>
       <ng-container *ngIf="(user$ | async) else login">
         <button mat-button class="route-link" (click)="logout()">
