@@ -141,6 +141,7 @@ export class BlogApiService {
       .subscribe({
         next: (blogs: Blog[]) => {
           cb(true);
+          console.log('blogs: ', blogs);
           this.blogsSubject.next(blogs);
         },
         error: (err) => {

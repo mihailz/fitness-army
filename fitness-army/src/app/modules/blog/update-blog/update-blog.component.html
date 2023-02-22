@@ -62,12 +62,20 @@
                             </mat-error>
                           </mat-form-field>
                         </div>
-                        <div class="mat-form-field">
-                          <label class="text-white" for="paragraphContent">Content</label>
-                          <mat-form-field appearance="outline">
-                            <input matInput id="paragraphContent" formControlName="content">
-                          </mat-form-field>
-                        </div>
+                        <ng-container *ngIf="getBlogParagraphs(id).controls && getBlogParagraphs(id).controls.length">
+                          <h3 class="text-white content-label pb-2">Content</h3>
+                          <div formArrayName="content">
+                            <ng-container *ngFor="let paragraph of getBlogParagraphs(id).controls; let id = index">
+                              <div [formGroupName]="id">
+                                <div class="mat-form-field">
+                                  <mat-form-field appearance="outline">
+                                    <textarea matInput formControlName="text"></textarea>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                            </ng-container>
+                          </div>
+                        </ng-container>
                         <div class="paragraph-action-buttons">
                           <button mat-button class="paragraph-delete-button" (click)="deleteParagraph(id)">
                             Delete

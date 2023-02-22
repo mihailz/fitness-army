@@ -2,14 +2,14 @@
 <div mat-dialog-content>
   <form [formGroup]="paragraphForm">
     <div class="mat-form-field">
-      <label class="text-white" for="paragraphTitle">Paragraph title</label>
+      <label class="text-white" for="paragraphTitle">Title</label>
       <mat-form-field appearance="outline">
         <input matInput id="paragraphTitle" formControlName="title">
       </mat-form-field>
     </div>
-    <form [formGroup]="paragraphContent" #formDirective="ngForm" (ngSubmit)="resetForm(formDirective)">
+    <form [formGroup]="paragraphContent" class="pt-3 pb-3 paragraph-content-form">
       <div class="mat-form-field">
-        <label class="text-white">Paragraph content</label>
+        <label class="text-white">Content</label>
         <mat-form-field appearance="outline">
           <textarea formControlName="text" matInput></textarea>
         </mat-form-field>
@@ -22,8 +22,8 @@
       </div>
     </form>
     <ng-container *ngIf="content.controls && content.controls.length">
-        <h3 class="text-white content-label pb-2">Content</h3>
-        <div class="pt-4" formArrayName="content">
+        <h3 class="text-white content-label pt-4">Content</h3>
+        <div class="" formArrayName="content">
           <ng-container *ngFor="let paragraph of content.controls; let id = index">
             <div [formGroupName]="id">
               <div class="mat-form-field">

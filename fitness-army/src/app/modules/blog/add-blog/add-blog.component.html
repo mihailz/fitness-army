@@ -36,14 +36,13 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-xs-12 col-md-6">
+      <div class="col-xs-12 col-lg-6">
         <button mat-button class="add-paragraph-button"
                 (click)="openAddParagraphDialog()">Add content
           <mat-icon>add_circle_outline</mat-icon>
         </button>
         <ng-container *ngIf="blogContent.controls && blogContent.controls.length">
-          <div class="row">
-            <div class="content-items pt-3">
+            <div class="content-items mt-3 p-2">
               <mat-accordion multi>
                 <mat-expansion-panel *ngFor="let contentItem of blogContent.controls; let id = index" hideToggle>
                   <mat-expansion-panel-header>
@@ -62,7 +61,7 @@
                         </div>
                         <ng-container *ngIf="getBlogParagraphs(id).controls && getBlogParagraphs(id).controls.length">
                           <h3 class="text-white content-label pb-2">Content</h3>
-                          <div class="pt-4" formArrayName="content">
+                          <div formArrayName="content">
                             <ng-container *ngFor="let paragraph of getBlogParagraphs(id).controls; let id = index">
                               <div [formGroupName]="id">
                                 <div class="mat-form-field">
@@ -85,10 +84,9 @@
                 </mat-expansion-panel>
               </mat-accordion>
             </div>
-          </div>
         </ng-container>
       </div>
-      <div class="col-xs-12 col-md-6">
+      <div class="col-xs-12 col-lg-6 pt-3 pt-lg-0">
         <fitness-army-app-image-uploader [controlName]="'blogImage'"
                                          (selectedImage)="onImageSelect($event)"></fitness-army-app-image-uploader>
         <ng-container *ngIf="blogImageUrl">

@@ -43,16 +43,14 @@ export class AddParagraphComponent implements OnInit {
 
   private initParagraphContentForm(): void {
     this.paragraphContent = new FormGroup({
-      text: new FormControl('', [Validators.required])
+      text: new FormControl('')
     })
   }
 
   onAddParagraph(): void {
-    this.content.push(this.paragraphContent);
-    console.log(this.content)
-  }
-
-  resetForm(formDirective: FormGroupDirective): void {
-    // formDirective.resetForm();
+    this.content.push(new FormGroup({
+      text: new FormControl(this.paragraphContent.get('text')?.value)
+    }));
+    this.paragraphContent.get('text')?.reset();
   }
 }

@@ -43,18 +43,15 @@ export class AddBlogComponent implements OnInit {
   }
 
   createBlog(): void {
-    if (this.blogPostForm.invalid) {
-      return;
-    }
+    this.setLoading();
     const title = this.blogPostForm.get('title')?.value;
     const content = this.blogPostForm.get('content')?.value
-      .map((paragraph: {title: string, content: string, isUpdating: boolean}) => {
+      .map((paragraph: {title: string, content: string[], isUpdating: boolean}) => {
         return {
           title: paragraph.title,
-          content: paragraph.content
+          content: paragraph.content.map((contentItem: any) => contentItem.text)
         }
       });
-    this.setLoading();
     const category = this.blogPostForm.get('category')?.value;
     const newBlogPost = new Blog(null, this.currentLoggedInUser!,
       title, content, category, new Date(Date.now()), '');
@@ -68,7 +65,6 @@ export class AddBlogComponent implements OnInit {
       this.router.navigate(['blogs']);
       this.toastrService.success('The blog has been created!', 'Success');
     });
-
   }
 
   getFControl(path: string): FormControl {

@@ -32,19 +32,10 @@
 
       <div class="row pt-4">
         <div *ngFor="let contentItem of blog.content" class="col-12 content-item pt-4">
-          <ng-container *ngIf="contentItem.title && !contentItem.content else subTitle">
-            <h1 class="main-title pt-5 pb-2 text-white">
-              {{contentItem.title}}
-            </h1>
+          <h2 class="content-title text-white">{{contentItem.title}}</h2>
+          <ng-container *ngFor="let paragraph of contentItem.content">
+            <p class="paragraph text-white">{{paragraph}}</p>
           </ng-container>
-          <ng-template #subTitle>
-            <h2 class="sub-title fs-28 text-white">
-              {{contentItem.title}}
-            </h2>
-          </ng-template>
-          <p class="paragraph-content fs-16">
-            {{contentItem.content}}
-          </p>
         </div>
       </div>
 

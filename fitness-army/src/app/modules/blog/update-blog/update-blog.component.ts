@@ -72,6 +72,10 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
     return this.updateBlogForm.controls['content'] as FormArray;
   }
 
+  getBlogParagraphs(index: number): FormArray {
+    return this.blogContent.at(index).get('content') as FormArray;
+  }
+
   updateBlog(): void {
     this.setLoading();
     const title = this.updateBlogForm.controls['title'].value;
@@ -151,16 +155,20 @@ export class UpdateBlogComponent implements OnInit, OnDestroy {
       this.blogContent.clear();
     }
     const contentFormArray = new FormArray([]);
-    blog.content.forEach((paragraph: BlogParagraph, index: number) => {
-      let paragraphTitleFormControl = new FormControl('', [Validators.required]);
-      let paragraphContentFormControl = new FormControl('');
+    blog.content.forEach((contentItem: BlogParagraph, index: number) => {
+      let paragraphTitleFormControl = new FormControl('');
+      let paragraphs = new FormArray([]);
 
-      paragraphTitleFormControl.setValue(paragraph.title);
-      paragraphContentFormControl.setValue(paragraph.content);
-
+      paragraphTitleFormControl.setValue(contentItem.title);
+      contentItem.content.forEach((paragraph: string) => {
+        const fGroup = new FormGroup({
+          text: new FormControl(paragraph)
+        });
+        paragraphs.push(fGroup);
+      })
       this.blogContent.push(new FormGroup({
         title: paragraphTitleFormControl,
-        content: paragraphContentFormControl
+        content: paragraphs
       }));
     });
     return contentFormArray;
