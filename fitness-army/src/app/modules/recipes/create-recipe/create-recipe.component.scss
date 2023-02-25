@@ -67,6 +67,30 @@
         /* roundness of the scroll thumb */
       }
     }
+
+    .steps-wrapper {
+      min-height: 50px;
+      max-height: 350px;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        //width: 12px;
+        background: $primary;
+        width: 10px !important; /* width of the entire scrollbar */
+      }
+
+      &::-webkit-scrollbar-track {
+        background: $primary;
+        /* color of the tracking area */
+      }
+
+      &::-webkit-scrollbar-thumb {
+        width: 15px;
+        background-color: $bg-dark; /* color of the scroll thumb */
+        /* roundness of the scroll thumb */
+      }
+    }
+
     .info-container {
       height: 400px;
       overflow-y: auto;

@@ -48,9 +48,11 @@ export class AddParagraphComponent implements OnInit {
   }
 
   onAddParagraph(): void {
-    this.content.push(new FormGroup({
-      text: new FormControl(this.paragraphContent.get('text')?.value)
-    }));
-    this.paragraphContent.get('text')?.reset();
+    if (this.paragraphContent.get('text')?.value !== '') {
+      this.content.push(new FormGroup({
+        text: new FormControl(this.paragraphContent.get('text')?.value)
+      }));
+      this.paragraphContent.get('text')?.reset();
+    }
   }
 }

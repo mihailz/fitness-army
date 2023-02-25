@@ -66,11 +66,11 @@ export class ReviewApiService {
         catchError((error: HttpErrorResponse) => throwError(() => of(error))),
       ).subscribe({
       next: (reviews: Review[]) => {
-        const totalRating = reviews.reduce((accumulator, currentElement) =>
-          accumulator += currentElement.rating, 0);
+        const totalRating = reviews.length ?  reviews.reduce((accumulator, currentElement) =>
+          accumulator += currentElement.rating, 0) : 0;
         this.ratingSubject.next({
           total: reviews.length,
-          rating: totalRating / reviews.length
+          rating: reviews.length ? totalRating / reviews.length : 0
         });
         this.reviewsSubject.next(reviews);
       },

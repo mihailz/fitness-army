@@ -51,7 +51,8 @@
         <div class="mat-form-field">
           <label class="text-white" for="totalMinutesNeeded">Total time</label>
           <mat-form-field appearance="outline">
-            <input matInput id="totalMinutesNeeded" formControlName="totalMinutesNeeded">
+            <input placeholder="Example: 45min" matInput id="totalMinutesNeeded" formControlName="totalMinutesNeeded">
+            <mat-hint>Should be total of preparation time and cook time</mat-hint>
             <mat-error
               *ngIf="getFControl('totalMinutesNeeded').invalid">{{getFControlErrorMessage('totalMinutesNeeded')}}</mat-error>
           </mat-form-field>
@@ -61,7 +62,7 @@
         <div class="mat-form-field">
           <label class="text-white" for="preparationTime">Preparation time</label>
           <mat-form-field appearance="outline">
-            <input matInput id="preparationTime" formControlName="preparationTime">
+            <input placeholder="Example: 15min" matInput id="preparationTime" formControlName="preparationTime">
             <mat-error
               *ngIf="getFControl('preparationTime').invalid">{{getFControlErrorMessage('preparationTime')}}</mat-error>
           </mat-form-field>
@@ -71,7 +72,7 @@
         <div class="mat-form-field">
           <label class="text-white" for="cookTime">Cook time</label>
           <mat-form-field appearance="outline">
-            <input matInput id="cookTime" formControlName="cookTime">
+            <input placeholder="Example: 30min" matInput id="cookTime" formControlName="cookTime">
             <mat-error *ngIf="getFControl('cookTime').invalid">{{getFControlErrorMessage('cookTime')}}</mat-error>
           </mat-form-field>
         </div>
@@ -128,7 +129,7 @@
         </button>
 
         <ng-container *ngIf="steps.controls && steps.controls.length">
-          <div class="pt-4" formArrayName="steps">
+          <div class="mt-4 p-2 steps-wrapper" formArrayName="steps">
             <ng-container *ngFor="let step of steps.controls; let id = index">
               <div [formGroupName]="id">
                 <div class="mat-form-field">
@@ -147,7 +148,7 @@
         <div class="mat-form-field">
           <label class="text-white" for="servings">Servings</label>
           <mat-form-field appearance="outline">
-            <input matInput id="servings" formControlName="servings">
+            <input placeholder="Example: 1 serving; 1 - 4 servings..." matInput id="servings" formControlName="servings">
             <mat-error *ngIf="getFControl('servings').invalid">{{getFControlErrorMessage('servings')}}</mat-error>
           </mat-form-field>
         </div>
