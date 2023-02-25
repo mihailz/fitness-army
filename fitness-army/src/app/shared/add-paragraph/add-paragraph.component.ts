@@ -1,6 +1,6 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {FormArray, FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
+import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'fitness-army-app-add-paragraph',
@@ -26,16 +26,16 @@ export class AddParagraphComponent implements OnInit {
   }
 
   onConfirmClick(): void {
-    if (this.paragraphForm.invalid) {
-      this.dialogRef.close();
-    } else {
+    if (this.paragraphForm.valid) {
       this.dialogRef.close(this.paragraphForm);
+    } else {
+      this.paragraphForm.updateValueAndValidity();
     }
   }
 
   private initAddParagraphForm(): void {
     this.paragraphForm = new FormGroup({
-      title: new FormControl(''),
+      title: new FormControl('', [Validators.required]),
       content: new FormArray([]),
       isUpdating: new FormControl(false)
     });

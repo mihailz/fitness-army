@@ -21,7 +21,16 @@ export class NutritionInfoDialogComponent implements OnInit {
   }
 
   onConfirmClick(): void {
-    this.dialogRef.close(this.nutritionInfoForm);
+    if (this.nutritionInfoForm.valid) {
+      this.dialogRef.close(this.nutritionInfoForm);
+    } else {
+      Object.keys(this.nutritionInfoForm.controls)
+        .forEach((key: string) => {
+          console.log(key)
+          this.nutritionInfoForm.get(key)?.markAsDirty();
+          this.nutritionInfoForm.get(key)?.markAsTouched();
+        })
+    }
   }
 
   private initNutritionForm(): void {

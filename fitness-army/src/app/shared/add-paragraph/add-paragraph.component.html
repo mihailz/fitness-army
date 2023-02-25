@@ -5,6 +5,7 @@
       <label class="text-white" for="paragraphTitle">Title</label>
       <mat-form-field appearance="outline">
         <input matInput id="paragraphTitle" formControlName="title">
+        <mat-error *ngIf="paragraphForm.get('title')?.invalid">Field is required!</mat-error>
       </mat-form-field>
     </div>
     <form [formGroup]="paragraphContent" class="pt-3 pb-3 paragraph-content-form">

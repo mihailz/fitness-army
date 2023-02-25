@@ -43,6 +43,9 @@ export class AddBlogComponent implements OnInit {
   }
 
   createBlog(): void {
+    if (this.blogPostForm.invalid) {
+      return;
+    }
     this.setLoading();
     const title = this.blogPostForm.get('title')?.value;
     const content = this.blogPostForm.get('content')?.value

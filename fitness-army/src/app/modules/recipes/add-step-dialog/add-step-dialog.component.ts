@@ -21,7 +21,11 @@ export class AddStepDialogComponent implements OnInit {
   }
 
   onConfirmClick(): void {
-    this.dialogRef.close(this.stepForm);
+    if (this.stepForm.valid) {
+      this.dialogRef.close(this.stepForm);
+    } else {
+      this.stepForm.updateValueAndValidity();
+    }
   }
 
   private initIngredientForm(): void {

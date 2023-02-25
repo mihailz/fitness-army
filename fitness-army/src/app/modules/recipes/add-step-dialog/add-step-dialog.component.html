@@ -4,7 +4,7 @@
     <div class="mat-form-field">
       <label class="text-white" for="step">Step</label>
       <mat-form-field appearance="outline">
-        <textarea matInput id="step" required formControlName="step"></textarea>
+        <textarea matInput id="step" formControlName="step"></textarea>
         <mat-error *ngIf="stepForm.get('step')?.invalid">Field is required!</mat-error>
       </mat-form-field>
     </div>

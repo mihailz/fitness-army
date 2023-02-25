@@ -110,49 +110,6 @@ export class UpdateRecipeComponent implements OnInit {
     }
   }
 
-  createRecipe(): void {
-    this.setLoading();
-    const {
-      title,
-      type,
-      level,
-      totalMinutesNeeded,
-      preparationTime,
-      cookTime,
-      ingredients,
-      steps,
-      rating,
-      servings,
-      nutritionInfo
-    } = this.recipeForm.value;
-
-    const newRecipe =
-      new Recipe(null,
-        title,
-        type,
-        level,
-        totalMinutesNeeded,
-        preparationTime,
-        cookTime,
-        ingredients,
-        steps,
-        '',
-        rating,
-        servings,
-        this.currentLoggedInUser!,
-        nutritionInfo);
-
-    this.recipesApiService.createRecipe(newRecipe, this.recipeImage, (status) => {
-      this.setLoading(false);
-      if (!status) {
-        this.toastrService.error('An error has occurred!', 'Error');
-        return;
-      }
-      this.toastrService.success('Recipe created!', 'Success');
-      this.router.navigate(['/recipes']);
-    })
-  }
-
   private fetchCurrentRecipe(): void {
     this.setLoading();
     const sub$ = this.activatedRoute.params

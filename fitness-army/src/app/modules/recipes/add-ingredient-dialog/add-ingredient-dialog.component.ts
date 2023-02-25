@@ -21,7 +21,11 @@ export class AddIngredientDialogComponent implements OnInit {
   }
 
   onConfirmClick(): void {
-    this.dialogRef.close(this.ingredientForm);
+    if (this.ingredientForm.valid) {
+      this.dialogRef.close(this.ingredientForm);
+    } else {
+      this.ingredientForm.updateValueAndValidity();
+    }
   }
 
   private initIngredientForm(): void {
