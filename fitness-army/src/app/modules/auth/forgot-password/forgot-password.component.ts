@@ -35,8 +35,8 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   getFControlErrorMessage(path: string): string {
-    if (this.resetPasswordForm.get(path)?.hasError('passwordInvalid')) {
-      return 'Password is invalid, please enter valid password!';
+    if (this.resetPasswordForm.get(path)?.hasError('minlength')) {
+      return 'Password should be at least 6 characters!';
     }
     return 'You must enter a value';
   }
@@ -78,7 +78,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   private initForm(): void {
     this.resetPasswordForm = new FormGroup({
-      password: new FormControl('', [Validators.required])
+      password: new FormControl('', [Validators.required, Validators.minLength(6)])
     });
   }
 

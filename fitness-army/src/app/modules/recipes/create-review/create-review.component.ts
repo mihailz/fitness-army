@@ -36,18 +36,24 @@ export class CreateReviewComponent implements OnInit, OnDestroy {
   }
 
   onPostReview(): void {
-    this.setLoading();
-    const review = new Review(
-      null,
-      this.loggedInUser!,
-      new Date().toDateString(),
-      this.rating,
-      this.reviewForm.get('content')?.value,
-      0
-    );
-    this.reviewCreated.emit(review);
-    this.reviewForm.reset();
-    this.rating = 0;
+    if (this.reviewForm.invalid) {
+      this.reviewForm.get('content')?.markAsTouched();
+      this.reviewForm.get('content')?.markAsDirty();
+      return;
+    } else {
+      const review = new Review(
+        null,
+        this.loggedInUser!,
+        new Date().toDateString(),
+        this.rating,
+        this.reviewForm.get('content')?.value,
+        0
+      );
+      this.reviewCreated.emit(review);
+      this.reviewForm.get('content')?.setValue(' ');
+      this.reviewForm.updateValueAndValidity();
+      this.rating = 0;
+    }
   }
 
 
